@@ -46,7 +46,18 @@ loginRouter.post('/signup', async (request, response, next) => {
 
         const user = new User({
           username: body.username,
-          password: passwordHash
+          password: passwordHash,
+          latitude: body.latitude,
+          longitude: body.longitude,
+          postal_address: body.postal_address,
+          area: body.area,
+          crop: null,
+          cluster_id: -1,
+          usertype: body.usertype,
+          bank_ifsc: body.bank_ifsc,
+          bank_accno: body.bank_accno,
+          bank_name: body.bank_name,
+          razorpayLinkedAccount: body.razorpayLinkedAccount
         })
 
         console.log("User in schema: "+user);

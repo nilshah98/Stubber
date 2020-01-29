@@ -29,6 +29,7 @@ const farmerSchema = new mongoose.Schema({
 
 const Farmer = mongoose.model('Farmer', farmerSchema)
 
+module.exports = Farmer;
 // const farmer = new Farmer({
 //     name: "shivam_pawase",
 //     password: "coding17",
