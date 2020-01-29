@@ -1,17 +1,35 @@
 const mongoose = require('mongoose')
 const uniqueValidator = require('mongoose-unique-validator');
+require("dotenv").config();
 
-const url = process.env.MONGODB_URI
-mongoose.connect(url, { useNewUrlParser: true,useUnifiedTopology: true })
+mongoose.connect(process.env.MONGODB_URI,{
+	useNewUrlParser: true,
+	useUnifiedTopology: true,
+	useFindAndModify: false,
+	useCreateIndex: true
+  },(err) => {
+    if(err) console.log('err :', err);
+    else console.log('Connected');
+});
 
-const contactSchema = new mongoose.Schema({
-    name: { type: String, minlength: 3, required: true, unique: true },
-    number: { type: String, minlength: 8, required: true, unique: true }
+const bidSchema = new mongoose.Schema({
+    stubble_id: { 
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Stubble",    //Need a Stubble Schema
+      required: true, 
+      unique: true },
+    end_time: { type: Date, required: true},
+    current_cost: { type: Number, required: true},
+    current_bidder: { 
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",   
+      required: false, 
+      default: null }  //REMEMBER TO CHANGE
 })
 
-contactSchema.plugin(uniqueValidator);
+bidSchema.plugin(uniqueValidator);
 
-contactSchema.set('toJSON', {
+bidSchema.set('toJSON', {
     transform: (document, returnedObject) => {
       returnedObject.id = returnedObject._id.toString()
       delete returnedObject._id
@@ -19,7 +37,7 @@ contactSchema.set('toJSON', {
     }
 })
 
-const Contact = new mongoose.model('Contact',contactSchema)
+const Bids = new mongoose.model('Bid',bidSchema)
 
 
-module.exports = Contact
+module.exports = Bids
