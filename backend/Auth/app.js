@@ -5,16 +5,18 @@ var mongoose=require('mongoose');
 //var methodOverride=require('method-override');
 //var moment=require('moment');
 
-//const loginRouter = require('index.js');
+const loginRouter = require('./index');
 
 //DB connection
 mongoose.connect("mongodb://localhost/sih");
 
 //Models
-var User = require('./models/user.js');
+var User = require('./models/user');
+
 
 //Configuration
 app.use(bodyParser.urlencoded({extended:true}));
+app.use('/', loginRouter);
 
 // app.use(function(req, res, next){
 //     res.locals.scurrentUser=req.user;
