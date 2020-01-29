@@ -136,8 +136,8 @@ const emailsSubscriptionChart = {
 
 const completedTasksChart = {
   data: {
-    labels: ["12am", "3pm", "6pm", "9pm", "12pm", "3am", "6am", "9am"],
-    series: [[230, 750, 450, 300, 280, 240, 200, 190]]
+    labels: ["18Q1", "18Q2", "18Q3", "18Q4", "19Q1", "19Q2", "19Q3", "19Q4"],
+    series: [[230, 750, 450, 300, 280, 240, 200, 124]]
   },
   options: {
     lineSmooth: Chartist.Interpolation.cardinal({
