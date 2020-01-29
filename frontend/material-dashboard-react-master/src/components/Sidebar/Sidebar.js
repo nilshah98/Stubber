@@ -92,7 +92,7 @@ export default function Sidebar(props) {
         <div className={classes.logoImage}>
           <img src={logo} alt="logo" className={classes.img} />
         </div>
-        {logoText}
+        STUBBER
       </a>
     </div>
   );
