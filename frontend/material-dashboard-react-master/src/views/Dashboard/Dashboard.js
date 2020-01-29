@@ -45,7 +45,59 @@ export default function Dashboard() {
   const classes = useStyles();
   return (
     <div>
+
       <GridContainer>
+        <GridItem xs={12} sm={12} md={6} >
+          <Card>
+            <CardHeader color="info" stats icon >
+              <CardIcon color="warning">
+                <Icon> content_copy </Icon>
+              </CardIcon>
+              <p className={classes.cardCategory} > Envirnomental Impact </p>
+              <h3 className={classes.cardTitle} >
+                102/100
+              </h3>
+            </CardHeader>
+          </Card>
+        </GridItem>
+      </GridContainer>
+
+      <hr/>
+
+      <GridContainer>
+        <GridItem xs={12} sm={12} md={6} >
+          <Card>
+            <CardHeader color="info" stats icon >
+              <CardIcon color="warning">
+                <Icon> content_copy </Icon>
+              </CardIcon>
+              <p className={classes.cardCategory} > Account Statement </p>
+              <h3 className={classes.cardTitle} >
+                10200
+              </h3>
+            </CardHeader>
+          </Card>
+        </GridItem>
+      </GridContainer>
+
+      <hr/>
+
+      <GridContainer>
+        <GridItem xs={12} sm={12} md={6} >
+          <Card>
+            <CardHeader color="info" stats icon >
+              <CardIcon color="warning">
+                <Icon> content_copy </Icon>
+              </CardIcon>
+              <p className={classes.cardCategory} > Stubble Contributed </p>
+              <h3 className={classes.cardTitle} >
+                102 kg
+              </h3>
+            </CardHeader>
+          </Card>
+        </GridItem>
+      </GridContainer>
+      {/* <GridContainer>
         <GridItem xs={12} sm={6} md={3}>
           <Card>
             <CardHeader color="warning" stats icon>
@@ -194,8 +246,8 @@ export default function Dashboard() {
             </CardFooter>
           </Card>
         </GridItem>
-      </GridContainer>
-      <GridContainer>
+      </GridContainer>*/}
+      {/* <GridContainer> 
         <GridItem xs={12} sm={12} md={6}>
           <CustomTabs
             title="Tasks:"
@@ -259,7 +311,7 @@ export default function Dashboard() {
             </CardBody>
           </Card>
         </GridItem>
-      </GridContainer>
+      </GridContainer> */}
     </div>
   );
 }
