@@ -8,6 +8,8 @@ const User = new mongoose.Schema({
     },
     username: String,
     password: String,
+    email: String,
+    phone: Number,
     latitude: Number,
     longitude: Number,
     postal_address: String,

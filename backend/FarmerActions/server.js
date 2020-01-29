@@ -1,14 +1,26 @@
 const express = require('express')
 const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
 const axios = require('axios');
 const cron = require("node-cron");
 const { agnes } = require('ml-hclust');
+require("dotenv").config();
 
 const app = express()
 const port = 5000
 
 app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
+
+mongoose.connect(process.env.MONGODB_URI,{
+	useNewUrlParser: true,
+	useUnifiedTopology: true,
+	useFindAndModify: false,
+	useCreateIndex: true
+},(err) => {
+	if(err) console.log('err :', err);
+	else console.log('Connected');
+});
 
 const User = require('./../Auth/models/user');
 
@@ -36,10 +48,10 @@ function getDistance(lat1, lon1, lat2, lon2) {
     }
 }
 
-cron.schedule("* * * * *", function() {
-    console.log("---------------------");
-    console.log("Running Cron Job");
-});
+// cron.schedule("* * * * *", function() {
+//     console.log("---------------------");
+//     console.log("Running Cron Job");
+// });
 
 app.get('/', (req, res) => res.send('Hello World!'))
 
@@ -65,6 +77,32 @@ app.post('/getnear', (req, res) => {
         console.log(farmers);
     });
 
+app.post('/getnear',async (req, res) => {
+    try{
+        const lat = req.body.latitude
+        const lng = req.body.longitude
+        const dst = req.body.distance
+        console.log("LAT:"+lat);
+        
+        // axios.get('http://localhost:3000/farmers')
+        // .then((response) => {
+        //     let answer = []
+        //     response.data.forEach((farmer) => {
+        //         if(getDistance(farmer.latitude, farmer.longitude, lat, lng) <= dst){
+        //             answer.push(farmer)
+        //         }
+        //     })
+        //     res.send({data: answer})
+        // })
+        // .catch((err) => console.log(err))
+        console.log("Before");
+        const currUsers = await User.find({});
+        console.log("Users:",currUsers);
+        console.log("After");
+    }
+    catch(exception){
+        console.error(exception);
+    }
 })
 // app.get('/getcluster', (_req,res) => {
 //     axios.get('http://localhost:3000/farmers')
