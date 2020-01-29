@@ -9,7 +9,12 @@ require("dotenv").config();
 const loginRouter = require('./index');
 
 //DB connection
-mongoose.connect("mongodb://localhost:27017/sih",(err) => {
+mongoose.connect(process.env.MONGODB_URI,{
+	useNewUrlParser: true,
+	useUnifiedTopology: true,
+	useFindAndModify: false,
+	useCreateIndex: true
+},(err) => {
 	if(err) console.log('err :', err);
 	else console.log('Connected');
 });
