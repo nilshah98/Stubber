@@ -22,7 +22,7 @@ let ps;
 const switchRoutes = (
   <Switch>
     {routes.map((prop, key) => {
-      if (prop.layout === "/farmer") {
+      if (prop.layout === "/farmer" || prop.layout === '/consumer') {
         return (
           <Route
             path={prop.layout + prop.path}
@@ -82,7 +82,7 @@ export default function Admin({ ...rest }) {
     <div className={classes.wrapper}>
       <Sidebar
         routes={routes}
-        logoText={"Creative Tim"}
+        logoText={"STUBBER"}
         logo={logo}
         image={image}
         handleDrawerToggle={handleDrawerToggle}

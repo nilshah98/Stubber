@@ -3,6 +3,7 @@ import React from "react";
 import classNames from "classnames";
 import PropTypes from "prop-types";
 import { NavLink } from "react-router-dom";
+import { connect } from 'react-redux'
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
@@ -19,16 +20,17 @@ import styles from "assets/jss/material-dashboard-react/components/sidebarStyle.
 
 const useStyles = makeStyles(styles);
 
-export default function Sidebar(props) {
+const Sidebar = (props) => {
   const classes = useStyles();
   // verifies if routeName is the one active (in browser input)
   function activeRoute(routeName) {
     return window.location.href.indexOf(routeName) > -1 ? true : false;
   }
   const { color, logo, image, logoText, routes } = props;
+  const routesToShow = routes.filter(r => r.layout === '/'+props.userType)
   var links = (
     <List className={classes.list}>
-      {routes.map((prop, key) => {
+      {routesToShow.map((prop, key) => {
         var activePro = " ";
         var listItemClasses;
         if (prop.path === "/upgrade-to-pro") {
@@ -92,7 +94,7 @@ export default function Sidebar(props) {
         <div className={classes.logoImage}>
           <img src={logo} alt="logo" className={classes.img} />
         </div>
-        STUBBER
+        {logoText}
       </a>
     </div>
   );
@@ -150,6 +152,15 @@ export default function Sidebar(props) {
     </div>
   );
 }
+
+const mapStateToProps = (state) => {
+  return {
+    language: state.language,
+    userType: state.userType
+  }
+}
+
+export default connect(mapStateToProps)(Sidebar) 
 
 Sidebar.propTypes = {
   rtlActive: PropTypes.bool,
