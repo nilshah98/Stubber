@@ -1,8 +1,10 @@
 const express = require('express')
 const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
 const axios = require('axios');
 const cron = require("node-cron");
 const { agnes } = require('ml-hclust');
+require("dotenv").config();
 
 const app = express()
 const port = 5000
@@ -10,28 +12,17 @@ const port = 5000
 app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 
-const Farmer = require('./../mongoose');
+mongoose.connect(process.env.MONGODB_URI,{
+	useNewUrlParser: true,
+	useUnifiedTopology: true,
+	useFindAndModify: false,
+	useCreateIndex: true
+},(err) => {
+	if(err) console.log('err :', err);
+	else console.log('Connected');
+});
 
-function registerFarmer(data)
-{
-    const farmer = new Farmer({
-        name: data[0],
-        password: data[1],
-        latitude:  data[2],
-        longitude: data[3],
-        bank_details: data[4],
-        postal_addres: data[5],
-        area: data[6],
-        crop: data[7],
-        cluster_id: data[8]
-    })    
-    farmer.save().then(response => {
-    console.log('farmer saved!')
-    mongoose.connection.close()
-    }).catch( err => console.log(err))
-}
-
-registerFarmer(["shivam_pawase","coding17",19.0166,73.0966,"state bank of india, 28328392893","410206","panvel","sugarcane",123]);
+const User = require('./../Auth/models/user');
 
 function getDistance(lat1, lon1, lat2, lon2) {
     if ((lat1 == lat2) && (lon1 == lon2)) {
@@ -57,34 +48,39 @@ function getDistance(lat1, lon1, lat2, lon2) {
     }
 }
 
-cron.schedule("* * * * *", function() {
-    console.log("---------------------");
-    console.log("Running Cron Job");
-});
+// cron.schedule("* * * * *", function() {
+//     console.log("---------------------");
+//     console.log("Running Cron Job");
+// });
 
 app.get('/', (req, res) => res.send('Hello World!'))
-app.post('/getnear', (req, res) => {
-    const lat = req.body.latitude
-    const lng = req.body.longitude
-    const dst = req.body.distance
-    
-    
-    axios.get('http://localhost:3000/farmers')
-    .then((response) => {
-        let answer = []
-        response.data.forEach((farmer) => {
-            if(getDistance(farmer.latitude, farmer.longitude, lat, lng) <= dst){
-                answer.push(farmer)
-            }
-        })
-        res.send({data: answer})
-    })
-    .catch((err) => console.log(err))
 
-    Farmer.find({},function(err,farmers){
-        console.log(farmers);
-    });
-
+app.post('/getnear',async (req, res) => {
+    try{
+        const lat = req.body.latitude
+        const lng = req.body.longitude
+        const dst = req.body.distance
+        console.log("LAT:"+lat);
+        
+        // axios.get('http://localhost:3000/farmers')
+        // .then((response) => {
+        //     let answer = []
+        //     response.data.forEach((farmer) => {
+        //         if(getDistance(farmer.latitude, farmer.longitude, lat, lng) <= dst){
+        //             answer.push(farmer)
+        //         }
+        //     })
+        //     res.send({data: answer})
+        // })
+        // .catch((err) => console.log(err))
+        console.log("Before");
+        const currUsers = await User.find({});
+        console.log("Users:",currUsers);
+        console.log("After");
+    }
+    catch(exception){
+        console.error(exception);
+    }
 })
 // app.get('/getcluster', (_req,res) => {
 //     axios.get('http://localhost:3000/farmers')
