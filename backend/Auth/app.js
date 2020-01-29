@@ -15,6 +15,7 @@ var User = require('./models/user');
 
 
 //Configuration
+app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({extended:true}));
 app.use('/', loginRouter);
 
@@ -25,5 +26,5 @@ app.use('/', loginRouter);
 
 // To run locally
 app.listen(3000,function(){
-	console.log("Welcome to Clean And Green!");
+	console.log("Welcome to Stubber!");
 });
