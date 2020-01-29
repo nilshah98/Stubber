@@ -17,26 +17,14 @@
 */
 import React from "react";
 import ReactDOM from "react-dom";
-import { createStore, combineReducers } from "redux";
 import { Provider } from 'react-redux'
 
 // core components
 import App from './app'
-
-import languageReducer from './reducers/languageReducer'
-import userTypeReducer from './reducers/userTypeReducer'
+import store from './store'
 // import RTL from "layouts/RTL.js";
 
 import "assets/css/material-dashboard-react.css?v=1.8.0"
-
-const reducer = combineReducers({
-  language: languageReducer,
-  userType: userTypeReducer
-})
-
-const store = createStore(reducer)
-
-console.log(store.getState())
 
 ReactDOM.render(
   <Provider store = {store}>
