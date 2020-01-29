@@ -1,6 +1,7 @@
 import axios from 'axios'
 
-const baseUrl = 'http://localhost:3001'
+import config from '../env'
+const baseUrl = config.BACKEND_API
 
 const login = async (data) => {
     const response = await axios.post(baseUrl+'/login', data)
