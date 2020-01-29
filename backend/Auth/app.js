@@ -4,11 +4,15 @@ var bodyParser=require('body-parser');
 var mongoose=require('mongoose');
 //var methodOverride=require('method-override');
 //var moment=require('moment');
+require("dotenv").config();
 
 const loginRouter = require('./index');
 
 //DB connection
-mongoose.connect("mongodb://localhost/sih");
+mongoose.connect("mongodb://localhost:27017/sih",(err) => {
+	if(err) console.log('err :', err);
+	else console.log('Connected');
+});
 
 //Models
 var User = require('./models/user');

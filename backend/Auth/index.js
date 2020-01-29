@@ -1,11 +1,12 @@
 const jwt = require('jsonwebtoken')
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcryptjs')
 const loginRouter = require('express').Router()
 const User = require('./models/user')
 
+
 loginRouter.post('/login', async (request, response) => {
   const body = request.body
-  console.log("Here");
+  console.log("Here at Login");
   const user = await User.findOne({ username: body.username })
   const passwordCorrect = user === null
     ? false
@@ -30,22 +31,39 @@ loginRouter.post('/login', async (request, response) => {
 })
 
 
-loginRouter.post('/signup', async (request, response) => {
+loginRouter.post('/signup', async (request, response, next) => {
   try {
-    const body = request.body
+    const body = request.body;
 
-    const saltRounds = 10
-    const passwordHash = await bcrypt.hash(body.password, saltRounds)
+    console.log("Here at Signup",body,process.env.SALT_ROUNDS);
+    let passwordHash;
 
-    const user = new User({
-      username: body.username,
-      name: body.name,
-      passwordHash,
-    })
+    bcrypt.genSalt(10, function(err, salt) {
+      bcrypt.hash(body.password, salt, async function(err, hash) {
+        console.log("Hash: "+hash);
+        passwordHash = hash;
+        console.log("PasswordHash: "+passwordHash);
 
-    const savedUser = await user.save()
+        const user = new User({
+          username: body.username,
+          password: passwordHash
+        })
 
-    response.json(savedUser)
+        console.log("User in schema: "+user);
+
+        const savedUser = await user.save()
+        // const savedUser =user.save()
+        
+        console.log("Saved User: "+savedUser)
+        response.status(200).json(savedUser)
+      });
+    });
+
+    // const passwordHash = await bcrypt.hash(body.password, process.env.SALT_ROUNDS)
+    
+    // response
+    // .status(200)
+    // .send({ token, username: user.username, name: user.name })
   } catch (exception) {
     next(exception)
   }
