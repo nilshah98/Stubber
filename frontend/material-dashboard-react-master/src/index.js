@@ -17,26 +17,30 @@
 */
 import React from "react";
 import ReactDOM from "react-dom";
-import { createBrowserHistory } from "history";
-import { Router, Route, Switch, Redirect } from "react-router-dom";
+import { createStore, combineReducers } from "redux";
+import { Provider } from 'react-redux'
 
 // core components
-import Admin from "layouts/Admin.js";
-import Login from "layouts/Login"
+import App from './app'
+
+import languageReducer from './reducers/languageReducer'
+import userTypeReducer from './reducers/userTypeReducer'
 // import RTL from "layouts/RTL.js";
 
-import "assets/css/material-dashboard-react.css?v=1.8.0";
+import "assets/css/material-dashboard-react.css?v=1.8.0"
 
-const hist = createBrowserHistory();
+const reducer = combineReducers({
+  language: languageReducer,
+  userType: userTypeReducer
+})
+
+const store = createStore(reducer)
+
+console.log(store.getState())
 
 ReactDOM.render(
-  <Router history={hist}>
-    <Switch>
-      <Route path="/farmer" component={Admin} />
-      {/* <Route path="/rtl" component={RTL} /> */}
-      <Route path = "/login" component = {Login} />
-      <Redirect from="/" to="/farmer/dashboard" />
-    </Switch>
-  </Router>,
+  <Provider store = {store}>
+    <App/>
+  </Provider>,
   document.getElementById("root")
 );
