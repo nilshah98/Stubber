@@ -1,7 +1,16 @@
-post http://localhost:3001/login
+# post http://localhost:3001/login
+# Content-Type: application/json
+
+# {
+#     "username": "Becca",
+#     "password": "123"
+# }
+
+post http://localhost:5000/sms
 Content-Type: application/json
 
 {
-    "username": "Becca",
-    "password": "123"
+    "name": "Shivam",
+    "username": "shivam1708",
+    "phone": "8976339502"
 }
