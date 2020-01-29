@@ -1,4 +1,5 @@
 import React from "react";
+import { connect } from 'react-redux'
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 import InputLabel from "@material-ui/core/InputLabel";
@@ -37,7 +38,7 @@ const styles = {
   
 const useStyles = makeStyles(styles);
 
-export default function Login(props) {
+const Login = (props) => {
     const classes = useStyles()
     const username = useField('text')
     const password = useField('text')
@@ -48,7 +49,9 @@ export default function Login(props) {
             username: username.value,
             password: password.value
         }
+        console.log(data)
         const response = await loginService(data)
+        console.log(response)
         if( response ) {
             window.localStorage.setItem('stubber', JSON.stringify(response))
         }
@@ -99,3 +102,12 @@ export default function Login(props) {
         </div>
     )
 }
+
+const mapStateToProps = (state) => {
+    return {
+        language: state.language,
+        userType: state.userType
+    }
+}
+
+export default connect(mapStateToProps)(Login)
