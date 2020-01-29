@@ -1,7 +1,10 @@
-post http://localhost:3000/signup
-Content-Type: application/json
+# post http://localhost:3001/signup
+# Content-Type: application/json
 
-{
-    "username": "Shivam",
-    "password": "123"
-}
+# {
+#     "name": "Chirag",
+#     "username": "chiru",
+#     "password": "123",
+#     "bank_accno": 5,
+#     "usertype": "consumer"
+# }

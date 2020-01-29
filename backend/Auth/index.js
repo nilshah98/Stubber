@@ -27,7 +27,7 @@ loginRouter.post('/login', async (request, response) => {
 
   response
     .status(200)
-    .send({ token, username: user.username, name: user.name })
+    .send({ token, username: user.username, name: user.name, usertype: user.usertype })
 })
 
 
@@ -45,6 +45,7 @@ loginRouter.post('/signup', async (request, response, next) => {
         console.log("PasswordHash: "+passwordHash);
 
         const user = new User({
+          name: body.name,
           username: body.username,
           password: passwordHash,
           latitude: body.latitude,
