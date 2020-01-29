@@ -3,7 +3,8 @@ import { createBrowserHistory } from "history";
 import { HashRouter as Router, Route, Switch, Redirect } from "react-router-dom";
 
 import Admin from "layouts/Admin.js";
-import Login from "layouts/Login"
+import Login from "layouts/Login";
+import Register from "layouts/Register";
 
 const hist = createBrowserHistory();
 
