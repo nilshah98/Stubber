@@ -57,6 +57,27 @@ const dashboardRoutes = [
     icon: "content_paste",
     component: TableList,
     layout: "/farmer"
+  },
+  {
+    path: "/dashboard",
+    name: "Dashboard",
+    icon: Dashboard,
+    component: DashboardPage,
+    layout: "/consumer"
+  },
+  {
+    path: "/schedule",
+    name: "Schedule",
+    icon: Person,
+    component: UserProfile,
+    layout: "/consumer"
+  },
+  {
+    path: "/bidding",
+    name: "Bidding",
+    icon: "content_paste",
+    component: TableList,
+    layout: "/consumer"
   }
 ];
 
