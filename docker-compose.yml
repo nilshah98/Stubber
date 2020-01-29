@@ -20,7 +20,7 @@ services:
       - mongo
 
   auth:
-    container_name: security
+    container_name: auth
     build: "./backend/Auth"
     ports:
       - "3002:3000"
@@ -31,6 +31,15 @@ services:
       - SALT_ROUNDS=10
     links:
       - mongo
+
+  notif:
+    container_name: notif
+    build: "./backend/Notif"
+    ports:
+      - "3003:3000"
+    environment:
+      - PORT=3000
+      - MONGODB_URI="mongodb://mongo/stubber"
 
   mongo:
     container_name: mongo
@@ -44,7 +53,6 @@ services:
     ports:
       - "8080:8080"
     volumes:
-      - ./web/public:/srv/www/static
       - ./default.conf:/etc/nginx/conf.d/default.conf
     depends_on:
       - web
