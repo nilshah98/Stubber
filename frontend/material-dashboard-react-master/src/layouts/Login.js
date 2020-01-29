@@ -1,5 +1,5 @@
 import React from "react";
-import { connect } from 'react-redux'
+import { connect } from "react-redux";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 import InputLabel from "@material-ui/core/InputLabel";
@@ -14,8 +14,8 @@ import CardAvatar from "components/Card/CardAvatar.js";
 import CardBody from "components/Card/CardBody.js";
 import CardFooter from "components/Card/CardFooter.js";
 
-import useField from '../hooks/useField'
-import loginService from '../services/login'
+import useField from "../hooks/useField";
+import loginService from "../services/login";
 
 const styles = {
   cardCategoryWhite: {
@@ -38,28 +38,34 @@ const styles = {
 
 const useStyles = makeStyles(styles);
 
-const Login = (props) => {
-    const classes = useStyles()
-    const username = useField('text')
-    const password = useField('text')
+const Login = props => {
+  const classes = useStyles();
+  const username = useField("text");
+  const password = useField("text");
 
-    const handleLogin = async (event) => {
-        event.preventDefault()
-        const data = {
-            username: username.value,
-            password: password.value
-        }
-        console.log(data)
-        const response = await loginService(data)
-        console.log(response)
-        if( response ) {
-            window.localStorage.setItem('stubber', JSON.stringify(response))
-        }
+  const handleLogin = async event => {
+    event.preventDefault();
+    const data = {
+      username: username.value,
+      password: password.value
+    };
+    console.log(data);
+    const response = await loginService(data);
+    console.log(response);
+    if (response) {
+      window.localStorage.setItem("stubber", JSON.stringify(response));
     }
+  };
 
   return (
     <div>
-      <GridContainer style={{ justifyContent: "center", alignContent: "center", height: "100vh" }}>
+      <GridContainer
+        style={{
+          justifyContent: "center",
+          alignContent: "center",
+          height: "100vh"
+        }}
+      >
         <GridItem xs={12} sm={12} md={8}>
           <Card>
             <CardHeader color="primary">
@@ -89,7 +95,7 @@ const Login = (props) => {
                     formControlProps={{
                       fullWidth: true
                     }}
-                    inputProps={{ ...password }}
+                    inputProps={{ ...password, type: "password" }}
                   />
                 </GridItem>
               </GridContainer>
@@ -101,16 +107,16 @@ const Login = (props) => {
             </CardFooter>
           </Card>
         </GridItem>
-        </GridContainer>    
-        </div>
-    )
-}
+      </GridContainer>
+    </div>
+  );
+};
 
-const mapStateToProps = (state) => {
-    return {
-        language: state.language,
-        userType: state.userType
-    }
-}
+const mapStateToProps = state => {
+  return {
+    language: state.language,
+    userType: state.userType
+  };
+};
 
-export default connect(mapStateToProps)(Login)
+export default connect(mapStateToProps)(Login);
