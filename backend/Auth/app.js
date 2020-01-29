@@ -11,9 +11,10 @@ var mongoose=require('mongoose');
 mongoose.connect("mongodb://localhost/sih");
 
 //Models
-var User = require('./models/user.js');
+var User = require('./backend/Auth/models/user.js');
 
 //Configuration
+app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({extended:true}));
 
 // app.use(function(req, res, next){
@@ -23,5 +24,5 @@ app.use(bodyParser.urlencoded({extended:true}));
 
 // To run locally
 app.listen(3000,function(){
-	console.log("Welcome to Clean And Green!");
+	console.log("Welcome to Stubber!");
 });
