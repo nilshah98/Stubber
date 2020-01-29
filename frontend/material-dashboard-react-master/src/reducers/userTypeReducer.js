@@ -8,4 +8,11 @@ const userTypeReducer = (state = 'consumer', action) => {
     }
 }
 
+export const setUserType = (userType) => {
+    return {
+        type: 'SET',
+        data: userType
+    }
+}
+
 export default userTypeReducer
