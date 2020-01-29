@@ -1,4 +1,4 @@
-# post http://localhost:3000/signup
+# post http://localhost:3001/signup
 # Content-Type: application/json
 
 # {
@@ -8,12 +8,3 @@
 #     "bank_accno": 5,
 #     "usertype": "consumer"
 # }
-
-post http://localhost:5000/getnear
-Content-Type: application/json
-
-{
-    "latitude": 19.0727,
-    "longitude": 72.8979,
-    "distance": 40
-}
