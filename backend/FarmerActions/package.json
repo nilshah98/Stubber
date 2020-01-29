@@ -17,6 +17,7 @@
     "clusterfck": "^1.0.0",
     "express": "^4.17.1",
     "ml-hclust": "^3.0.0",
+    "mongoose": "^5.8.10",
     "node-cron": "^2.0.3",
     "nodemon": "^2.0.2"
   }
