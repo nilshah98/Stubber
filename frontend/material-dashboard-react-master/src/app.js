@@ -1,6 +1,6 @@
 import React from 'react'
 import { createBrowserHistory } from "history";
-import { Router, Route, Switch, Redirect } from "react-router-dom";
+import { HashRouter as Router, Route, Switch, Redirect } from "react-router-dom";
 
 import Admin from "layouts/Admin.js";
 import Login from "layouts/Login"
