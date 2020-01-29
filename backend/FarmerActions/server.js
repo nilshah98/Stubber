@@ -10,28 +10,7 @@ const port = 5000
 app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 
-const Farmer = require('./../mongoose');
-
-function registerFarmer(data)
-{
-    const farmer = new Farmer({
-        name: data[0],
-        password: data[1],
-        latitude:  data[2],
-        longitude: data[3],
-        bank_details: data[4],
-        postal_addres: data[5],
-        area: data[6],
-        crop: data[7],
-        cluster_id: data[8]
-    })    
-    farmer.save().then(response => {
-    console.log('farmer saved!')
-    mongoose.connection.close()
-    }).catch( err => console.log(err))
-}
-
-registerFarmer(["shivam_pawase","coding17",19.0166,73.0966,"state bank of india, 28328392893","410206","panvel","sugarcane",123]);
+const User = require('./../Auth/models/user');
 
 function getDistance(lat1, lon1, lat2, lon2) {
     if ((lat1 == lat2) && (lon1 == lon2)) {
@@ -63,6 +42,7 @@ cron.schedule("* * * * *", function() {
 });
 
 app.get('/', (req, res) => res.send('Hello World!'))
+
 app.post('/getnear', (req, res) => {
     const lat = req.body.latitude
     const lng = req.body.longitude
