@@ -1,13 +1,14 @@
+require("dotenv").config();
 const express = require('express')
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const axios = require('axios');
 const cron = require("node-cron");
 const { agnes } = require('ml-hclust');
-require("dotenv").config();
+const User = require('./models/user');
 
 const app = express()
-const port = 5000
+// const port = 5000
 
 app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
@@ -21,8 +22,6 @@ mongoose.connect(process.env.MONGODB_URI,{
 	if(err) console.log('err :', err);
 	else console.log('Connected');
 });
-
-const User = require('./../Auth/models/user');
 
 function getDistance(lat1, lon1, lat2, lon2) {
     if ((lat1 == lat2) && (lon1 == lon2)) {
@@ -55,34 +54,11 @@ function getDistance(lat1, lon1, lat2, lon2) {
 
 app.get('/', (req, res) => res.send('Hello World!'))
 
-app.post('/getnear', (req, res) => {
-    const lat = req.body.latitude
-    const lng = req.body.longitude
-    const dst = req.body.distance
-    
-    
-    axios.get('http://localhost:3000/farmers')
-    .then((response) => {
-        let answer = []
-        response.data.forEach((farmer) => {
-            if(getDistance(farmer.latitude, farmer.longitude, lat, lng) <= dst){
-                answer.push(farmer)
-            }
-        })
-        res.send({data: answer})
-    })
-    .catch((err) => console.log(err))
-
-    Farmer.find({},function(err,farmers){
-        console.log(farmers);
-    });
-
-app.post('/getnear',async (req, res) => {
+app.post('/getnear', async (req, res) => {
     try{
         const lat = req.body.latitude
         const lng = req.body.longitude
         const dst = req.body.distance
-        console.log("LAT:"+lat);
         
         // axios.get('http://localhost:3000/farmers')
         // .then((response) => {
@@ -96,9 +72,13 @@ app.post('/getnear',async (req, res) => {
         // })
         // .catch((err) => console.log(err))
         console.log("Before");
-        const currUsers = await User.find({});
-        console.log("Users:",currUsers);
-        console.log("After");
+        
+        User.find({usertype: "farmer"})
+            .then((currUsers) => {
+            console.log("Users:",currUsers)
+            console.log("After")
+        })
+        
     }
     catch(exception){
         console.error(exception);
@@ -115,4 +95,4 @@ app.post('/getnear',async (req, res) => {
 //         .catch((err) => console.log(err))
 // })
 
-app.listen(port, () => console.log(`Example app listening on port ${port}!`))
+app.listen(process.env.PORT, () => console.log(`Example app listening on port ${process.env.PORT}!`))
