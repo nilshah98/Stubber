@@ -2,6 +2,7 @@ var express=require('express');
 var app=express();
 var bodyParser=require('body-parser');
 var mongoose=require('mongoose');
+const cors=require('cors')
 //var methodOverride=require('method-override');
 //var moment=require('moment');
 require("dotenv").config();
@@ -24,6 +25,7 @@ var User = require('./models/user');
 
 
 //Configuration
+app.use(cors())
 app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({extended:true}));
 app.use('/', loginRouter);
@@ -34,6 +36,6 @@ app.use('/', loginRouter);
 // });
 
 // To run locally
-app.listen(3000,function(){
+app.listen(process.env.PORT,function(){
 	console.log("Welcome to Stubber!");
 });
