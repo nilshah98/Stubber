@@ -18,14 +18,14 @@ import useField from '../hooks/useField'
 import loginService from '../services/login'
 
 const styles = {
-    cardCategoryWhite: {
+  cardCategoryWhite: {
     color: "rgba(255,255,255,.62)",
     margin: "0",
     fontSize: "14px",
     marginTop: "0",
     marginBottom: "0"
-    },
-    cardTitleWhite: {
+  },
+  cardTitleWhite: {
     color: "#FFFFFF",
     marginTop: "0px",
     minHeight: "auto",
@@ -33,9 +33,9 @@ const styles = {
     fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif",
     marginBottom: "3px",
     textDecoration: "none"
-    }
+  }
 };
-  
+
 const useStyles = makeStyles(styles);
 
 const Login = (props) => {
@@ -57,48 +57,51 @@ const Login = (props) => {
         }
     }
 
-    return (
-        <div>
-            <GridContainer>
-                <GridItem xs={12} sm={12} md={8}>
-                    <Card>
-                        <CardHeader color="primary">
-                            <h4 className={classes.cardTitleWhite}>Login User</h4>
-                            <p className={classes.cardCategoryWhite}>Enter your credentials</p>
-                        </CardHeader>
-                        <CardBody>
-                            <GridContainer>
-                                <GridItem xs={12} sm={12} md={6}>
-                                    <CustomInput
-                                        labelText="Username"
-                                        id="username"
-                                        formControlProps={{
-                                        fullWidth: true
-                                        }}
-                                        inputProps={{...username}}
-                                    />
-                                </GridItem>
-                            </GridContainer>
-                            <GridContainer>
-                                <GridItem xs={12} sm={12} md={6}>
-                                    <CustomInput
-                                        labelText="Password"
-                                        id="password"
-                                        formControlProps={{
-                                        fullWidth: true
-                                        }}
-                                        inputProps={{...password}}
-                                    />
-                                </GridItem>
-                            </GridContainer>
-                        </CardBody>
-                        <CardFooter>
-                            <Button onClick = {handleLogin} color="primary">Login</Button>
-                        </CardFooter>
-                    </Card>
+  return (
+    <div>
+      <GridContainer style={{ justifyContent: "center", alignContent: "center", height: "100vh" }}>
+        <GridItem xs={12} sm={12} md={8}>
+          <Card>
+            <CardHeader color="primary">
+              <h4 className={classes.cardTitleWhite}>Login User</h4>
+              <p className={classes.cardCategoryWhite}>
+                Enter your credentials
+              </p>
+            </CardHeader>
+            <CardBody>
+              <GridContainer style={{ justifyContent: "center" }}>
+                <GridItem xs={12} sm={12} md={6}>
+                  <CustomInput
+                    labelText="Username"
+                    id="username"
+                    formControlProps={{
+                      fullWidth: true
+                    }}
+                    inputProps={{ ...username }}
+                  />
                 </GridItem>
-            </GridContainer>
-            
+              </GridContainer>
+              <GridContainer style={{ justifyContent: "center" }}>
+                <GridItem xs={12} sm={12} md={6}>
+                  <CustomInput
+                    labelText="Password"
+                    id="password"
+                    formControlProps={{
+                      fullWidth: true
+                    }}
+                    inputProps={{ ...password }}
+                  />
+                </GridItem>
+              </GridContainer>
+            </CardBody>
+            <CardFooter style={{ justifyContent: "center" }}>
+              <Button onClick={handleLogin} color="primary">
+                Login
+              </Button>
+            </CardFooter>
+          </Card>
+        </GridItem>
+        </GridContainer>    
         </div>
     )
 }
