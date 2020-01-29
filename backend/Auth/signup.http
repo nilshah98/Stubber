@@ -1,7 +1,19 @@
-post http://localhost:3000/signup
+# post http://localhost:3000/signup
+# Content-Type: application/json
+
+# {
+#     "name": "Chirag",
+#     "username": "chiru",
+#     "password": "123",
+#     "bank_accno": 5,
+#     "usertype": "consumer"
+# }
+
+post http://localhost:5000/getnear
 Content-Type: application/json
 
 {
-    "username": "Shivam",
-    "password": "123"
+    "latitude": 19.0727,
+    "longitude": 72.8979,
+    "distance": 40
 }
