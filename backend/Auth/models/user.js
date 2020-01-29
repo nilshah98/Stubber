@@ -1,19 +1,37 @@
- 
-var mongoose=require('mongoose');
+const mongoose=require('mongoose');
+const uniqueValidator = require("mongoose-unique-validator");
 
-var userSchema = new mongoose.Schema({
-    username:String,
-    password: String
-});
+const User = new mongoose.Schema({
+    name: {
+        type: String,
+        required: true
+    },
+    username: String,
+    password: String,
+    latitude: Number,
+    longitude: Number,
+    postal_address: String,
+    area: String,
+    crop: String,
+    cluster_id: Number,
+    usertype: String,
+    bank_ifsc: {
+        type: String,
+    },
+    bank_accno: {
+        type: String,
+        unique: true
+    },
+    bank_name: String,
+    razorpayLinkedAccount: String
+}).plugin(uniqueValidator)
+    .set("toJSON", {
+        transform: (doc, returnedDocument) => {
+            returnedDocument.id = returnedDocument._id.toString();
+            delete returnedDocument._id;
+            delete returnedDocument.__v;
+            delete returnedDocument.password;
+        }
+    });
 
-// userSchema.set('toJSON', {
-//     transform: (document, returnedObject) => {
-//       returnedObject.id = returnedObject._id.toString()
-//       delete returnedObject._id
-//       delete returnedObject.__v
-//       // the passwordHash should not be revealed
-//       delete returnedObject.password
-//     }
-//   })
-
-module.exports=mongoose.model("User", userSchema);
+module.exports=mongoose.model("User", User);
