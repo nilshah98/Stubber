@@ -14,6 +14,7 @@ import CardBody from "components/Card/CardBody.js";
 import CardFooter from "components/Card/CardFooter.js";
 
 import useField from '../hooks/useField'
+import loginService from '../services/login'
 
 const styles = {
     cardCategoryWhite: {
@@ -41,11 +42,16 @@ export default function Login(props) {
     const username = useField('text')
     const password = useField('text')
 
-    const handleLogin = (event) => {
+    const handleLogin = async (event) => {
         event.preventDefault()
-        console.log(username)
-        console.log(password)
-        console.log('Logged In')
+        const data = {
+            username: username.value,
+            password: password.value
+        }
+        const response = await loginService(data)
+        if( response ) {
+            window.localStorage.setItem('stubber', JSON.stringify(response))
+        }
     }
 
     return (
