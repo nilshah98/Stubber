@@ -10,6 +10,29 @@ const port = 5000
 app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 
+const Farmer = require('./../mongoose');
+
+function registerFarmer(data)
+{
+    const farmer = new Farmer({
+        name: data[0],
+        password: data[1],
+        latitude:  data[2],
+        longitude: data[3],
+        bank_details: data[4],
+        postal_addres: data[5],
+        area: data[6],
+        crop: data[7],
+        cluster_id: data[8]
+    })    
+    farmer.save().then(response => {
+    console.log('farmer saved!')
+    mongoose.connection.close()
+    }).catch( err => console.log(err))
+}
+
+registerFarmer(["shivam_pawase","coding17",19.0166,73.0966,"state bank of india, 28328392893","410206","panvel","sugarcane",123]);
+
 function getDistance(lat1, lon1, lat2, lon2) {
     if ((lat1 == lat2) && (lon1 == lon2)) {
         return 0;
@@ -57,16 +80,21 @@ app.post('/getnear', (req, res) => {
         res.send({data: answer})
     })
     .catch((err) => console.log(err))
+
+    Farmer.find({},function(err,farmers){
+        console.log(farmers);
+    });
+
 })
-app.get('/getcluster', (_req,res) => {
-    axios.get('http://localhost:3000/farmers')
-        .then((response) => {
-            const locs = response.data.map((item) => [item.latitude, item.longitude])
-            const clusters = agnes(locs).cut(100)
-            const indices = clusters.map((c) => c.indices())
-            res.send({data: indices})
-        })
-        .catch((err) => console.log(err))
-})
+// app.get('/getcluster', (_req,res) => {
+//     axios.get('http://localhost:3000/farmers')
+//         .then((response) => {
+//             const locs = response.data.map((item) => [item.latitude, item.longitude])
+//             const clusters = agnes(locs).cut(100)
+//             const indices = clusters.map((c) => c.indices())
+//             res.send({data: indices})
+//         })
+//         .catch((err) => console.log(err))
+// })
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
