@@ -1,2 +1,0 @@
-post http://localhost:3000/login
-Content-Type: app
