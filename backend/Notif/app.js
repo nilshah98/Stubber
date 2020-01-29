@@ -2,6 +2,7 @@ const nodemailer = require('nodemailer');
 const mongoose = require('mongoose');
 const app = require('express')();
 const User = require('./models/user');
+const axios = require('axios');
 require("dotenv").config();
 // const app = express()
 
@@ -26,6 +27,15 @@ app.post("/notif/:id", (req, res) => {
             phone=user.phone;
             sendMail(email,"SUBJECT");
             console.log("After sendMail")
+
+            axios({
+                method : 'post',
+                url: 'http://127.0.0.1:5000/sms',
+                data: {
+                    name: name,
+                    phone: phone.toString()
+                }
+            });
         }
     });
 })
