@@ -45,6 +45,7 @@ loginRouter.post('/signup', async (request, response, next) => {
         console.log("PasswordHash: "+passwordHash);
 
         const user = new User({
+          name: body.name,
           username: body.username,
           password: passwordHash,
           latitude: body.latitude,
