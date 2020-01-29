@@ -4,9 +4,11 @@ const bodyParser = require('body-parser')
 const cors = require('cors')
 const Bids = require('./models/bids')
 const mongoose = require('mongoose')
+require("dotenv").config();
 
 app.use(bodyParser.json())
 app.use(cors())
+
 
 app.get('/bids/all',(request,response)=>{
     Bids.find({}).then(result=>{
@@ -26,7 +28,7 @@ app.get('/bids/:id',(request,response)=>{
     })
 })
 
-app.delete('/bids/end/:id',(request,response)=>{
+app.delete('/bids/:id',(request,response)=>{
     Bids.findByIdAndRemove(request.params.id)
     .then(result => {
       response.status(204).end()
@@ -57,8 +59,9 @@ app.post('/bids/addBid',(request,response,next)=>{
     }
 
     const bid = new Bids({
-        name:number.name,
-        number:number.number
+        stubble_id: body.stubble_id,
+        end_time: body.end_time,
+        current_cost: body.min_cost
     })
 
     bid.save()
@@ -67,16 +70,15 @@ app.post('/bids/addBid',(request,response,next)=>{
     .catch(error => next(error))
 })
 
-app.put('/api/persons/:id', (request, response, next) => {
+app.put('/bids/:id', (request, response, next) => {
     const body = request.body
   
     const bid = {
-      stubble_id: body.stubble_id,
-      end_time: body.end_time,
-      current_cost: body.current_cost
+      current_cost: body.current_cost,
+      current_bidder: body.current_bidder
     }
   
-    Bids.findByIdAndUpdate(request.params.id, bid, { new: true })
+    Bids.findByIdAndUpdate(request.params.id, bid , { new: true })
       .then(updatedContact => {
         response.json(updatedContact.toJSON())
       })
