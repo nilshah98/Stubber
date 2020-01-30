@@ -71,7 +71,8 @@ const Register = props => {
       area: area.value,
       bank_ifsc: bankIfsc.value,
       bank_accno: bankAccNo.value,
-      bank_name: bankName.value
+      bank_name: bankName.value,
+      language: 'en'
     };
 
     console.log(data);
