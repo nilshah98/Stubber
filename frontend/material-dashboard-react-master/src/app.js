@@ -2,6 +2,7 @@ import React from 'react'
 import { createBrowserHistory } from "history";
 import { Router, Route, Switch, Redirect } from "react-router-dom";
 
+import ProtectedRoute from "./components/ProtectedRouter";
 import Admin from "layouts/Admin.js";
 import Login from "layouts/Login";
 import Register from "layouts/Register";
@@ -20,8 +21,10 @@ const App = () => {
 	return (
 		<Router history={hist}>
 			<Switch>
-				<Route path="/farmer" component={Admin} />
-				<Route path="/consumer" component={Admin} />
+				{/* <Route path="/farmer" component={Admin} /> */}
+				<ProtectedRoute path="/farmer" component={Admin} />
+				{/* <Route path="/consumer" component={Admin} /> */}
+				<ProtectedRoute path="/consumer" component={Admin} />
 				{/* <Route path="/rtl" component={RTL} /> */}
 				<Route path = "/login" component={Login} />
 				<Route path = "/register" component={Register} />
