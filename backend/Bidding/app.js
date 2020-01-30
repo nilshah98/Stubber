@@ -5,6 +5,7 @@ const cors = require('cors')
 const Bids = require('./models/bids')
 const mongoose = require('mongoose')
 const cron = require('node-cron');
+const axios = require("axios");
 
 require("dotenv").config();
 
@@ -25,7 +26,19 @@ cron.schedule("* * * * *", function() {
     //     Bids.deleteMany()
     // })
 
-    Bids.deleteMany({'end_time' : {$lt : curr_time }}).then((res)=>{console.log("Deleted")});
+    Bids.deleteMany({'end_time' : {$lt : curr_time }})
+    .then((res)=>{
+        const paymentDetails = `Congratulations your bid has been selected. Pay the amount `;
+        // {
+        //     "rtgs/neft": {
+        //         "ifsc": "RAZR0000001",
+        //         "account_number": "1112220041365613",
+        //         "name": "Acme group",
+        //     }
+        // };
+        // axios.post(`${process.env.NOTIF_URI}/api/notif/bulk`, paymentDetails);
+        console.log("Deleted")
+    });
 });
 
 app.get('/api/bids/all',(request,response)=>{
