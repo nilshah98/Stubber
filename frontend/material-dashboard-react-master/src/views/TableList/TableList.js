@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 // core components
@@ -8,6 +8,8 @@ import Table from "components/Table/Table.js";
 import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
+import Button from "components/CustomButtons/Button";
+import axios from "axios";
 
 const styles = {
   cardCategoryWhite: {
@@ -43,6 +45,13 @@ const useStyles = makeStyles(styles);
 
 export default function TableList() {
   const classes = useStyles();
+
+  const [tableData, setTableData] = useState([]);
+
+  useEffect(() => {
+    axios.get("http://localhost:3001/bids/all").then(res => console.log(res));
+  }, []);
+
   return (
     <GridContainer>
       <GridItem xs={12} sm={12} md={12}>
@@ -56,14 +65,69 @@ export default function TableList() {
           <CardBody>
             <Table
               tableHeaderColor="primary"
-              tableHead={["Name", "Country", "City", "Salary"]}
+              tableHead={[
+                "ID",
+                "SID",
+                "End Time",
+                "Current Cost",
+                "Current Bidder",
+                "Buy"
+              ]}
               tableData={[
-                ["Dakota Rice", "Niger", "Oud-Turnhout", "$36,738"],
-                ["Minerva Hooper", "Curaçao", "Sinaai-Waas", "$23,789"],
-                ["Sage Rodriguez", "Netherlands", "Baileux", "$56,142"],
-                ["Philip Chaney", "Korea, South", "Overland Park", "$38,735"],
-                ["Doris Greene", "Malawi", "Feldkirchen in Kärnten", "$63,542"],
-                ["Mason Porter", "Chile", "Gloucester", "$78,615"]
+                [
+                  "Dakota Rice",
+                  "Niger",
+                  "Oud-Turnhout",
+                  "$36,738",
+                  <Button key={1} color="primary">
+                    Buy
+                  </Button>
+                ],
+                [
+                  "Minerva Hooper",
+                  "Curaçao",
+                  "Sinaai-Waas",
+                  "$23,789",
+                  <Button key={2} color="primary">
+                    Buy
+                  </Button>
+                ],
+                [
+                  "Sage Rodriguez",
+                  "Netherlands",
+                  "Baileux",
+                  "$56,142",
+                  <Button key={3} color="primary">
+                    Buy
+                  </Button>
+                ],
+                [
+                  "Philip Chaney",
+                  "Korea, South",
+                  "Overland Park",
+                  "$38,735",
+                  <Button key={4} color="primary">
+                    Buy
+                  </Button>
+                ],
+                [
+                  "Doris Greene",
+                  "Malawi",
+                  "Feldkirchen in Kärnten",
+                  "$63,542",
+                  <Button key={5} color="primary">
+                    Buy
+                  </Button>
+                ],
+                [
+                  "Mason Porter",
+                  "Chile",
+                  "Gloucester",
+                  "$78,615",
+                  <Button key={6} color="primary">
+                    Buy
+                  </Button>
+                ]
               ]}
             />
           </CardBody>
