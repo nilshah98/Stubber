@@ -8,8 +8,9 @@ const {
     agnes
 } = require('ml-hclust');
 const User = require('./models/user');
-var scheduling = require('./models/scheduling');
+var scheduling = require('./scheduling');
 var Schedule = require('./models/schedule')
+var Truck = require('./models/trucks')
 
 
 const app = express()
@@ -55,10 +56,22 @@ function getDistance(lat1, lon1, lat2, lon2) {
     }
 }
 
-// cron.schedule("* * * * *", function() {
-//     console.log("---------------------");
-//     console.log("Running Cron Job");
-// });
+cron.schedule("* * * * *", function() {
+    console.log("---------------------");
+    console.log("Running Cron Job");
+
+    var t = new Date();
+    var curr_time = t.toISOString();
+    // Bids.find({}).then(results=>{
+    //     var query = {};
+        //results.filter(result => {result.end_time < curr_time}).map(
+        //    Bids.deleteMany()
+        //)
+    //     Bids.deleteMany()
+    // })
+
+    Truck.deleteMany({'end_time' : {$lt : curr_time }}).then((res)=>{console.log("Deleted")});
+});
 
 app.get('/api/', (req, res) => res.send('Hello World!'))
 
@@ -98,11 +111,11 @@ app.post('/api/getnear', async (req, res) => {
                 });
                 console.log("After");
                 console.log(farmers);
-                phoneno = "";
-                emails = "";
-                message = "The nearby farmer has started harvesting!!!";
+                let phonenos = "";
+                let emails = "";
+                let message = "The nearby farmer has started harvesting!!!";
                 for (let i = 0; i < farmers.length - 1; i++) {
-                    phoneno += farmers[i].phone + ",";
+                    phonenos += farmers[i].phone + ",";
                 }
                 phoneno += farmers[farmers.length - 1].phone;
                 console.log(phoneno);
@@ -111,6 +124,10 @@ app.post('/api/getnear', async (req, res) => {
                 }
                 emails += farmers[farmers.length - 1].email;
                 console.log(emails);
+
+                axios.post(`${process.env.NOTIF_URI}/api/notif/bulk`,{
+                    emails, phonenos, message
+                });
                 // send mail, msg 
                 // phoneno - phone nos string, emails - emails string, message - message
             })
