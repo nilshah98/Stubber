@@ -1,5 +1,4 @@
 import React from "react";
-import { connect } from "react-redux";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 import InputLabel from "@material-ui/core/InputLabel";
@@ -165,14 +164,14 @@ const Register = props => {
                 </GridItem>
               </GridContainer>
 
-              <GridContainer style={{ justifyContent: "center" }}>
+              {/* <GridContainer style={{ justifyContent: "center" }}>
                 <GridItem xs={12} sm={12} md={12}>
                     <Radio 
                         selectedValue={userType}
                         
                     />
                 </GridItem>
-              </GridContainer>
+              </GridContainer> */}
 
               <GridContainer style={{ justifyContent: "center" }}>
                 <GridItem xs={12} sm={12} md={6}>
@@ -199,11 +198,4 @@ const Register = props => {
   );
 };
 
-const mapStateToProps = state => {
-  return {
-    language: state.language,
-    userType: state.userType
-  };
-};
-
-export default connect(mapStateToProps)(Register);
+export default Register;
