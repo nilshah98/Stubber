@@ -1,5 +1,6 @@
 import React from "react";
 import classNames from "classnames";
+import { withRouter } from 'react-router-dom'
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -19,7 +20,8 @@ import styles from "assets/jss/material-dashboard-react/components/headerLinksSt
 
 const useStyles = makeStyles(styles);
 
-export default function AdminNavbarLinks() {
+const AdminNavbarLinks = (props) => {
+
   const classes = useStyles();
   const [openProfile, setOpenProfile] = React.useState(null);
   const handleClickProfile = event => {
@@ -29,8 +31,10 @@ export default function AdminNavbarLinks() {
       setOpenProfile(event.currentTarget);
     }
   };
+
   const handleCloseProfile = () => {
-    setOpenProfile(null);
+    window.localStorage.clear()
+    props.history.push('/')
   };
   return (
     <div>
@@ -101,3 +105,5 @@ export default function AdminNavbarLinks() {
     </div>
   );
 }
+
+export default withRouter(AdminNavbarLinks)
