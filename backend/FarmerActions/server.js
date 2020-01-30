@@ -135,6 +135,8 @@ app.get('/api/getschedule/:id', async (req, res) => {
 //Adding Schedules
 
 const updateSchedule = (desc, newEvent, schedule_id)=>{
+    let t = new Date()
+    let curr_date = t.toISOString()
     if(desc ==""){
         findByIdAndDelete(schedule_id)
         .then(result => {
@@ -145,7 +147,7 @@ const updateSchedule = (desc, newEvent, schedule_id)=>{
     else{
         event = {
         description: desc,
-        event_date: Date.now().toISOString()
+        event_date: curr_date    //WONT WORK
         }
 
         newEvent.push(event)
@@ -164,6 +166,9 @@ app.post('/api/addschedule/:id', async (req, res) => {
     var user_id = req.params.id;
     let events=null
     let schedule_id=null
+    let t = new Date()
+    let curr_date = t.toISOString()
+
     Schedule.findOne({farmer_id:user_id})
     .then(result=>{
         if(result === undefined){
@@ -171,7 +176,7 @@ app.post('/api/addschedule/:id', async (req, res) => {
                 farmer_id: user_id,
                 events: [{
                     description: "Pick Up Requested",
-                    event_date: Date.now().toISOString()
+                    event_date: curr_date 
                 }]
             })
         } else {
