@@ -64,6 +64,7 @@ app.post('/getnear', async (req, res) => {
         const lat = req.body.latitude
         const lng = req.body.longitude
         const dst = req.body.distance
+        console.log("LAT:"+lat);
         
         // axios.get('http://localhost:3000/farmers')
         // .then((response) => {
@@ -77,7 +78,7 @@ app.post('/getnear', async (req, res) => {
         // })
         // .catch((err) => console.log(err))
         console.log("Before");
-        
+
         User.find({usertype: "farmer"})
             .then((currUsers) => {
             //console.log("Users:",currUsers)
@@ -111,7 +112,6 @@ app.post('/getnear', async (req, res) => {
             // send mail, msg 
             // phoneno - phone nos string, emails - emails string, message - message
         })
-        
     }
     catch(exception){
         console.error(exception);
