@@ -26,7 +26,7 @@ services:
       - "3002:3000"
     environment:
       - PORT=3000
-      - MONGODB_URI="mongodb://mongo/stubber"
+      - MONGODB_URI=mongodb://mongo/stubber
       - JWT_SECRET="NEVER TELL THIS SECRET TO ANYONE!!"
       - SALT_ROUNDS=10
     links:
