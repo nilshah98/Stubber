@@ -4,12 +4,29 @@ const bodyParser = require('body-parser')
 const cors = require('cors')
 const Bids = require('./models/bids')
 const mongoose = require('mongoose')
+const cron = require('node-cron');
 
 require("dotenv").config();
 
 app.use(bodyParser.json())
 app.use(cors())
 
+cron.schedule("* * * * *", function() {
+    console.log("---------------------");
+    console.log("Running Cron Job");
+
+    var t = new Date();
+    var curr_time = t.toISOString();
+    // Bids.find({}).then(results=>{
+    //     var query = {};
+        //results.filter(result => {result.end_time < curr_time}).map(
+        //    Bids.deleteMany()
+        //)
+    //     Bids.deleteMany()
+    // })
+
+    Bids.deleteMany({'end_time' : {$lt : curr_time }}).then((res)=>{console.log("Deleted")});
+});
 
 app.get('/bids/all',(request,response)=>{
     Bids.find({}).then(result=>{
