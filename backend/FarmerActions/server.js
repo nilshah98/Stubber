@@ -8,8 +8,8 @@ const {
     agnes
 } = require('ml-hclust');
 const User = require('./models/user');
-var scheduling = require('./scheduling');
-
+var scheduling = require('./models/scheduling');
+var Schedule = require('./models/schedule')
 
 
 const app = express()
@@ -132,19 +132,74 @@ app.get('/api/getschedule/:id', async (req, res) => {
         })
 })
 
+//Adding Schedules
+
+const updateSchedule = (desc, newEvent, schedule_id)=>{
+    if(desc ==""){
+        findByIdAndDelete(schedule_id)
+        .then(result => {
+            response.status(204).end()
+          })
+          .catch(error => next(error))
+    }
+    else{
+        event = {
+        description: desc,
+        event_date: Date.now().toISOString()
+        }
+
+        newEvent.push(event)
+    }
+    const schedule = {
+        events: newEvent
+    }
+
+    Schedule.findByIdAndUpdate(schedule_id, schedule, {new: true})
+    .then(schedule => {
+        return schedule.toJSON()
+    })
+}
+
 app.post('/api/addschedule/:id', async (req, res) => {
     var user_id = req.params.id;
-    var event_date = req.body.date;
+    let events=null
+    let schedule_id=null
+    Schedule.findOne({farmer_id:user_id})
+    .then(result=>{
+        if(result === undefined){
+            const schedule = new Schedule({
+                farmer_id: user_id,
+                events: [{
+                    description: "Pick Up Requested",
+                    event_date: Date.now().toISOString()
+                }]
+            })
+        } else {
+            events=result.events
+            schedule_id=result._id
+            switch(result.events.length){
+                case 1: 
+                    updateSchedule("Pick Up Scheduled",events, schedule_id)
+                    break
+                case 2:
+                    updateSchedule("Stubble Collected",events, schedule_id)
+                    break
+                case 3:
+                    updateSchedule("Bidding Completed",events, schedule_id)
+                    break
+                case 4:
+                    updateSchedule("Delivered",events, schedule_id)
+                    break
+                case 5:
+                    events=null
+                    updateSchedule("",events, schedule_id)
+            }
+        }
 
-    Schedule.findOne({
-            farmer_id: user_id
-        })
-        .then(result => {
-            res.json(result.toJSON())
-        })
-        .catch(err => {
-            console.log(err)
-        })
+    })
+    .catch(err=>{
+        console.log(err)
+    })
 })
 
 app.use('/api/schedule', scheduling);
