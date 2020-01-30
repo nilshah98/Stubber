@@ -1,6 +1,6 @@
 import React from "react";
 import classNames from "classnames";
-
+import { withRouter } from 'react-router-dom'
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -33,8 +33,8 @@ const AdminNavbarLinks = (props) => {
   };
 
   const handleCloseProfile = () => {
-    // window.localStorage.clear()
-    console.log('Log out')
+    window.localStorage.clear()
+    props.history.push('/')
   };
   return (
     <div>
@@ -106,4 +106,4 @@ const AdminNavbarLinks = (props) => {
   );
 }
 
-export default AdminNavbarLinks
+export default withRouter(AdminNavbarLinks)
