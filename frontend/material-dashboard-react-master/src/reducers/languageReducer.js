@@ -1,10 +1,17 @@
 const languageReducer = (state = 'en', action) => {
+    console.log(state)
     switch( action.type ) {
         case 'CHANGE':
-            state = action.data
-            return state
+            return action.data
         default:
             return state
+    }
+}
+
+export const changeLanguage = (lng) => {
+    return {
+        type: 'CHANGE',
+        data: lng
     }
 }
 
