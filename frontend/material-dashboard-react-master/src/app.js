@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react'
+import React, { Suspense, useEffect } from 'react'
 import { createBrowserHistory } from "history"
 import { Router, Route, Switch, Redirect } from "react-router-dom"
 import { useTranslation } from 'react-i18next'
