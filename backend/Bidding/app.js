@@ -4,21 +4,38 @@ const bodyParser = require('body-parser')
 const cors = require('cors')
 const Bids = require('./models/bids')
 const mongoose = require('mongoose')
+const cron = require('node-cron');
 
 require("dotenv").config();
 
 app.use(bodyParser.json())
 app.use(cors())
 
+cron.schedule("* * * * *", function() {
+    console.log("---------------------");
+    console.log("Running Cron Job");
 
-app.get('/bids/all',(request,response)=>{
+    var t = new Date();
+    var curr_time = t.toISOString();
+    // Bids.find({}).then(results=>{
+    //     var query = {};
+        //results.filter(result => {result.end_time < curr_time}).map(
+        //    Bids.deleteMany()
+        //)
+    //     Bids.deleteMany()
+    // })
+
+    Bids.deleteMany({'end_time' : {$lt : curr_time }}).then((res)=>{console.log("Deleted")});
+});
+
+app.get('/api/bids/all',(request,response)=>{
     Bids.find({}).then(result=>{
         response.json(result.map(bids => bids.toJSON()))
     })
 })
 
 
-app.get('/bids/:id',(request,response)=>{
+app.get('/api/bids/:id', (request, response) => {
     const id = mongoose.Types.ObjectId(request.params.id) 
     console.log(id)
     Bids.find({_id:id}).then(result=>{
@@ -29,7 +46,7 @@ app.get('/bids/:id',(request,response)=>{
     })
 })
 
-app.delete('/bids/:id',(request,response)=>{
+app.delete('/api/bids/:id', (request, response) => {
     Bids.findByIdAndRemove(request.params.id)
     .then(result => {
       response.status(204).end()
@@ -37,7 +54,7 @@ app.delete('/bids/:id',(request,response)=>{
     .catch(error => next(error))
 })
 
-app.post('/bids/addBid',(request,response,next)=>{
+app.post('/api/bids/addBid', (request, response, next) => {
     console.log("Posssttteeedd")
     body = request.body;
     
@@ -71,13 +88,14 @@ app.post('/bids/addBid',(request,response,next)=>{
     .catch(error => next(error))
 })
 
-app.put('/bids/:id', (request, response, next) => {
+app.put('/api/bids/:id', (request, response, next) => {
     const body = request.body
   
     const bid = {
       current_cost: body.current_cost,
       current_bidder: body.current_bidder
     }
+    console.log('body', body)
   
     Bids.findByIdAndUpdate(request.params.id, bid , { new: true })
       .then(updatedContact => {
