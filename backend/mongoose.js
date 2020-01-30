@@ -30,7 +30,9 @@ const farmerSchema = new mongoose.Schema({
 const Farmer = mongoose.model('Farmer', farmerSchema)
 
 module.exports = Farmer;
-// const farmer = new Farmer({
+
+//   mongoose.connection.close()
+// }).catch( err => console.log(err))// const farmer = new Farmer({
 //     name: "shivam_pawase",
 //     password: "coding17",
 //     latitude:  19.0166,
@@ -44,8 +46,6 @@ module.exports = Farmer;
 
 // farmer.save().then(response => {
 //   console.log('farmer saved!')
-//   mongoose.connection.close()
-// }).catch( err => console.log(err))
 
 // Consumer 
 const consumerSchema = new mongoose.Schema({
