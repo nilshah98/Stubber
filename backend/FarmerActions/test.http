@@ -1,8 +1,8 @@
-Post http://localhost:5000/getnear
+Post http://localhost:3001/getnear
 Content-Type: application/json
 
 {
     "latitude": 19.0727,
     "longitude": 72.8979,
-    "distance": 40
+    "distance": 30
 }
