@@ -1,13 +1,12 @@
 const mongoose=require('mongoose');
 const uniqueValidator = require("mongoose-unique-validator");
 
-const Truck = new mongoose.Schema({
-    number_plate: String,
-    latitude: Number,
-    longitude: Number,
-    capacity_rem: Number,
-    end_date: Date,
-    farmers: [String]
+const scheduleSchema = new mongoose.Schema({
+    farmer_id: String,
+    events: [{
+        description: String,
+        event_date: Date 
+    }]
 }).plugin(uniqueValidator)
     .set("toJSON", {
         transform: (doc, returnedDocument) => {
@@ -17,4 +16,4 @@ const Truck = new mongoose.Schema({
         }
     });
 
-module.exports=mongoose.model("Truck",Truck);
+module.exports=mongoose.model("Schedule",scheduleSchema);

@@ -67,7 +67,7 @@ const Register = props => {
       phone: phone.value,
       latitude: latitude.value,
       longitude: longitude.value,
-      userType: userType,
+      usertype: userType,
       postal_address: postal_address.value,
       area: area.value,
       bankIfsc: bankIfsc.value,
@@ -200,7 +200,7 @@ const Register = props => {
                     value="Farmer"
                     name="Type"
                     onClick={() => {
-                      setUserType("Farmer");
+                      setUserType("farmer");
                       // console.log(userType);
                     }}
                   />
@@ -211,7 +211,7 @@ const Register = props => {
                     value="Consumer"
                     name="Type"
                     onClick={() => {
-                      setUserType("Consumer");
+                      setUserType("consumer");
                       // console.log(userType);
                     }}
                   />
@@ -222,7 +222,7 @@ const Register = props => {
                     value="Admin"
                     name="Type"
                     onClick={() => {
-                      setUserType("Admin");
+                      setUserType("admin");
                       // console.log(userType);
                     }}
                   />
