@@ -197,7 +197,7 @@ const Register = props => {
                 <GridItem>
                   <Radio
                     selectedValue={userType}
-                    value="Farmer"
+                    value="farmer"
                     name="Type"
                     onClick={() => {
                       setUserType("farmer");
@@ -208,7 +208,7 @@ const Register = props => {
                 <GridItem>
                   <Radio
                     selectedValue={userType}
-                    value="Consumer"
+                    value="consumer"
                     name="Type"
                     onClick={() => {
                       setUserType("consumer");
@@ -219,7 +219,7 @@ const Register = props => {
                 <GridItem>
                   <Radio
                     selectedValue={userType}
-                    value="Admin"
+                    value="admin"
                     name="Type"
                     onClick={() => {
                       setUserType("admin");
