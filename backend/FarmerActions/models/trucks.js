@@ -7,10 +7,7 @@ const Truck = new mongoose.Schema({
     longitude: Number,
     capacity_rem: Number,
     end_date: Date,
-    farmers: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User"
-    }]
+    farmers: [String]
 }).plugin(uniqueValidator)
     .set("toJSON", {
         transform: (doc, returnedDocument) => {
