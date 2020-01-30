@@ -15,8 +15,11 @@ import Divider from "@material-ui/core/Divider";
 import Person from "@material-ui/icons/Person";
 // core components
 import Button from "components/CustomButtons/Button.js";
+import { connect } from 'react-redux'
 
 import styles from "assets/jss/material-dashboard-react/components/headerLinksStyle.js";
+
+import { setUser } from '../../reducers/userReducer';
 
 const useStyles = makeStyles(styles);
 
@@ -34,6 +37,7 @@ const AdminNavbarLinks = (props) => {
 
   const handleCloseProfile = () => {
     window.localStorage.clear()
+    props.setUser(null);
     props.history.push('/')
   };
   return (
@@ -106,4 +110,4 @@ const AdminNavbarLinks = (props) => {
   );
 }
 
-export default withRouter(AdminNavbarLinks)
+export default connect(null, { setUser })(withRouter(AdminNavbarLinks));
