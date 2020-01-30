@@ -6,12 +6,17 @@ const axios = require('axios');
 const cron = require("node-cron");
 const { agnes } = require('ml-hclust');
 const User = require('./models/user');
+var scheduling = require('./scheduling');
+
+
 
 const app = express()
 // const port = 5000
 
 app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
+
+console.log(process.env.PORT);
 
 mongoose.connect(process.env.MONGODB_URI,{
 	useNewUrlParser: true,
@@ -76,22 +81,44 @@ app.post('/getnear', async (req, res) => {
 
         User.find({usertype: "farmer"})
             .then((currUsers) => {
-                let nearby=[]
-                currUsers.forEach((farmer) => {
-                    if(getDistance(farmer.latitude, farmer.longitude, lat, lng) <= dst){
-                        nearby.push(farmer)
-                    }
-                })
-                console.log("Nearby farmers: "+nearby)
-        })
-        .catch((err) => {
-            console.log("Err: "+err)
+            //console.log("Users:",currUsers)
+            let farmers = [];
+            currUsers.forEach(element => {
+                let dist = getDistance(lat,lng,element.latitude,element.longitude);
+                console.log(dist);
+                if(dist<=dst)
+                {
+                    farmers.push(element);
+                }
+                //console.log(element);
+            });
+            console.log("After");
+            console.log(farmers);
+            phoneno = "";
+            emails = "";
+            message = "The nearby farmer has started harvesting!!!";
+            for(let i=0;i<farmers.length-1;i++)
+            {
+                phoneno+=farmers[i].phone+",";
+            }
+            phoneno+=farmers[farmers.length-1].phone;
+            console.log(phoneno);
+            for(let i=0;i<farmers.length-1;i++)
+            {
+                emails+=farmers[i].email+";";
+            }
+            emails+=farmers[farmers.length-1].email;
+            console.log(emails);
+            // send mail, msg 
+            // phoneno - phone nos string, emails - emails string, message - message
         })
     }
     catch(exception){
         console.error(exception);
     }
 })
+
+app.use('/schedule', scheduling)
 // app.get('/getcluster', (_req,res) => {
 //     axios.get('http://localhost:3000/farmers')
 //         .then((response) => {

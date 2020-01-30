@@ -4,6 +4,7 @@ const bodyParser = require('body-parser')
 const cors = require('cors')
 const Bids = require('./models/bids')
 const mongoose = require('mongoose')
+
 require("dotenv").config();
 
 app.use(bodyParser.json())
