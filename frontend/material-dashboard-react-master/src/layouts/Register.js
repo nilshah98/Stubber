@@ -70,9 +70,9 @@ const Register = props => {
       usertype: userType,
       postal_address: postal_address.value,
       area: area.value,
-      bankIfsc: bankIfsc.value,
-      bankAccNo: bankAccNo.value,
-      bankName: bankName.value
+      bank_ifsc: bankIfsc.value,
+      bank_accno: bankAccNo.value,
+      bank_name: bankName.value
     };
 
     console.log(data);
