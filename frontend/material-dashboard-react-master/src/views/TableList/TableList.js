@@ -10,6 +10,7 @@ import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
 import Button from "components/CustomButtons/Button";
 import axios from "axios";
+import { connect } from "react-redux";
 
 const styles = {
   cardCategoryWhite: {
@@ -43,13 +44,31 @@ const styles = {
 
 const useStyles = makeStyles(styles);
 
-export default function TableList() {
+const TableList = (props) => {
   const classes = useStyles();
 
   const [tableData, setTableData] = useState([]);
 
   useEffect(() => {
-    axios.get("http://localhost:3001/bids/all").then(res => console.log(res));
+    axios.get("http://localhost:3002/bids/all").then(res => {
+      console.log(res.data);
+      let fin = [];
+      res.data.forEach((item, index) =>
+        fin.push([
+          item.id,
+          item.stubble_id,
+          item.end_time,
+          item.current_cost,
+          item.current_bidder,
+          <Button key={index} color="primary"
+          onClick = {() => axios.put(`http://localhost:3002/bids/${item.id}`,{current_cost: item.current_cost + 10, current_bidder: props.user.id})}
+          >
+            Buy
+          </Button>
+        ])
+      );
+      setTableData(fin);
+    });
   }, []);
 
   return (
@@ -73,62 +92,7 @@ export default function TableList() {
                 "Current Bidder",
                 "Buy"
               ]}
-              tableData={[
-                [
-                  "Dakota Rice",
-                  "Niger",
-                  "Oud-Turnhout",
-                  "$36,738",
-                  <Button key={1} color="primary">
-                    Buy
-                  </Button>
-                ],
-                [
-                  "Minerva Hooper",
-                  "Curaçao",
-                  "Sinaai-Waas",
-                  "$23,789",
-                  <Button key={2} color="primary">
-                    Buy
-                  </Button>
-                ],
-                [
-                  "Sage Rodriguez",
-                  "Netherlands",
-                  "Baileux",
-                  "$56,142",
-                  <Button key={3} color="primary">
-                    Buy
-                  </Button>
-                ],
-                [
-                  "Philip Chaney",
-                  "Korea, South",
-                  "Overland Park",
-                  "$38,735",
-                  <Button key={4} color="primary">
-                    Buy
-                  </Button>
-                ],
-                [
-                  "Doris Greene",
-                  "Malawi",
-                  "Feldkirchen in Kärnten",
-                  "$63,542",
-                  <Button key={5} color="primary">
-                    Buy
-                  </Button>
-                ],
-                [
-                  "Mason Porter",
-                  "Chile",
-                  "Gloucester",
-                  "$78,615",
-                  <Button key={6} color="primary">
-                    Buy
-                  </Button>
-                ]
-              ]}
+              tableData={tableData}
             />
           </CardBody>
         </Card>
@@ -174,3 +138,11 @@ export default function TableList() {
     </GridContainer>
   );
 }
+
+const mapStateToProps = (state) => {
+  return {
+    language: state.language,
+    user: state.user,
+  }
+}
+export default connect(mapStateToProps)(TableList);
