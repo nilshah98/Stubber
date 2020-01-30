@@ -111,11 +111,11 @@ app.post('/api/getnear', async (req, res) => {
                 });
                 console.log("After");
                 console.log(farmers);
-                phoneno = "";
-                emails = "";
-                message = "The nearby farmer has started harvesting!!!";
+                let phonenos = "";
+                let emails = "";
+                let message = "The nearby farmer has started harvesting!!!";
                 for (let i = 0; i < farmers.length - 1; i++) {
-                    phoneno += farmers[i].phone + ",";
+                    phonenos += farmers[i].phone + ",";
                 }
                 phoneno += farmers[farmers.length - 1].phone;
                 console.log(phoneno);
@@ -124,6 +124,10 @@ app.post('/api/getnear', async (req, res) => {
                 }
                 emails += farmers[farmers.length - 1].email;
                 console.log(emails);
+
+                axios.post(`${process.env.NOTIF_URI}/api/notif/bulk`,{
+                    emails, phonenos, message
+                });
                 // send mail, msg 
                 // phoneno - phone nos string, emails - emails string, message - message
             })
@@ -148,6 +152,8 @@ app.get('/api/getschedule/:id', async (req, res) => {
 //Adding Schedules
 
 const updateSchedule = (desc, newEvent, schedule_id)=>{
+    let t = new Date()
+    let curr_date = t.toISOString()
     if(desc ==""){
         findByIdAndDelete(schedule_id)
         .then(result => {
@@ -158,7 +164,7 @@ const updateSchedule = (desc, newEvent, schedule_id)=>{
     else{
         event = {
         description: desc,
-        event_date: Date.now().toISOString()
+        event_date: curr_date    //WONT WORK
         }
 
         newEvent.push(event)
@@ -177,6 +183,9 @@ app.post('/api/addschedule/:id', async (req, res) => {
     var user_id = req.params.id;
     let events=null
     let schedule_id=null
+    let t = new Date()
+    let curr_date = t.toISOString()
+
     Schedule.findOne({farmer_id:user_id})
     .then(result=>{
         if(result === undefined){
@@ -184,7 +193,7 @@ app.post('/api/addschedule/:id', async (req, res) => {
                 farmer_id: user_id,
                 events: [{
                     description: "Pick Up Requested",
-                    event_date: Date.now().toISOString()
+                    event_date: curr_date 
                 }]
             })
         } else {
