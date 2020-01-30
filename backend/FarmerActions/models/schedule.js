@@ -2,7 +2,10 @@ const mongoose=require('mongoose');
 const uniqueValidator = require("mongoose-unique-validator");
 
 const scheduleSchema = new mongoose.Schema({
-    farmer_id: String,
+    farmer_id: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User"
+    },
     events: [{
         description: String,
         event_date: Date 
