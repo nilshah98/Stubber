@@ -26,7 +26,7 @@ loginRouter.post('/login', async (request, response) => {
   const token = jwt.sign(userForToken, process.env.JWT_SECRET)
   response
     .status(200)
-    .send({ token, username: user.username, name: user.name, usertype: user.usertype })
+    .send({ token, id: user._id.toString(), username: user.username, name: user.name, usertype: user.usertype, language: user.language })
 })
 
 
@@ -47,6 +47,7 @@ loginRouter.post('/signup', async (request, response, next) => {
           name: body.name,
           username: body.username,
           password: passwordHash,
+          language: body.language,
           latitude: body.latitude,
           longitude: body.longitude,
           postal_address: body.postal_address,
