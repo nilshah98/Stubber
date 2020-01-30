@@ -1,7 +1,7 @@
 import axios from "axios";
 
 import config from "../env";
-const baseUrl = config.BACKEND_API;
+const baseUrl = config.PAYMENTS_API;
 
 export const accountFetch = async userid => {
 	try{
