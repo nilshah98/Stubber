@@ -52,6 +52,29 @@ app.post("/api/notif/:id", (req, res) => {
     });
 })
 
+app.post("/api/notif/bulk", (req,res) => {
+    const {emails, phonenos, message} = req.body;
+    const headers = {
+        "authorization": "q6fAdIhu1L8EzCoRs2ywjKFB34cMTZntlmVJY5D9PxXUvSQNkiSl3GdnCsjZDocfuW0VN5aiKq64J97E",
+        "Content-Type": "application/x-www-form-urlencoded",
+        "Cache-Control": "no-cache",
+    };
+    const payload = `sender_id=FSTSMS&message=${message}&language=english&route=p&numbers=${phonenos}`;
+    sendMail(emails, "A message from stubber support", message, (err, info) => {
+        axios.post("https://www.fast2sms.com/dev/bulk", payload, {
+                headers
+            })
+            .then(result => res.status(200).json({
+                mail: err || info,
+                sms: result.data
+            }))
+            .catch(error => res.status(500).json({
+                mail: err || info,
+                sms: error
+            }));
+    });
+})
+
 let sendMail = function (to, subject, html, next) {
     let transporter = nodemailer.createTransport({
             service: 'gmail',

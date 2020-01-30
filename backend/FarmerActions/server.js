@@ -98,11 +98,11 @@ app.post('/api/getnear', async (req, res) => {
                 });
                 console.log("After");
                 console.log(farmers);
-                phoneno = "";
-                emails = "";
-                message = "The nearby farmer has started harvesting!!!";
+                let phonenos = "";
+                let emails = "";
+                let message = "The nearby farmer has started harvesting!!!";
                 for (let i = 0; i < farmers.length - 1; i++) {
-                    phoneno += farmers[i].phone + ",";
+                    phonenos += farmers[i].phone + ",";
                 }
                 phoneno += farmers[farmers.length - 1].phone;
                 console.log(phoneno);
@@ -111,6 +111,10 @@ app.post('/api/getnear', async (req, res) => {
                 }
                 emails += farmers[farmers.length - 1].email;
                 console.log(emails);
+
+                axios.post(`${process.env.NOTIF_URI}/api/notif/bulk`,{
+                    emails, phonenos, message
+                });
                 // send mail, msg 
                 // phoneno - phone nos string, emails - emails string, message - message
             })

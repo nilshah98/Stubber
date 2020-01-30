@@ -11,14 +11,14 @@ app.use(bodyParser.json())
 app.use(cors())
 
 
-app.get('/bids/all',(request,response)=>{
+app.get('/api/bids/all',(request,response)=>{
     Bids.find({}).then(result=>{
         response.json(result.map(bids => bids.toJSON()))
     })
 })
 
 
-app.get('/bids/:id',(request,response)=>{
+app.get('/api/bids/:id', (request, response) => {
     const id = mongoose.Types.ObjectId(request.params.id) 
     console.log(id)
     Bids.find({_id:id}).then(result=>{
@@ -29,7 +29,7 @@ app.get('/bids/:id',(request,response)=>{
     })
 })
 
-app.delete('/bids/:id',(request,response)=>{
+app.delete('/api/bids/:id', (request, response) => {
     Bids.findByIdAndRemove(request.params.id)
     .then(result => {
       response.status(204).end()
@@ -37,7 +37,7 @@ app.delete('/bids/:id',(request,response)=>{
     .catch(error => next(error))
 })
 
-app.post('/bids/addBid',(request,response,next)=>{
+app.post('/api/bids/addBid', (request, response, next) => {
     console.log("Posssttteeedd")
     body = request.body;
     
@@ -71,7 +71,7 @@ app.post('/bids/addBid',(request,response,next)=>{
     .catch(error => next(error))
 })
 
-app.put('/bids/:id', (request, response, next) => {
+app.put('/api/bids/:id', (request, response, next) => {
     const body = request.body
   
     const bid = {
