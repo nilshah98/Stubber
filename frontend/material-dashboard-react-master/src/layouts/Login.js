@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from 'react-redux'
-
+import { withRouter } from 'react-router-dom'
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 import InputLabel from "@material-ui/core/InputLabel";
@@ -54,6 +54,7 @@ const Login = (props) => {
 		const response = await loginService(data)
 		// console.log(response)
 		if( response ) {
+			props.history.push(`/${response.usertype}/dashboard`)
 			window.localStorage.setItem('stubber', JSON.stringify(response))
 			setUserType(response.usertype)
 			console.log('Logged In')
