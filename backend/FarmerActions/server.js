@@ -118,7 +118,7 @@ app.post('/getnear', async (req, res) => {
     }
 })
 
-app.use('/schedule', scheduling)
+app.use('/schedule', scheduling);
 // app.get('/getcluster', (_req,res) => {
 //     axios.get('http://localhost:3000/farmers')
 //         .then((response) => {

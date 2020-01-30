@@ -20,4 +20,4 @@ const Truck = new mongoose.Schema({
         }
     });
 
-module.exports=mongoose.model("User", Truck);
+module.exports=mongoose.model("Truck",Truck);
