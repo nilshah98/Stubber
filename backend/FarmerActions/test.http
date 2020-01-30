@@ -1,8 +1,19 @@
-Post http://localhost:3001/getnear
+# Post http://localhost:3001/getnear
+# Content-Type: application/json
+
+# {
+#     "latitude": 19.0727,
+#     "longitude": 72.8979,
+#     "distance": 30
+# }
+
+Post http://localhost:3001/schedule
 Content-Type: application/json
 
 {
     "latitude": 19.0727,
     "longitude": 72.8979,
-    "distance": 30
+    "end_time": "2020-01-30T13:34:00.000",
+    "farmer_id": "5e31817aa9fcf320ec31ff50",
+    "capacity": 100
 }
