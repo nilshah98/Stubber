@@ -21,6 +21,7 @@ import styles from "assets/jss/material-dashboard-react/components/sidebarStyle.
 const useStyles = makeStyles(styles);
 
 const Sidebar = (props) => {
+  console.log(props.userType)
   const classes = useStyles();
   // verifies if routeName is the one active (in browser input)
   function activeRoute(routeName) {
@@ -28,6 +29,7 @@ const Sidebar = (props) => {
   }
   const { color, logo, image, logoText, routes } = props;
   const routesToShow = routes.filter(r => r.layout === '/'+props.userType)
+  console.log( routesToShow )
   var links = (
     <List className={classes.list}>
       {routesToShow.map((prop, key) => {
@@ -156,7 +158,8 @@ const Sidebar = (props) => {
 const mapStateToProps = (state) => {
   return {
     language: state.language,
-    userType: state.userType
+    user : state.user,
+    userType: state.user? state.user.usertype: null
   }
 }
 

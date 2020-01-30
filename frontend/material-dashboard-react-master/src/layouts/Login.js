@@ -1,9 +1,8 @@
 import React from "react";
 import { connect } from 'react-redux'
-import { withRouter } from 'react-router-dom'
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
-import InputLabel from "@material-ui/core/InputLabel";
+
 // core components
 import GridItem from "components/Grid/GridItem.js";
 import GridContainer from "components/Grid/GridContainer.js";
@@ -11,13 +10,13 @@ import CustomInput from "components/CustomInput/CustomInput.js";
 import Button from "components/CustomButtons/Button.js";
 import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
-import CardAvatar from "components/Card/CardAvatar.js";
+
 import CardBody from "components/Card/CardBody.js";
 import CardFooter from "components/Card/CardFooter.js";
 
 import useField from '../hooks/useField'
 import loginService from '../services/login'
-import { setUserType } from '../reducers/userTypeReducer'
+import { setUser } from '../reducers/userReducer'
 
 const styles = {
   cardCategoryWhite: {
@@ -52,12 +51,11 @@ const Login = (props) => {
 			password: password.value
 		}
 		const response = await loginService(data)
-		// console.log(response)
+		console.log(response)
 		if( response ) {
-			props.history.push(`/${response.usertype}/dashboard`)
 			window.localStorage.setItem('stubber', JSON.stringify(response))
-			setUserType(response.usertype)
-			console.log('Logged In')
+			props.setUser(response)
+			props.history.push(`/${response.usertype}/dashboard`)
 		}
 	}
 
@@ -113,8 +111,8 @@ const Login = (props) => {
 const mapStateToProps = (state) => {
 	return {
 		language: state.language,
-		userType: state.userType
+		user: state.user
 	}
 }
 
-export default connect(mapStateToProps, { setUserType })(Login)
+export default connect(mapStateToProps, { setUser })(Login)
