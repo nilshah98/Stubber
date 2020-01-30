@@ -35,7 +35,7 @@ app.post("/api/notif/:id", (req, res) => {
             name = user.name;
             phone = user.phone;
             const payload = `sender_id=FSTSMS&message=${message}&language=english&route=p&numbers=${phone}`;
-            sendMail(email, "Important Notice", (err, info) => {
+            sendMail(email, "Important Notice",message ,(err, info) => {
                 axios.post("https://www.fast2sms.com/dev/bulk", payload, {
                         headers
                     })
@@ -52,7 +52,7 @@ app.post("/api/notif/:id", (req, res) => {
     });
 })
 
-let sendMail = function (to, subject, next) {
+let sendMail = function (to, subject, html, next) {
     let transporter = nodemailer.createTransport({
             service: 'gmail',
             host: 'smtp.gmail.com',
@@ -71,6 +71,7 @@ let sendMail = function (to, subject, next) {
     (to) ? mailOptions['to'] = to: to = '';
     // (cc)?mailOptions['cc'] = cc:cc = '';
     // (bcc)?mailOptions['bcc'] = bcc:bcc = '';
+    (html) ? mailOptions['html'] = html: html = '';
 
     transporter.sendMail(mailOptions, function (error, info) {
         // console.log(transporter,mailOptions);
