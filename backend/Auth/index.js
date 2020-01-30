@@ -57,7 +57,9 @@ loginRouter.post('/signup', async (request, response, next) => {
           bank_ifsc: body.bank_ifsc,
           bank_accno: body.bank_accno,
           bank_name: body.bank_name,
-          razorpayLinkedAccount: body.razorpayLinkedAccount
+          razorpayLinkedAccount: "not yet",
+          phone: body.phone,
+          email: body.email
         })
 
         console.log("User in schema: "+user);
