@@ -12,10 +12,10 @@ services:
     ports:
       - "3001:3000"
     environment:
-      - MONGODB_URI="mongodb://mongo/stubber"
+      - MONGODB_URI=mongodb://mongo/stubber
       - PORT=3000
-      - RZP_KEY="rzp_test_u8apdT9UnssHkf"
-      - RZP_SECRET="Y4fVm5rsrA6Dlt6vfQ2IlTcf"
+      - RZP_KEY=rzp_test_u8apdT9UnssHkf
+      - RZP_SECRET=Y4fVm5rsrA6Dlt6vfQ2IlTcf
     links:
       - mongo
 
@@ -27,7 +27,7 @@ services:
     environment:
       - PORT=3000
       - MONGODB_URI=mongodb://mongo/stubber
-      - JWT_SECRET="NEVER TELL THIS SECRET TO ANYONE!!"
+      - JWT_SECRET='NEVER TELL THIS SECRET TO ANYONE!!'
       - SALT_ROUNDS=10
     links:
       - mongo
@@ -39,7 +39,7 @@ services:
       - "3003:3000"
     environment:
       - PORT=3000
-      - MONGODB_URI="mongodb://mongo/stubber"
+      - MONGODB_URI=mongodb://mongo/stubber
 
   mongo:
     container_name: mongo
