@@ -16,6 +16,7 @@ services:
       - PORT=3000
       - RZP_KEY=rzp_test_u8apdT9UnssHkf
       - RZP_SECRET=Y4fVm5rsrA6Dlt6vfQ2IlTcf
+      - NOTIF_URI=http://notif:3000
     links:
       - mongo
 
@@ -29,6 +30,7 @@ services:
       - MONGODB_URI=mongodb://mongo/stubber
       - JWT_SECRET='NEVER TELL THIS SECRET TO ANYONE!!'
       - SALT_ROUNDS=10
+      - NOTIF_URI=http://notif:3000
     links:
       - mongo
 
@@ -39,6 +41,26 @@ services:
       - "3003:3000"
     environment:
       - PORT=3000
+      - MONGODB_URI=mongodb://mongo/stubber
+
+  farmer:
+    container_name: farmer
+    build: "./backend/FarmerActions"
+    ports: 
+      - "3004:3000"
+    environment: 
+      - PORT=3000
+      - NOTIF_URI=http://notif:3000
+      - MONGODB_URI=mongodb://mongo/stubber
+
+  bidding:
+    container_name: bidding
+    build: "./backend/Bidding"
+    ports: 
+      - "3005:3000"
+    environment: 
+      - PORT=3000
+      - NOTIF_URI=http://notif:3000
       - MONGODB_URI=mongodb://mongo/stubber
 
   mongo:
