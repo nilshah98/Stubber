@@ -10,6 +10,7 @@ const User = new mongoose.Schema({
     password: String,
     email: String,
     phone: String,
+    language: String,
     latitude: Number,
     longitude: Number,
     postal_address: String,
