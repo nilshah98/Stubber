@@ -1,6 +1,7 @@
-import React from 'react'
-import { createBrowserHistory } from "history";
-import { Router, Route, Switch, Redirect } from "react-router-dom";
+import React, { Suspense } from 'react'
+import { createBrowserHistory } from "history"
+import { Router, Route, Switch, Redirect } from "react-router-dom"
+import { useTranslation } from 'react-i18next'
 
 import ProtectedRoute from "./components/ProtectedRouter";
 import Admin from "layouts/Admin.js";
@@ -8,6 +9,22 @@ import Login from "layouts/Login";
 import Register from "layouts/Register";
 
 const hist = createBrowserHistory();
+
+const MyComponent = () => {
+	const { t, i18n } = useTranslation()
+
+	const changeLanguage = (lng) => {
+		i18n.changeLanguage(lng)
+	}
+
+	return (
+		<>
+			<h1> { t('title') } </h1>
+			<button onClick = { () => changeLanguage('en') } > en </button>
+			<button onClick = { () => changeLanguage('hi') } > hi </button>
+		</>
+	)
+}
 
 const App = () => {
 	const userLogged = window.localStorage.getItem('stubber')
@@ -19,18 +36,20 @@ const App = () => {
 	}
 	// console.log(userType)
 	return (
-		<Router history={hist}>
-			<Switch>
-				{/* <Route path="/farmer" component={Admin} /> */}
-				<ProtectedRoute path="/farmer" component={Admin} />
-				{/* <Route path="/consumer" component={Admin} /> */}
-				<ProtectedRoute path="/consumer" component={Admin} />
-				{/* <Route path="/rtl" component={RTL} /> */}
-				<Route path = "/login" component={Login} />
-				<Route path = "/register" component={Register} />
-				{ userLogged && true ? <Redirect from="/" to={`/${userType}/dashboard`} /> : <Redirect from = "/" to = "/login" /> }
-			</Switch>
-		</Router>
+		// <>
+		// 	<Suspense fallback = "location" >
+		// 		<MyComponent />
+		// 	</Suspense>
+			<Router history={hist}>
+				<Switch>
+					<ProtectedRoute path="/farmer" component={Admin} />
+					<ProtectedRoute path="/consumer" component={Admin} />
+					<Route path = "/login" component={Login} />
+					<Route path = "/register" component={Register} />
+					{ userLogged && true ? <Redirect from="/" to={`/${userType}/dashboard`} /> : <Redirect from = "/" to = "/login" /> }
+				</Switch>
+			</Router>
+		// {/* </> */}
 	)
 }
 
