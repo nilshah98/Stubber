@@ -4,7 +4,7 @@ import config from '../env'
 const baseUrl = config.BACKEND_API
 
 const login = async (data) => {
-    const response = await axios.post(baseUrl+'/login', data)
+    const response = await axios.post(baseUrl+'/api/login', data)
     return response.data
 }
 
