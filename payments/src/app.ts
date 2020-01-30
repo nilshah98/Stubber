@@ -164,18 +164,26 @@ app.post("/api/payments/razorpay/directTransfer/:userid", async (req: Request, r
 			currency: "INR"
 		}
 		const rzpRes = await axios.post(`https://${config.RZP_KEY}:${config.RZP_SECRET}@api.razorpay.com/v1/transfers/`, reqBody);
-		const account = await Accounts.findOne({ user: user._id });
+		let account = await Accounts.findOne({ user: user._id });
 		if (account === null) {
-			return;
-		}
-		const newAccount = { ...account.toJSON() }
-		newAccount.history.push({
-			transactionType: "cr",
-			razorPayTransactionId: rzpRes.data.id
-		});
-		newAccount.balance += parseInt(req.body.amount);
+			account = await new Accounts({
+				user: user._id,
+				history: [{
+					transactionType: "cr",
+					razorPayTransactionId: rzpRes.data.id
+				}],
+				balance: parseInt(req.body.amount);
+			}).save();
+		} else {
+			const newAccount = { ...account.toJSON() }
+			newAccount.history.push({
+				transactionType: "cr",
+				razorPayTransactionId: rzpRes.data.id
+			});
+			newAccount.balance += parseInt(req.body.amount);
 
-		await account.updateOne(newAccount);
+			await account.updateOne(newAccount);
+		}
 		// await account.update(newAccount);
 
 		res.status(200).json({
