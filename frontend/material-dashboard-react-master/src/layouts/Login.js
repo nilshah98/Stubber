@@ -19,6 +19,7 @@ import CardFooter from "components/Card/CardFooter.js";
 import useField from '../hooks/useField'
 import loginService from '../services/login'
 import { setUser } from '../reducers/userReducer'
+import { changeLanguage } from '../reducers/languageReducer'
 
 const styles = {
   cardCategoryWhite: {
@@ -44,11 +45,6 @@ const useStyles = makeStyles(styles);
 const Login = (props) => {
 	const { t, i18n } = useTranslation()
 	
-	// useEffect( () => {
-	// 	i18n.changeLanguage(props.language)
-	// }, [props.language] )
-	// const 
-	// i18n.changeLanguage()
 	console.log(props.language)
 
 	const classes = useStyles()
@@ -67,6 +63,7 @@ const Login = (props) => {
 			window.localStorage.setItem('stubber', JSON.stringify(response))
 			props.setUser(response)
 			props.history.push(`/${response.usertype}/dashboard`)
+			props.changeLanguage(response.language)
 		}
 	}
 
@@ -92,7 +89,7 @@ const Login = (props) => {
 								formControlProps={{
 								fullWidth: true
 								}}
-								inputProps={{ ...username, onClick: () => i18n.changeLanguage('hi') }}
+								inputProps={{ ...username, onClick: () => i18n.changeLanguage(props.language) }}
 								
 							/>
 							</GridItem>
@@ -105,7 +102,7 @@ const Login = (props) => {
 								formControlProps={{
 								fullWidth: true
 								}}
-								inputProps={{ ...password, type: 'password', onClick: () => i18n.changeLanguage('en') }}
+								inputProps={{ ...password, type: 'password', onClick: () => i18n.changeLanguage(props.language) }}
 							/>
 							</GridItem>
 						</GridContainer>
@@ -130,7 +127,12 @@ const mapStateToProps = (state) => {
 	}
 }
 
-const LoginDiv = connect(mapStateToProps, { setUser })(withRouter(Login))
+const mapDispatchToProps = {
+	setUser,
+	changeLanguage
+}
+
+const LoginDiv = connect(mapStateToProps, mapDispatchToProps)(withRouter(Login))
 
 const Login1 = (props) => {
 	return (
