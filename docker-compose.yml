@@ -46,6 +46,8 @@ services:
     image: mongo:4.2.0
     ports:
       - "27017:27017"
+    volumes: 
+      - ./db/backup:/data/db
 
   nginx:
     container_name: proxy
