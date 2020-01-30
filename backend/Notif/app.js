@@ -35,7 +35,7 @@ app.post("/notif/:id", (req, res) => {
             name = user.name;
             phone = user.phone;
             const payload = `sender_id=FSTSMS&message=${message}&language=english&route=p&numbers=${phone}`;
-            sendMail(email, "SUBJECT", (err, info) => {
+            sendMail(email, "Important Notice", (err, info) => {
                 axios.post("https://www.fast2sms.com/dev/bulk", payload, {
                         headers
                     })
