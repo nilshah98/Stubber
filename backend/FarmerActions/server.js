@@ -118,6 +118,30 @@ app.post('/getnear', async (req, res) => {
     }
 })
 
+app.get('/getschedule/:id', async (req, res) => {
+    var user_id = req.params.id;
+    Schedule.findOne({farmer_id:user_id})
+    .then(result=>{
+        res.json(result.toJSON())
+    })
+    .catch(err=>{
+        console.log(err)
+    })
+})
+
+app.post('/addschedule/:id', async (req, res) => {
+    var user_id = req.params.id;
+    var event_date = req.body.date;
+    
+    Schedule.findOne({farmer_id:user_id})
+    .then(result=>{
+        res.json(result.toJSON())
+    })
+    .catch(err=>{
+        console.log(err)
+    })
+})
+
 app.use('/schedule', scheduling);
 // app.get('/getcluster', (_req,res) => {
 //     axios.get('http://localhost:3000/farmers')
