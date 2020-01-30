@@ -31,6 +31,6 @@ export const MongooseErrorHandler = (error: Error | any, request: Request, respo
 
 export const unknownEndpoint = (request: Request, response: Response) => {
 	response.status(404).send({
-		error: "unknown endpoint"
+		error: `unknown endpoint ${request.path}`
 	});
 };
