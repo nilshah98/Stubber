@@ -7,3 +7,6 @@ Bidding:
     GET /bids/:id => show the Bid with id
     POST /bids/addBid => stubble_id, end_time, min_cost needed from the form
     PUT /bids/:id => current_cost, current_bidder needed from form
+
+Scheduling:
+    Delivery scheduled for 2 days
