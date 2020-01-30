@@ -12,10 +12,10 @@ const useStyles = makeStyles(styles);
 export default function CheckboxRadio(props) {
   const classes = useStyles();
 
-  const { value, name } = props;
+  const { selectedValue, onClick,  value, name } = props;
 
   return (
-    <div>
+    <div style={{display: "inline-block"}}>
       <Radio
         value={value}
         name={name}
@@ -25,7 +25,10 @@ export default function CheckboxRadio(props) {
         classes={{
           checked: classes.radio
         }}
+        checked={selectedValue == value}
+        onClick={onClick}
       />
+      {value}
     </div>
   );
 }
