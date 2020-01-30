@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 // react plugin for creating charts
 import ChartistGraph from "react-chartist";
 // @material-ui/core
@@ -32,6 +32,7 @@ import CardBody from "components/Card/CardBody.js";
 import CardFooter from "components/Card/CardFooter.js";
 
 import { bugs, website, server } from "variables/general.js";
+import { accountFetch } from '../../services/dashboard'
 
 import {
   dailySalesChart,
@@ -45,6 +46,16 @@ const useStyles = makeStyles(styles);
 
 export default function Dashboard() {
   const classes = useStyles();
+  const [ money, setMoney ] = useState(0)
+
+  useEffect( () => {
+    const id = window.localStorage.getItem('stubber').id
+    accountFetch(id).then(response => {
+      setMoney(response.data)
+    })
+    .catch( error => console.log(`${error.message}`) )
+  }, [])
+
   return (
     <div>
 
@@ -78,7 +89,7 @@ export default function Dashboard() {
               </CardIcon>
               <p className={classes.cardCategory} > Account Statement </p>
               <h3 className={classes.cardTitle} >
-                $ 1203
+                $ {money}
               </h3>
             </CardHeader>
             <CardFooter stats>
