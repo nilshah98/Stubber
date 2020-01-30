@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 import InputLabel from "@material-ui/core/InputLabel";
@@ -16,6 +16,7 @@ import CardFooter from "components/Card/CardFooter.js";
 
 import useField from "../hooks/useField";
 import registerService from "../services/register";
+import { Grid } from "@material-ui/core";
 
 const styles = {
   cardCategoryWhite: {
@@ -49,11 +50,12 @@ const Register = props => {
   const longitude = useField("number");
   const postal_address = useField("text");
   const area = useField("number");
-  const crop = useField("text");
-  const userType = useField("text");
   const bankIfsc = useField("text");
   const bankAccNo = useField("text");
   const bankName = useField("text");
+
+  const [userType, setUserType] = useState("");
+  console.log(userType);
 
   const handleRegister = async event => {
     event.preventDefault();
@@ -65,16 +67,20 @@ const Register = props => {
       phone: phone.value,
       latitude: latitude.value,
       longitude: longitude.value,
-      crop: crop.value,
-      userType: userType.value
+      userType: userType,
+      postal_address: postal_address.value,
+      area: area.value,
+      bankIfsc: bankIfsc.value,
+      bankAccNo: bankAccNo.value,
+      bankName: bankName.value
     };
 
     console.log(data);
-    // const response = await registerService(data);
-    // console.log(response);
-    // if (response) {
-    //   window.localStorage.setItem("stubber", JSON.stringify(response));
-    // }
+    const response = await registerService(data);
+    console.log(response);
+    if (response) {
+      window.localStorage.setItem("stubber", JSON.stringify(response));
+    }
   };
 
   return (
@@ -95,7 +101,7 @@ const Register = props => {
               </p>
             </CardHeader>
             <CardBody>
-            <GridContainer style={{ justifyContent: "center" }}>
+              <GridContainer style={{ justifyContent: "center" }}>
                 <GridItem xs={12} sm={12} md={6}>
                   <CustomInput
                     labelText="Username"
@@ -126,7 +132,7 @@ const Register = props => {
                     formControlProps={{
                       fullWidth: true
                     }}
-                    inputProps={{ ...email, type: 'email' }}
+                    inputProps={{ ...email, type: "email" }}
                   />
                 </GridItem>
                 <GridItem xs={12} sm={12} md={6}>
@@ -136,7 +142,7 @@ const Register = props => {
                     formControlProps={{
                       fullWidth: true
                     }}
-                    inputProps={{ ...phone, type: 'tel' }}
+                    inputProps={{ ...phone, type: "tel" }}
                   />
                 </GridItem>
               </GridContainer>
@@ -164,14 +170,97 @@ const Register = props => {
                 </GridItem>
               </GridContainer>
 
-              {/* <GridContainer style={{ justifyContent: "center" }}>
-                <GridItem xs={12} sm={12} md={12}>
-                    <Radio 
-                        selectedValue={userType}
-                        
-                    />
+              <GridContainer style={{ justifyContent: "center" }}>
+                <GridItem xs={12} sm={12} md={6}>
+                  <CustomInput
+                    labelText="Postal Address"
+                    id="postal_address"
+                    formControlProps={{
+                      fullWidth: true
+                    }}
+                    inputProps={{ ...postal_address }}
+                  />
                 </GridItem>
-              </GridContainer> */}
+                <GridItem xs={12} sm={12} md={6}>
+                  <CustomInput
+                    labelText="Area"
+                    id="area"
+                    formControlProps={{
+                      fullWidth: true
+                    }}
+                    inputProps={{ ...area }}
+                  />
+                </GridItem>
+              </GridContainer>
+
+              <GridContainer style={{ justifyContent: "space-around" }}>
+                <GridItem>
+                  <Radio
+                    selectedValue={userType}
+                    value="Farmer"
+                    name="Type"
+                    onClick={() => {
+                      setUserType("Farmer");
+                      // console.log(userType);
+                    }}
+                  />
+                </GridItem>
+                <GridItem>
+                  <Radio
+                    selectedValue={userType}
+                    value="Consumer"
+                    name="Type"
+                    onClick={() => {
+                      setUserType("Consumer");
+                      // console.log(userType);
+                    }}
+                  />
+                </GridItem>
+                <GridItem>
+                  <Radio
+                    selectedValue={userType}
+                    value="Admin"
+                    name="Type"
+                    onClick={() => {
+                      setUserType("Admin");
+                      // console.log(userType);
+                    }}
+                  />
+                </GridItem>
+              </GridContainer>
+
+              <GridContainer style={{ justifyContent: "center" }}>
+                <GridItem xs={12} sm={12} md={4}>
+                  <CustomInput
+                    labelText="Bank IFSC"
+                    id="bank_ifsc"
+                    formControlProps={{
+                      fullWidth: true
+                    }}
+                    inputProps={{ ...bankIfsc }}
+                  />
+                </GridItem>
+                <GridItem xs={12} sm={12} md={4}>
+                  <CustomInput
+                    labelText="Bank Acc Number"
+                    id="bank_acc_number"
+                    formControlProps={{
+                      fullWidth: true
+                    }}
+                    inputProps={{ ...bankAccNo }}
+                  />
+                </GridItem>
+                <GridItem xs={12} sm={12} md={4}>
+                  <CustomInput
+                    labelText="Bank Name"
+                    id="bank_name"
+                    formControlProps={{
+                      fullWidth: true
+                    }}
+                    inputProps={{ ...bankName }}
+                  />
+                </GridItem>
+              </GridContainer>
 
               <GridContainer style={{ justifyContent: "center" }}>
                 <GridItem xs={12} sm={12} md={6}>
@@ -181,7 +270,7 @@ const Register = props => {
                     formControlProps={{
                       fullWidth: true
                     }}
-                    inputProps={{ ...password, type: 'password' }}
+                    inputProps={{ ...password, type: "password" }}
                   />
                 </GridItem>
               </GridContainer>
