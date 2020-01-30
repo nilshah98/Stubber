@@ -172,7 +172,7 @@ app.post("/api/payments/razorpay/directTransfer/:userid", async (req: Request, r
 					transactionType: "cr",
 					razorPayTransactionId: rzpRes.data.id
 				}],
-				balance: parseInt(req.body.amount);
+				balance: parseInt(req.body.amount)
 			}).save();
 		} else {
 			const newAccount = { ...account.toJSON() }
