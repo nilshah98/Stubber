@@ -67,12 +67,12 @@ const Register = props => {
       phone: phone.value,
       latitude: latitude.value,
       longitude: longitude.value,
-      userType: userType,
+      usertype: userType,
       postal_address: postal_address.value,
       area: area.value,
-      bankIfsc: bankIfsc.value,
-      bankAccNo: bankAccNo.value,
-      bankName: bankName.value
+      bank_ifsc: bankIfsc.value,
+      bank_accno: bankAccNo.value,
+      bank_name: bankName.value
     };
 
     console.log(data);
@@ -197,10 +197,10 @@ const Register = props => {
                 <GridItem>
                   <Radio
                     selectedValue={userType}
-                    value="Farmer"
+                    value="farmer"
                     name="Type"
                     onClick={() => {
-                      setUserType("Farmer");
+                      setUserType("farmer");
                       // console.log(userType);
                     }}
                   />
@@ -208,10 +208,10 @@ const Register = props => {
                 <GridItem>
                   <Radio
                     selectedValue={userType}
-                    value="Consumer"
+                    value="consumer"
                     name="Type"
                     onClick={() => {
-                      setUserType("Consumer");
+                      setUserType("consumer");
                       // console.log(userType);
                     }}
                   />
@@ -219,10 +219,10 @@ const Register = props => {
                 <GridItem>
                   <Radio
                     selectedValue={userType}
-                    value="Admin"
+                    value="admin"
                     name="Type"
                     onClick={() => {
-                      setUserType("Admin");
+                      setUserType("admin");
                       // console.log(userType);
                     }}
                   />
