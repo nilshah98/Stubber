@@ -63,7 +63,10 @@ const Login = (props) => {
 			window.localStorage.setItem('stubber', JSON.stringify(response))
 			props.setUser(response)
 			props.history.push(`/${response.usertype}/dashboard`)
-			props.changeLanguage(response.language)
+			if( response.language ) {
+				props.changeLanguage(response.language)
+			}
+			props.changeLanguage('en')
 		}
 	}
 

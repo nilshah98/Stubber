@@ -78,6 +78,7 @@ app.put('/bids/:id', (request, response, next) => {
       current_cost: body.current_cost,
       current_bidder: body.current_bidder
     }
+    console.log('body', body)
   
     Bids.findByIdAndUpdate(request.params.id, bid , { new: true })
       .then(updatedContact => {
