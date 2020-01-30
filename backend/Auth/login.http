@@ -6,11 +6,11 @@
 #     "password": "123"
 # }
 
-post http://localhost:5000/sms
+post http://localhost:3000/getnear
 Content-Type: application/json
 
 {
-    "name": "Shivam",
-    "username": "shivam1708",
-    "phone": "8976339502"
+    "lat": "19.0727",
+    "lng": "72.8979",
+    "dst": "30"
 }
