@@ -74,12 +74,12 @@ router.post('/', function (req, res) {
             console.log(id);
             if(id!==null) {
                 let len = farmer.length
-                console.log(end_time,curr_end_time);
+                farmer.push(curr_farmer)
                 const truck = {
                     latitude: (latitude*len+current_lat)/(len+1),
                     longitude: (longitude*len+current_lat)/(len+1),
                     capacity_rem: capacity_rem-curr_required_capacity,
-                    farmers: farmer.push(mongoose.Types.ObjectId(curr_farmer))
+                    farmers: farmer
                 }
                 return Trucks.findByIdAndUpdate(id,truck,{ new: true })
             }
@@ -101,7 +101,7 @@ router.post('/', function (req, res) {
     .then(
         updatedTruck => {
             console.log(updatedTruck);
-            response.json(updatedTruck.toJSON())
+            res.json(updatedTruck.toJSON())
         }
     )
     .catch((err) => {
