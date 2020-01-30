@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 import InputLabel from "@material-ui/core/InputLabel";
@@ -46,8 +46,6 @@ const Register = props => {
   const name = useField("text");
   const email = useField("text");
   const phone = useField("number");
-  const latitude = useField("number");
-  const longitude = useField("number");
   const postal_address = useField("text");
   const area = useField("number");
   const bankIfsc = useField("text");
@@ -55,7 +53,8 @@ const Register = props => {
   const bankName = useField("text");
 
   const [userType, setUserType] = useState("");
-  console.log(userType);
+  const [longitude, setLongitude] = useState(0);
+  const [latitude, setLatitude] = useState(0);
 
   const handleRegister = async event => {
     event.preventDefault();
@@ -65,21 +64,21 @@ const Register = props => {
       name: name.value,
       email: email.value,
       phone: phone.value,
-      latitude: latitude.value,
-      longitude: longitude.value,
+      latitude: latitude,
+      longitude: longitude,
       usertype: userType,
       postal_address: postal_address.value,
       area: area.value,
       bank_ifsc: bankIfsc.value,
       bank_accno: bankAccNo.value,
-      bank_name: bankName.value
+      bank_name: bankName.value,
+      language: 'en'
     };
 
     console.log(data);
     const response = await registerService(data);
-    console.log(response);
-    if (response) {
-      window.localStorage.setItem("stubber", JSON.stringify(response));
+    if (response.status == 200) {
+      // Successful login and redirect
     }
   };
 
@@ -156,6 +155,7 @@ const Register = props => {
                       fullWidth: true
                     }}
                     inputProps={{ ...latitude }}
+                    onChange={event => setLatitude(event.target.value)}
                   />
                 </GridItem>
                 <GridItem xs={12} sm={12} md={6}>
@@ -166,6 +166,7 @@ const Register = props => {
                       fullWidth: true
                     }}
                     inputProps={{ ...longitude }}
+                    onChange={event => setLongitude(event.target.value)}
                   />
                 </GridItem>
               </GridContainer>
