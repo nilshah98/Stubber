@@ -91,7 +91,7 @@ const Login = (props) => {
 					formControlProps={{
 					  fullWidth: true
 					}}
-					inputProps={{ ...password }}
+					inputProps={{ ...password, type: 'password' }}
 				  />
 				</GridItem>
 			  </GridContainer>
