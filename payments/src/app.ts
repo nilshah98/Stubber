@@ -16,11 +16,11 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(requestLogger);
 
-app.get("/payments", (req: Request, res: Response) => {
+app.get("/api/payments", (req: Request, res: Response) => {
 	res.status(200).send("Hello from payments");
 });
 
-app.get("/payments/details", (req: Request, res: Response) => {
+app.get("/api/payments/details", (req: Request, res: Response) => {
 	const paymentMethods: any = {
 		"rtgs/neft": {
 			"ifsc": "RAZR0000001",
@@ -48,7 +48,7 @@ app.get("/payments/details", (req: Request, res: Response) => {
 	res.status(200).json(paymentMethods);
 });
 
-app.get("/payments/account/:userid", async (req: Request, res: Response, next: NextFunction) => {
+app.get("/api/payments/account/:userid", async (req: Request, res: Response, next: NextFunction) => {
 	const userid: String = req.params.userid;
 	try {
 		const userAccount = await Accounts.findOne({ user: userid }).populate("users", {
@@ -67,7 +67,7 @@ app.get("/payments/account/:userid", async (req: Request, res: Response, next: N
 });
 
 // WEBHOOK FOR PAYMENTS
-app.post("/payments/razorpay/webhook/rtgs__neft", async (req: Request, res: Response, next: NextFunction) => {
+app.post("/api/payments/razorpay/webhook/rtgs__neft", async (req: Request, res: Response, next: NextFunction) => {
 
 	try {
 		const payload: any = req.body["payload"];
@@ -144,7 +144,7 @@ app.post("/payments/razorpay/webhook/rtgs__neft", async (req: Request, res: Resp
 });
 
 // THIS IS TO BE EXPOSED TO THE NETWORK
-app.post("/payments/razorpay/directTransfer/:userid", async (req: Request, res: Response, next: NextFunction) => {
+app.post("/api/payments/razorpay/directTransfer/:userid", async (req: Request, res: Response, next: NextFunction) => {
 	try {
 		const user: Document | null = await User.findById(req.params.userid);
 		if (user === null) {
@@ -189,7 +189,7 @@ app.post("/payments/razorpay/directTransfer/:userid", async (req: Request, res: 
 	}
 });
 
-app.put("/payments/razorpay/:userid", async (req: Request, res: Response, next: NextFunction) => {
+app.put("/api/payments/razorpay/:userid", async (req: Request, res: Response, next: NextFunction) => {
 	try {
 		const { razorpayLinkedAccount } = req.body;
 
