@@ -6,6 +6,9 @@ const axios = require('axios');
 const cron = require("node-cron");
 const { agnes } = require('ml-hclust');
 const User = require('./models/user');
+var scheduling = require('./scheduling');
+
+
 
 const app = express()
 // const port = 5000
@@ -84,6 +87,8 @@ app.post('/getnear', async (req, res) => {
         console.error(exception);
     }
 })
+
+app.use('/schedule', scheduling)
 // app.get('/getcluster', (_req,res) => {
 //     axios.get('http://localhost:3000/farmers')
 //         .then((response) => {
