@@ -15,6 +15,42 @@ var delays2 = 80,
 // // // Daily Sales
 // #############################
 
+const prediction = {
+  Rice: [3980.817875575284],
+  Maize: [3765.412436131881],
+  Wheat: [4284.222170711171],
+  // Jowar: [994.6005362119232],
+  // Bajra: [1024.8444465881278],
+  // "Small Millets": [343.4729673399856],
+  // Barley: [3670.198683869752],
+  "Total Cereals": [4015.471788284525],
+  // Tur: [921.781910586989],
+  // Gram: [1156.2851350571168],
+  // "Other Pulses": [921.3608186297648],
+  // "Total Pulses": [867.8835059460705],
+  "Total Foodgrains": [4164.050670316273],
+  // Groundnuts: [1707.8254528837815],
+  // Sesamum: [373.63239175191615],
+  // Rapeseed: [1285.9805148148896],
+  // Linseed: [497.48986642843374],
+  // "Total Oilseeds": [1319.0289556516698],
+  // Sugarcane: [71805.5837375347],
+  // Cotton: [511.27535910831824],
+  // Banana: [569.6340309301323],
+  // Potato: [251.1174751703313],
+  // Chillies: [16.673209068414636],
+  // Turmeric: [35.536368199601256],
+  // Moong: [831.088438963751]
+};
+
+const predLabel = [];
+const predQuant = [];
+
+Object.keys(prediction).forEach((key) => {
+  predLabel.push(key);
+  predQuant.push(prediction[key][0]);
+})
+
 const dailySalesChart = {
   data: {
     labels: ["M", "T", "W", "T", "F", "S", "S"],
@@ -71,28 +107,17 @@ const dailySalesChart = {
 
 const emailsSubscriptionChart = {
   data: {
-    labels: [
-      "Jan",
-      "Feb",
-      "Mar",
-      "Apr",
-      "Mai",
-      "Jun",
-      "Jul",
-      "Aug",
-      "Sep",
-      "Oct",
-      "Nov",
-      "Dec"
-    ],
-    series: [[542, 443, 320, 780, 553, 453, 326, 434, 568, 610, 756, 895]]
+    labels: predLabel,
+    series: [
+      predQuant,
+    ]
   },
   options: {
     axisX: {
       showGrid: false
     },
-    low: 0,
-    high: 1000,
+    low: 3000,
+    high: 5000,
     chartPadding: {
       top: 0,
       right: 5,
