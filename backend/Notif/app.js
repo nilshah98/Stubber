@@ -19,7 +19,7 @@ mongoose.connect(process.env.MONGODB_URI, {
 
 app.use(express.json());
 
-app.post("/notif/:id", (req, res) => {
+app.post("/api/notif/:id", (req, res) => {
     userid = req.params.id;
     const message = req.body.message;
     const headers = {
@@ -35,7 +35,7 @@ app.post("/notif/:id", (req, res) => {
             name = user.name;
             phone = user.phone;
             const payload = `sender_id=FSTSMS&message=${message}&language=english&route=p&numbers=${phone}`;
-            sendMail(email, "SUBJECT", (err, info) => {
+            sendMail(email, "Important Notice", (err, info) => {
                 axios.post("https://www.fast2sms.com/dev/bulk", payload, {
                         headers
                     })
