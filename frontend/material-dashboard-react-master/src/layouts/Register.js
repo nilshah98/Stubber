@@ -66,7 +66,7 @@ const Register = props => {
       phone: phone.value,
       latitude: latitude,
       longitude: longitude,
-      userType: userType,
+      usertype: userType,
       postal_address: postal_address.value,
       area: area.value,
       bank_ifsc: bankIfsc.value,
