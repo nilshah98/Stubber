@@ -1,5 +1,6 @@
 import React, { Suspense, useEffect } from "react";
 import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 import { useTranslation } from 'react-i18next'
@@ -129,7 +130,7 @@ const mapStateToProps = (state) => {
 	}
 }
 
-const LoginDiv = connect(mapStateToProps, { setUser })(Login)
+const LoginDiv = connect(mapStateToProps, { setUser })(withRouter(Login))
 
 const Login1 = (props) => {
 	return (
