@@ -22,7 +22,7 @@ services:
 
   auth:
     container_name: auth
-    build: "./backend/Auth"
+    build: "./Auth"
     ports:
       - "3002:3000"
     environment:
@@ -36,7 +36,7 @@ services:
 
   notif:
     container_name: notif
-    build: "./backend/Notif"
+    build: "./Notif"
     ports:
       - "3003:3000"
     environment:
@@ -45,20 +45,20 @@ services:
 
   farmer:
     container_name: farmer
-    build: "./backend/FarmerActions"
-    ports: 
+    build: "./FarmerActions"
+    ports:
       - "3004:3000"
-    environment: 
+    environment:
       - PORT=3000
       - NOTIF_URI=http://notif:3000
       - MONGODB_URI=mongodb://mongo/stubber
 
-  bidding:
-    container_name: bidding
-    build: "./backend/Bidding"
-    ports: 
+  admin:
+    container_name: admin
+    build: "./Admin"
+    ports:
       - "3005:3000"
-    environment: 
+    environment:
       - PORT=3000
       - NOTIF_URI=http://notif:3000
       - MONGODB_URI=mongodb://mongo/stubber
@@ -68,7 +68,7 @@ services:
     image: mongo:4.2.0
     ports:
       - "27017:27017"
-    volumes: 
+    volumes:
       - ./db/backup:/data/db
 
   nginx:
