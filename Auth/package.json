@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node app.js",
-    "watch": "nodemon app.js"
+    "watch": "nodemon app.js",
+    "server": "json-server --port 3001 --watch ./db.json"
   },
   "author": "",
   "license": "ISC",
@@ -22,6 +23,7 @@
     "passport-local-mongoose": "^6.0.1"
   },
   "devDependencies": {
+    "json-server": "^0.15.1",
     "nodemon": "^2.0.2"
   }
 }
