@@ -63,6 +63,16 @@ services:
       - NOTIF_URI=http://notif:3000
       - MONGODB_URI=mongodb://mongo/stubber
 
+  consumer:
+    container_name: consumer
+    build: "./ConsumerActions"
+    ports:
+      - "3006:3000"
+    environment:
+      - PORT=3000
+      - NOTIF_URI=http://notif:3000
+      - MONGODB_URI=mongodb://mongo/stubber
+
   mongo:
     container_name: mongo
     image: mongo:4.2.0
