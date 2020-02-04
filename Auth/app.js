@@ -1,10 +1,10 @@
-var express = require('express');
-var app = express();
-var bodyParser = require('body-parser');
-var mongoose = require('mongoose');
+let express = require('express');
+let app = express();
+let bodyParser = require('body-parser');
+let mongoose = require('mongoose');
 const cors = require('cors')
-//var methodOverride=require('method-override');
-//var moment=require('moment');
+//let methodOverride=require('method-override');
+//let moment=require('moment');
 require("dotenv").config();
 
 const loginRouter = require('./index');
@@ -21,7 +21,7 @@ mongoose.connect(process.env.MONGODB_URI, {
 });
 
 //Models
-var User = require('./models/user');
+let User = require('./models/user');
 
 
 //Configuration

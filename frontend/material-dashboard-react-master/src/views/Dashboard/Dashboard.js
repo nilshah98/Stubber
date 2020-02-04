@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 // react plugin for creating charts
 import ChartistGraph from "react-chartist";
 // @material-ui/core
@@ -32,6 +32,7 @@ import CardBody from "components/Card/CardBody.js";
 import CardFooter from "components/Card/CardFooter.js";
 
 import { bugs, website, server } from "variables/general.js";
+import { accountFetch } from '../../services/dashboard'
 
 import {
   dailySalesChart,
@@ -45,6 +46,17 @@ const useStyles = makeStyles(styles);
 
 export default function Dashboard() {
   const classes = useStyles();
+  const [ money, setMoney ] = useState(0)
+
+  useEffect( () => {
+    const id = JSON.parse(window.localStorage.getItem('stubber')).id
+    accountFetch(id).then(response => {
+      console.log(response);
+      setMoney(response.balance)
+    })
+    .catch( error => console.log(`${error.message}`) )
+  }, [])
+
   return (
     <div>
 
@@ -78,7 +90,7 @@ export default function Dashboard() {
               </CardIcon>
               <p className={classes.cardCategory} > Account Statement </p>
               <h3 className={classes.cardTitle} >
-                $ 1203
+                $ {money}
               </h3>
             </CardHeader>
             <CardFooter stats>
@@ -128,12 +140,12 @@ export default function Dashboard() {
               />
             </CardHeader>
             <CardBody>
-              <h4 className={classes.cardTitle}>Daily Sales</h4>
+              <h4 className={classes.cardTitle}>Carbon Footprint</h4>
               <p className={classes.cardCategory}>
                 <span className={classes.successText}>
                   <ArrowUpward className={classes.upArrowCardCategory} /> 55%
                 </span>{" "}
-                increase in today sales.
+                increase in carbon footprint.
               </p>
             </CardBody>
             <CardFooter chart>
@@ -157,12 +169,12 @@ export default function Dashboard() {
               />
             </CardHeader>
             <CardBody>
-              <h4 className={classes.cardTitle}>Email Subscriptions</h4>
-              <p className={classes.cardCategory}>Last Campaign Performance</p>
+              <h4 className={classes.cardTitle}>Crop Prediction</h4>
+              <p className={classes.cardCategory}>ARIMA predicted data</p>
             </CardBody>
             <CardFooter chart>
               <div className={classes.stats}>
-                <AccessTime /> campaign sent 2 days ago
+                <AccessTime /> predicted from approx last 10 years data
               </div>
             </CardFooter>
           </Card>
