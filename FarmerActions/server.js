@@ -8,8 +8,9 @@ const {
     agnes
 } = require('ml-hclust');
 const User = require('./models/user');
-var scheduling = require('./models/scheduling');
+var scheduling = require('./scheduling');
 var Schedule = require('./models/schedule')
+var Truck = require('./models/trucks')
 
 
 const app = express()
@@ -55,10 +56,22 @@ function getDistance(lat1, lon1, lat2, lon2) {
     }
 }
 
-// cron.schedule("* * * * *", function() {
-//     console.log("---------------------");
-//     console.log("Running Cron Job");
-// });
+cron.schedule("* * * * *", function() {
+    console.log("---------------------");
+    console.log("Running Cron Job");
+
+    var t = new Date();
+    var curr_time = t.toISOString();
+    // Bids.find({}).then(results=>{
+    //     var query = {};
+        //results.filter(result => {result.end_time < curr_time}).map(
+        //    Bids.deleteMany()
+        //)
+    //     Bids.deleteMany()
+    // })
+
+    Truck.deleteMany({'end_time' : {$lt : curr_time }}).then((res)=>{console.log("Deleted")});
+});
 
 app.get('/api/', (req, res) => res.send('Hello World!'))
 

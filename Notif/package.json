@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node app.js",
-    "database": "mongod --config /usr/local/etc/mongod.conf"
+    "database": "mongod --config /usr/local/etc/mongod.conf",
+    "server": "json-server --port 3001 --watch ./db.json"
   },
   "author": "",
   "license": "ISC",
@@ -17,5 +18,8 @@
     "mongoose": "^5.8.10",
     "mongoose-unique-validator": "^2.0.3",
     "nodemailer": "^6.4.2"
+  },
+  "devDependencies": {
+    "json-server": "^0.15.1"
   }
 }
