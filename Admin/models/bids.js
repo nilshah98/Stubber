@@ -16,8 +16,9 @@ const bidSchema = new mongoose.Schema({
     stubble_id: { 
       type: mongoose.Schema.Types.ObjectId,
       ref: "Stubble",    //Need a Stubble Schema
-      required: true, 
-      unique: true },
+      required: true 
+      // unique: true
+     },
     end_time: { type: Date, required: true},
     current_cost: { type: Number, required: true},
     current_bidder: { 
