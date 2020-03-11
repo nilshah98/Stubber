@@ -42,6 +42,8 @@ services:
     environment:
       - PORT=3000
       - MONGODB_URI=mongodb://mongo/stubber
+    links:
+      - mongo
 
   farmer:
     container_name: farmer
@@ -52,6 +54,8 @@ services:
       - PORT=3000
       - NOTIF_URI=http://notif:3000
       - MONGODB_URI=mongodb://mongo/stubber
+    links:
+      - mongo
 
   admin:
     container_name: admin
@@ -62,6 +66,8 @@ services:
       - PORT=3000
       - NOTIF_URI=http://notif:3000
       - MONGODB_URI=mongodb://mongo/stubber
+    links:
+      - mongo
 
   consumer:
     container_name: consumer
@@ -72,6 +78,8 @@ services:
       - PORT=3000
       - NOTIF_URI=http://notif:3000
       - MONGODB_URI=mongodb://mongo/stubber
+    links:
+      - mongo
 
   mongo:
     container_name: mongo
@@ -83,7 +91,7 @@ services:
 
   nginx:
     container_name: proxy
-    image: nginx:latest
+    image: nginx:1.17.8-alpine
     ports:
       - "8080:8080"
     volumes:
