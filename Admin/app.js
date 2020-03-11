@@ -38,7 +38,7 @@ cron.schedule("* * * * *", function () {
 		});
 });
 
-app.get('/api/bids/all', (request, response) => {
+app.get('/api/bids', (request, response) => {
 	Bids.find({}).then(result => {
 		response.json(result.map(bids => bids.toJSON()))
 	})
@@ -103,7 +103,10 @@ app.post('/api/bids/addBid', (request, response, next) => {
 });
 
 app.put('/api/bids/:id', (request, response, next) => {
-	const body = request.body
+	const body = request.body;
+
+	// body should contain ---> cost
+	// get consumer id from token
 
 	const bid = {
 		current_cost: body.current_cost,
