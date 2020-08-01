@@ -56,14 +56,14 @@ const start_harvest = (number, request) => {
 const check_schedule = (number, request) => {
 	console.log("checking schedule");
 	axios
-		.get(`http://localhost:8080/api/startHarvesting?farmerphoneNum=${number}`)
+		.get(`http://localhost:8080/api/schedule?farmerphoneNum=${number}`)
 		.then((result) => {
+			send_reply(number, result.data);
 			console.log("hervesting started");
 		})
 		.catch((error) => {
 			console.log(error);
 		});
-	send_reply(number, "\nYour request for checking schedule has been processed");
 };
 
 const send_reply = (number, text) => {
