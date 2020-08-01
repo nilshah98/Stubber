@@ -38,6 +38,7 @@ const ClusterDetails = () => (
 );
 
 const FDashboard = () => {
+<<<<<<< HEAD
     //   const items = [
     //     {
     //       header: "What does Start Harvesting mean?",
@@ -95,6 +96,38 @@ const FDashboard = () => {
                     <Card.Content extra>
                         <Button secondary size="massive">
                             <Icon name="history" />
+=======
+
+  return (
+    <Container style={{ margin: 10 }}>
+      <Card.Group centered>
+        <Card>
+          <Image src="https://upload.wikimedia.org/wikipedia/commons/b/b0/Agriculture_in_Volgograd_Oblast_002.JPG" />
+          <Card.Content>
+            <Card.Header>What does Start Harvesting mean?</Card.Header>
+            <Card.Description>
+              The farmer starts to pick and gather the crops.
+            </Card.Description>
+          </Card.Content>
+          <Card.Content extra>
+            <Button color="brown" icon="cut" size="massive">
+              <Icon name="cut" />
+              Start Harvest
+            </Button>
+          </Card.Content>
+        </Card>
+        <Card>
+          <Image src="https://cdn.ablebits.com/_img-blog/line-graph/line-graph-excel.png" />
+          <Card.Content>
+            <Card.Header>What does Show your History mean?</Card.Header>
+            <Card.Description>
+              It shows the farmer's previous stubble collected till date.
+            </Card.Description>
+          </Card.Content>
+          <Card.Content extra>
+            <Button secondary size="massive">
+              <Icon name="history" />
+>>>>>>> c8c7716ac805f271d8de6a56c4b680598b37b85a
               Show History
             </Button>
                     </Card.Content>
