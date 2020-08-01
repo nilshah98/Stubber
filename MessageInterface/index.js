@@ -14,67 +14,74 @@ const headers = {
 };
 
 app.post('/sms', (req, res) => {
-  console.log("sender: ",req.body.sender);
-  console.log("content: ",req.body.content)
+  console.log("sender: ", req.body.sender);
+  console.log("content: ", req.body.content)
   handle_request(req.body.sender, req.body.content)
 });
 
-const handle_request = (sender,content) => {
+const handle_request = (sender, content) => {
   request = parse_content(content)
   number = parse_sender(sender)
-  if(request[0]=="start harvesting") {
-    start_harvest(number,request)
+  if (request[0] == "start harvesting") {
+    start_harvest(number, request)
   }
-  else if(request[0]=="check schedule") {
-    check_schedule(number,request)
+  else if (request[0] == "check schedule") {
+    check_schedule(number, request)
   }
-  else if(request[0]=="help") {
-    send_reply(number,"\nYou can try accessing \n1)start harvesting <amount of stubble>\n2)check schedule")
+  else if (request[0] == "help") {
+    send_reply(number, "\nYou can try accessing \n1)start harvesting \n<amount of stubble>\n2)check schedule")
   }
   else {
-    send_reply(number,"\nWe didn't get your request") 
+    send_reply(number, "\nWe didn't get your request")
     console.log("didn't get the request")
   }
 }
 
-const start_harvest = (number,request) => {
+const start_harvest = (number, request) => {
   console.log("start harvesting")
-  send_reply(number,"\nYour request for harvesting has been processed")
+  axios.post("http://localhost:8080/api/startHarvesting", { farmerphoneNum: number, quantity: request[1] })
+    .then(result => {
+      console.log("hervesting started")
+    })
+    .catch(error => {
+      console.log(error)
+    })
+  // send_reply(number, "\nYour request for harvesting has been processed")
 }
 
-const check_schedule = (number,request) => {
+const check_schedule = (number, request) => {
   console.log("checking schedule")
-  send_reply(number,"\nYour request for checking schedule has been processed")
+  send_reply(number, "\nYour request for checking schedule has been processed")
 }
 
-const send_reply = (number,text) => {
+const send_reply = (number, text) => {
   const payload = `sender_id=FSTSMS&message=Hi Stubbers,${text}&language=english&route=p&numbers=${number}`;
   axios.post("https://www.fast2sms.com/dev/bulk", payload, {
-                        headers
-                    })
-                    .then(result => {
-                        console.log(result.data)
-                    })
-                    .catch(error => {
-                        console.log(error)
-                    });
+    headers
+  })
+    .then(result => {
+      console.log(result.data)
+    })
+    .catch(error => {
+      console.log(error)
+    });
 }
 
 const parse_sender = (sender) => {
-  console.log("number parsed:",sender.slice(2))
+  console.log("number parsed:", sender.slice(2))
   return sender.slice(2)
 }
 
 const parse_content = (content) => {
   content = content.split("\n")
   content = content.slice(1)
-  console.log(content,"has been parsed")
+  console.log(content, "has been parsed")
   return content
 }
 
-app.listen(1337, (err)=>{
-  if(err)
+app.listen(1337, (err) => {
+  if (err)
     console.log('error occured');
   else
-    console.log('express is listening');  
+    console.log('express is listening');
 })
