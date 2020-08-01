@@ -113,7 +113,7 @@ app.post('/api/getnear', async (req, res) => {
                 console.log(farmers);
                 let phonenos = "";
                 let emails = "";
-                let message = "The nearby farmer has started harvesting!!!";
+                let message = "Your nearby farmer has started harvesting!!!";
                 for (let i = 0; i < farmers.length - 1; i++) {
                     phonenos += farmers[i].phone + ",";
                 }
