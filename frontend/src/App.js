@@ -9,6 +9,7 @@ import { useTranslation } from 'react-i18next'
 
 import FDashboard from './components/FDashboard'
 import CDashboard from './components/CDashboard'
+import { Container } from 'semantic-ui-react'
 
 const App = () => {
 	const { t, i18n } = useTranslation()
@@ -31,7 +32,9 @@ const App = () => {
 
 				<Switch>
 					<Route path="/farmer">
-						<FDashboard />
+						<Container>
+							<FDashboard />
+						</Container>
 					</Route>
 					<Route path="/consumer">
 						<CDashboard />
