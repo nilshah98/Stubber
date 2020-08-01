@@ -278,7 +278,7 @@ app.post("/api/scheduleTruck", async (req, res) => {
 		capacity,
 	} = req.body;
 
-	let truck = await Truck.findOne({ $where: { driverContact } });
+	let truck = await Truck.findOne({ driverContact: driverContact });
 	if (truck === null) {
 		let schedule = await new Schedule({
 			datePickup: new Date(datePickup),
@@ -292,7 +292,7 @@ app.post("/api/scheduleTruck", async (req, res) => {
 		}).save();
 	}
 
-	const cluster = await Cluster.findOne(clusterId);
+	const cluster = await Cluster.findById(clusterId);
 
 	if (cluster === null) {
 		res.status(404).json({
@@ -447,7 +447,7 @@ app.post("/api/startHarvesting", async (req, res) => {
 
 app.get("/api/clusters/", async (req, res) => {
 	const clusters = await Cluster.find({ truck: null });
-	return clusters.map((cluster) => cluster.toJSON());
+	res.json(clusters.map((cluster) => cluster.toJSON()));
 });
 
 app.get("/api/schedule/", async (req, res) => {
