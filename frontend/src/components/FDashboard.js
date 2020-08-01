@@ -51,7 +51,7 @@ const FDashboard = () => {
                     </Card.Description>
                 </Card.Content>
                 <Card.Content extra>
-                    <Button primary icon="cut" size="massive">
+                    <Button color="brown" icon="cut" size="massive">
                         <Icon name="cut" />
                     Start Harvest
                 </Button>
