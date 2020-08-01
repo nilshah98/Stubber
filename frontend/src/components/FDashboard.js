@@ -6,7 +6,36 @@ import {
     Icon,
     CardDescription,
     Button,
+    Step,
+    Divider
 } from "semantic-ui-react";
+
+const ClusterDetails = () => (
+    <div>
+        <Step.Group>
+            <Step completed>
+                <Icon />
+                <Step.Content>
+                    <Step.Title>Order Confirmed</Step.Title>
+                </Step.Content>
+            </Step>
+
+            <Step active>
+                <Icon name="truck" />
+                <Step.Content>
+                    <Step.Title>Out for Collection</Step.Title>
+                </Step.Content>
+            </Step>
+
+            <Step disabled>
+                <Icon name="paper plane" />
+                <Step.Content>
+                    <Step.Title>Order Finished</Step.Title>
+                </Step.Content>
+            </Step>
+        </Step.Group>
+    </div>
+);
 
 const FDashboard = () => {
     //   const items = [
@@ -37,44 +66,46 @@ const FDashboard = () => {
     };
 
     return (
+        <>
+            <Card.Group centered>
 
-        <Card.Group centered>
-
-            <Card>
-                <Card.Content>
-                    <Image
-                        src="https://upload.wikimedia.org/wikipedia/commons/b/b0/Agriculture_in_Volgograd_Oblast_002.JPG"
-                    />
-                    <Card.Header>What does Start Harvesting mean?</Card.Header>
-                    <Card.Description>
-                        Steve wants to add you to the group <strong>best friends</strong>
-                    </Card.Description>
-                </Card.Content>
-                <Card.Content extra>
-                    <Button primary icon="cut" size="massive">
-                        <Icon name="cut" />
+                <Card>
+                    <Card.Content>
+                        <Image
+                            src="https://upload.wikimedia.org/wikipedia/commons/b/b0/Agriculture_in_Volgograd_Oblast_002.JPG"
+                        />
+                        <Card.Header>What does Start Harvesting mean?</Card.Header>
+                        <Card.Description>
+                            Steve wants to add you to the group <strong>best friends</strong>
+                        </Card.Description>
+                    </Card.Content>
+                    <Card.Content extra>
+                        <Button primary icon="cut" size="massive">
+                            <Icon name="cut" />
                     Start Harvest
                 </Button>
-                </Card.Content>
-            </Card>
-            <Card>
-                <Card.Content>
-                    <Image
-                        src="https://images.edrawmax.com/images/knowledge/line-graph-1-what-is.jpg"
-                    />
-                    <Card.Header>What does Show your History mean?</Card.Header>
-                    <Card.Description>
-                        Molly wants to add you to the group <strong>musicians</strong>
-                    </Card.Description>
-                </Card.Content>
-                <Card.Content extra>
-                    <Button secondary size="massive">
-                        <Icon name="history" />
+                    </Card.Content>
+                </Card>
+                <Card>
+                    <Card.Content>
+                        <Image
+                            src="https://images.edrawmax.com/images/knowledge/line-graph-1-what-is.jpg"
+                        />
+                        <Card.Header>What does Show your History mean?</Card.Header>
+                        <Card.Description>
+                            Molly wants to add you to the group <strong>musicians</strong>
+                        </Card.Description>
+                    </Card.Content>
+                    <Card.Content extra>
+                        <Button secondary size="massive">
+                            <Icon name="history" />
                 Show History
                 </Button>
-                </Card.Content>
-            </Card>
-        </Card.Group>
+                    </Card.Content>
+                </Card>
+            </Card.Group>
+            <ClusterDetails />
+        </>
     );
 };
 

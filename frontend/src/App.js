@@ -24,23 +24,21 @@ const App = () => {
 	return (
 		<div className="App">
 			<Router>
-			<div>
-				<Link style={padding} to="/">home</Link>
-				<Link style={padding} to="/farmer">Farmer</Link>
-				<Link style={padding} to="/consumer">Consumer</Link>
-			</div>
+				<div>
+					<Link style={padding} to="/">home</Link>
+					<Link style={padding} to="/farmer">Farmer</Link>
+					<Link style={padding} to="/consumer">Consumer</Link>
+				</div>
 
 				<Switch>
 					<Route path="/farmer">
-						<Container>
-							<FDashboard />
-						</Container>
+						<FDashboard />
 					</Route>
 					<Route path="/consumer">
 						<CDashboard />
 					</Route>
 					<Route path="/">
-						<Redirect to = "/farmer" />
+						<Redirect to="/farmer" />
 					</Route>
 				</Switch>
 			</Router>
