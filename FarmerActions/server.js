@@ -445,8 +445,13 @@ app.post("/api/startHarvesting", async (req, res) => {
 	return res.status(201).end();
 });
 
+app.get("/api/clusters/", async (req, res) => {
+	const clusters = await Cluster.find({});
+	return clusters.map((cluster) => cluster.toJSON());
+});
+
 app.get("/api/schedule/", async (req, res) => {
-	const farmerphoneNum = req.query.farmerId;
+	const farmerphoneNum = parseInt(req.query.farmerphoneNum);
 
 	const cluster = (
 		await User.findOne({ phone: farmerphoneNum }).populate("cluster_id")
