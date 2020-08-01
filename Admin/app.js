@@ -5,12 +5,14 @@ const Bids = require('./models/bids')
 const mongoose = require('mongoose')
 const cron = require('node-cron');
 const axios = require("axios");
+const stubble = require("./stubble")
 
 app.use(cors());
 app.use(express.urlencoded({
 	extended: true
 }));
 app.use(express.json());
+app.use("/stubble", stubble);
 
 cron.schedule("* * * * *", function () {
 	console.log("---------------------");
@@ -20,10 +22,10 @@ cron.schedule("* * * * *", function () {
 	let curr_time = t.toISOString();
 
 	Bids.deleteMany({
-			'end_time': {
-				$lt: curr_time
-			}
-		})
+		'end_time': {
+			$lt: curr_time
+		}
+	})
 		.then((res) => {
 			const paymentDetails = `Congratulations your bid has been selected. Pay the amount `;
 			// {
@@ -115,8 +117,8 @@ app.put('/api/bids/:id', (request, response, next) => {
 	console.log('body', body)
 
 	Bids.findByIdAndUpdate(request.params.id, bid, {
-			new: true
-		})
+		new: true
+	})
 		.then(updatedContact => {
 			response.json(updatedContact.toJSON())
 		})
