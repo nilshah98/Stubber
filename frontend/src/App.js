@@ -21,8 +21,14 @@ const App = () => {
 		padding: 5
 	}
 
+	const imgStyle = {
+		backgroundRepeat: 'no-repeat',
+		backgroundSize: 'cover',
+		backgroundImage: 'url('+'https://www.commondreams.org/sites/default/files/styles/cd_large/public/views-article/farms.jpeg?itok=cTmtRuzF'+')'
+	}
+
 	return (
-		<div className="App">
+		<div className="App" style={imgStyle}>
 			<Router>
 			<div>
 				<Link style={padding} to="/">home</Link>
