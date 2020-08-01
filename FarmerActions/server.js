@@ -18,71 +18,71 @@ const app = express();
 
 app.use(bodyParser.json()); // support json encoded bodies
 app.use(
-	bodyParser.urlencoded({
-		extended: true,
-	})
+  bodyParser.urlencoded({
+    extended: true,
+  })
 ); // support encoded bodies
 
 console.log(process.env.PORT);
 
 mongoose.connect(
-	process.env.MONGODB_URI,
-	{
-		useNewUrlParser: true,
-		useUnifiedTopology: true,
-		useFindAndModify: false,
-		useCreateIndex: true,
-	},
-	(err) => {
-		if (err) console.log("err :", err);
-		else console.log("Connected");
-	}
+  process.env.MONGODB_URI,
+  {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useFindAndModify: false,
+    useCreateIndex: true,
+  },
+  (err) => {
+    if (err) console.log("err :", err);
+    else console.log("Connected");
+  }
 );
 
 function getDistance(lat1, lon1, lat2, lon2) {
-	if (lat1 == lat2 && lon1 == lon2) {
-		return 0;
-	} else {
-		var radlat1 = (Math.PI * lat1) / 180;
-		var radlat2 = (Math.PI * lat2) / 180;
-		var theta = lon1 - lon2;
-		var radtheta = (Math.PI * theta) / 180;
+  if (lat1 == lat2 && lon1 == lon2) {
+    return 0;
+  } else {
+    var radlat1 = (Math.PI * lat1) / 180;
+    var radlat2 = (Math.PI * lat2) / 180;
+    var theta = lon1 - lon2;
+    var radtheta = (Math.PI * theta) / 180;
 
-		var dist =
-			Math.sin(radlat1) * Math.sin(radlat2) +
-			Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
-		if (dist > 1) {
-			dist = 1;
-		}
+    var dist =
+      Math.sin(radlat1) * Math.sin(radlat2) +
+      Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+    if (dist > 1) {
+      dist = 1;
+    }
 
-		dist = Math.acos(dist);
-		dist = (dist * 180) / Math.PI;
-		dist = dist * 60 * 1.1515;
-		dist = dist * 1.609344;
+    dist = Math.acos(dist);
+    dist = (dist * 180) / Math.PI;
+    dist = dist * 60 * 1.1515;
+    dist = dist * 1.609344;
 
-		return dist;
-	}
+    return dist;
+  }
 }
 
 const sendNotifFromUserId = async (idArray, message) => {
-	const users = await User.find({ _id: { $in: idArray } });
-	const emailsArray = [],
-		phonenosArray = [];
-	console.log(users);
-	users.forEach((user) => {
-		emailsArray.push(user.email);
-		phonenosArray.push(user.phone);
-	});
-	let emails = emailsArray.join(";");
-	let phonenos = phonenosArray.join(",");
+  const users = await User.find({ _id: { $in: idArray } });
+  const emailsArray = [],
+    phonenosArray = [];
+  console.log(users);
+  users.forEach((user) => {
+    emailsArray.push(user.email);
+    phonenosArray.push(user.phone);
+  });
+  let emails = emailsArray.join(";");
+  let phonenos = phonenosArray.join(",");
 
-	console.log(emails, phonenos);
+  console.log(emails, phonenos);
 
-	await axios.post(`${process.env.NOTIF_URI}/api/notif/bulk`, {
-		emails,
-		phonenos,
-		message,
-	});
+  await axios.post(`${process.env.NOTIF_URI}/api/notif/bulk`, {
+    emails,
+    phonenos,
+    message,
+  });
 };
 
 // cron.schedule("* * * * *", function () {
@@ -270,81 +270,81 @@ app.get("/api/", (req, res) => res.send("Hello World!"));
 // })
 
 app.post("/api/scheduleTruck", async (req, res) => {
-	const {
-		datePickup,
-		driverContact,
-		clusterId,
-		numberPlate,
-		capacity,
-	} = req.body;
+  const {
+    datePickup,
+    driverContact,
+    clusterId,
+    numberPlate,
+    capacity,
+  } = req.body;
 
-	let truck = await Truck.findOne({ $where: { driverContact } });
-	if (truck === null) {
-		let schedule = await new Schedule({
-			datePickup: new Date(datePickup),
-			events: [{ status: "ASSIGNED" }],
-		}).save();
-		truck = await new Truck({
-			numberPlate,
-			capacity: parseInt(capacity),
-			driverContact,
-			schedule: schedule._id,
-		}).save();
-	}
+  let truck = await Truck.findOne({ $where: { driverContact } });
+  if (truck === null) {
+    let schedule = await new Schedule({
+      datePickup: new Date(datePickup),
+      events: [{ status: "ASSIGNED" }],
+    }).save();
+    truck = await new Truck({
+      numberPlate,
+      capacity: parseInt(capacity),
+      driverContact,
+      schedule: schedule._id,
+    }).save();
+  }
 
-	const cluster = await Cluster.findOne(clusterId);
+  const cluster = await Cluster.findOne(clusterId);
 
-	if (cluster === null) {
-		res.status(404).json({
-			error: `Couldn't find a cluster with id '${clusterId}'`,
-		});
-	}
+  if (cluster === null) {
+    res.status(404).json({
+      error: `Couldn't find a cluster with id '${clusterId}'`,
+    });
+  }
 
-	cluster.truck = truck._id;
+  cluster.truck = truck._id;
 
-	await cluster.save();
+  await cluster.save();
 
-	// send notif here
-	const message = `A truck has assigned to pick up delivery from you. Truck Number Plate ${numberPlate} and will collect it from you by ${new Date(
-		datePickup
-	).toDateString()}`;
+  // send notif here
+  const message = `A truck has assigned to pick up delivery from you. Truck Number Plate ${numberPlate} and will collect it from you by ${new Date(
+    datePickup
+  ).toDateString()}`;
 
-	sendNotifFromUserId(cluster.farmer, message);
+  sendNotifFromUserId(cluster.farmer, message);
 
-	res.status(201).end();
+  res.status(201).end();
 });
 
 app.post("/api/update-status/:id", async (req, res) => {
-	const { status } = req.body;
-	const scheduleId = req.params.id;
+  const { status } = req.body;
+  const scheduleId = req.params.id;
 
-	const schedule = await Schedule.findOne(scheduleId);
+  const schedule = await Schedule.findOne(scheduleId);
 
-	const truck = await Truck.findOne({ schedule: scheduleId });
+  const truck = await Truck.findOne({ schedule: scheduleId });
 
-	const cluster = await Cluster.findOne({ truck: truck._id });
+  const cluster = await Cluster.findOne({ truck: truck._id });
 
-	if (status === "DISPATCHED") {
-		sendNotifFromUserId(
-			cluster.farmer,
-			`Truck has left to collect the stubble from you. Truck Number Plate is ${truck.numberPlate} and contact information is ${truck.driverContact}.`
-		);
-	} else if (status === "COLLECTED") {
-		await sendNotifFromUserId(
-			cluster.farmer,
-			"Your stubble has been received. You will soon receive your reward"
-		);
+  if (status === "DISPATCHED") {
+    sendNotifFromUserId(
+      cluster.farmer,
+      `Truck has left to collect the stubble from you. Truck Number Plate is ${truck.numberPlate} and contact information is ${truck.driverContact}.`
+    );
+  } else if (status === "COLLECTED") {
+    await sendNotifFromUserId(
+      cluster.farmer,
+      "Your stubble has been received. You will soon receive your reward"
+    );
 
-		await Promise.all([
-			schedule.deleteOne(),
-			truck.deleteOne(),
-			cluster.deleteOne(),
-		]);
-		return res.status(201).end();
-	}
-	res.status(404).json({
-		error: `Invalid status '${status}'`,
-	});
+    await Promise.all([
+      schedule.deleteOne(),
+      truck.deleteOne(),
+      cluster.deleteOne(),
+    ]);
+    return res.status(201).end();
+  }
+  res.status(404).json({
+    error: `Invalid status '${status}'`,
+  });
 });
 
 /*
@@ -359,87 +359,87 @@ B. Send notifcation =>
 */
 
 app.post("/api/startHarvesting", async (req, res) => {
-	const { farmerphoneNum, quantity } = req.body;
+  const { farmerphoneNum, quantity } = req.body;
 
-	// find farmer from phone number
-	const farmer = await User.findOne({
-		usertype: "farmer",
-		phone: parseInt(farmerphoneNum),
-	});
-	if (farmer === null) {
-		return res.status(404).end();
-	}
-	console.log(farmer);
-	const farmerLat = farmer.latitude;
-	const farmerLong = farmer.longitude;
+  // find farmer from phone number
+  const farmer = await User.findOne({
+    usertype: "farmer",
+    phone: parseInt(farmerphoneNum),
+  });
+  if (farmer === null) {
+    return res.status(404).end();
+  }
+  console.log(farmer);
+  const farmerLat = farmer.latitude;
+  const farmerLong = farmer.longitude;
 
-	// Get all clusters
-	const clusters = await Cluster.find({});
-	let clusterDist = new Array();
+  // Get all clusters
+  const clusters = await Cluster.find({});
+  let clusterDist = new Array();
 
-	// Iterate through each cluster and add Distance
-	clusters.forEach((cluster) => {
-		const clusterLat = cluster.medianLat;
-		const clusterLong = cluster.medianLong;
+  // Iterate through each cluster and add Distance
+  clusters.forEach((cluster) => {
+    const clusterLat = cluster.medianLat;
+    const clusterLong = cluster.medianLong;
 
-		// Get distance between cluster and farmer
-		const dist = getDistance(clusterLat, clusterLong, farmerLat, farmerLong);
+    // Get distance between cluster and farmer
+    const dist = getDistance(clusterLat, clusterLong, farmerLat, farmerLong);
 
-		// Map for each cluster
-		clusterDist.push(dist);
-	});
+    // Map for each cluster
+    clusterDist.push(dist);
+  });
 
-	const minDistance = Math.min(clusterDist);
+  const minDistance = Math.min(clusterDist);
 
-	if (clusters.length === 0 || minDistance > 10) {
-		// If distance is greater than 10 form new cluster
-		const newCluster = await new Cluster({
-			medianLat: farmerLat,
-			medianLong: farmerLong,
-			currentCollectionWeight: parseInt(quantity),
-			farmer: [farmer._id],
-		}).save();
+  if (clusters.length === 0 || minDistance > 10) {
+    // If distance is greater than 10 form new cluster
+    const newCluster = await new Cluster({
+      medianLat: farmerLat,
+      medianLong: farmerLong,
+      currentCollectionWeight: parseInt(quantity),
+      farmer: [farmer._id],
+    }).save();
 
-		console.log(newCluster);
+    console.log(newCluster);
 
-		sendNotifFromUserId(newCluster.farmer, "You are now harvesting");
-	} else {
-		// get the cluster add farmer and save
-		console.log(
-			clusters,
-			clusterDist.indexOf(minDistance),
-			clusters[clusterDist.indexOf(minDistance)],
-			clusterDist,
-			minDistance
-		);
-		const nearestCluster = clusters[clusterDist.indexOf(minDistance)];
-		const clusterLat = nearestCluster.medianLat;
-		const clusterLong = nearestCluster.medianLong;
+    sendNotifFromUserId(newCluster.farmer, "You are now harvesting");
+  } else {
+    // get the cluster add farmer and save
+    console.log(
+      clusters,
+      clusterDist.indexOf(minDistance),
+      clusters[clusterDist.indexOf(minDistance)],
+      clusterDist,
+      minDistance
+    );
+    const nearestCluster = clusters[clusterDist.indexOf(minDistance)];
+    const clusterLat = nearestCluster.medianLat;
+    const clusterLong = nearestCluster.medianLong;
 
-		// recalculate median of cluster
-		const newClusterMedianLat =
-			(clusterLat * nearestCluster.farmer.length + farmerLat) /
-			(nearestCluster.farmer.length + 1);
-		const newClusterMedianLong =
-			(clusterLong * nearestCluster.farmer.length + farmerLong) /
-			(nearestCluster.farmer.length + 1);
+    // recalculate median of cluster
+    const newClusterMedianLat =
+      (clusterLat * nearestCluster.farmer.length + farmerLat) /
+      (nearestCluster.farmer.length + 1);
+    const newClusterMedianLong =
+      (clusterLong * nearestCluster.farmer.length + farmerLong) /
+      (nearestCluster.farmer.length + 1);
 
-		// update nearest cluster
-		nearestCluster.farmer.push(farmer._id);
-		nearestCluster.medianLat = newClusterMedianLat;
-		nearestCluster.medianLong = newClusterMedianLong;
-		nearestCluster.currentCollectionWeight += parseInt(quantity);
-		await nearestCluster.save();
+    // update nearest cluster
+    nearestCluster.farmer.push(farmer._id);
+    nearestCluster.medianLat = newClusterMedianLat;
+    nearestCluster.medianLong = newClusterMedianLong;
+    nearestCluster.currentCollectionWeight += parseInt(quantity);
+    await nearestCluster.save();
 
-		const message = `A farmer has started harvesting near you, a truch will be assigned soon!`;
-		sendNotifFromUserId(nearestCluster.farmer, message);
-	}
+    const message = `A farmer has started harvesting near you, a truch will be assigned soon!`;
+    sendNotifFromUserId(nearestCluster.farmer, message);
+  }
 
-	return res.status(201).end();
+  return res.status(201).end();
 });
 
 app.listen(process.env.PORT, () =>
-	console.log(`Example app listening on port ${process.env.PORT}!`)
+  console.log(`Example app listening on port ${process.env.PORT}!`)
 );
 
 // dummy user:- id: 5f254d2c5198121e4b3ae83e,name: "Dhruvil", email: "dhruvil.s@somaiya.edu", phone: 9969326535
