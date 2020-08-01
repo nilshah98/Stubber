@@ -1,5 +1,7 @@
 {
 	"welcome": "Hello world!",
 	"about":"About",
-	"contact":"Contact Us"
+	"contact":"Contact Us",
+	"Farmer": "Farmer",
+	"Consumer": "Consumer"
 }
