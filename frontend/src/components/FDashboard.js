@@ -69,23 +69,25 @@ const FDashboard = () => {
     <Container>
       <Card.Group centered>
         <Card>
+        <Image src="https://upload.wikimedia.org/wikipedia/commons/b/b0/Agriculture_in_Volgograd_Oblast_002.JPG" />
           <Card.Content>
-            <Image src="https://upload.wikimedia.org/wikipedia/commons/b/b0/Agriculture_in_Volgograd_Oblast_002.JPG" />
+            
             <Card.Header>What does Start Harvesting mean?</Card.Header>
             <Card.Description>
               Steve wants to add you to the group <strong>best friends</strong>
             </Card.Description>
           </Card.Content>
           <Card.Content extra>
-            <Button primary icon="cut" size="massive">
+            <Button color="brown" icon="cut" size="massive">
               <Icon name="cut" />
               Start Harvest
             </Button>
           </Card.Content>
         </Card>
         <Card>
+        <Image src="https://cdn.ablebits.com/_img-blog/line-graph/line-graph-excel.png" />
           <Card.Content>
-            <Image src="https://images.edrawmax.com/images/knowledge/line-graph-1-what-is.jpg" />
+            
             <Card.Header>What does Show your History mean?</Card.Header>
             <Card.Description>
               Molly wants to add you to the group <strong>musicians</strong>
