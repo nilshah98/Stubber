@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const cors = require('cors')
 const Bids = require('./models/bids')
+const User = require('./models/user')
 const mongoose = require('mongoose')
 const cron = require('node-cron');
 const axios = require("axios");
@@ -75,7 +76,6 @@ app.post('/api/bids/addBid', (request, response, next) => {
 			error: 'stubble id missing'
 		})
 	}
-
 	if (!body.end_time) {
 		return response.status(400).json({
 			error: 'end time missing'
@@ -102,8 +102,27 @@ app.post('/api/bids/addBid', (request, response, next) => {
 		.catch(error => next(error))
 });
 
-app.put('/api/bids/:id', (request, response, next) => {
-	const body = request.body;
+app.put('/api/bids/:id', async (request, response, next) => {
+	const body = request.body
+	
+	console.log('body', body)
+
+	const bid = await Bids.findbyId(request.params.id)
+
+	const user = await User.findById(body.current_bidder)   //Doubt
+
+	if(user.usertype !="consumer"){
+		return res.status(404).end()
+	} else {
+		if(bid.current_cost<=body.current_cost){
+			return res.status(401).json({error: "Your bid must be higher than the previous one."})
+		}
+
+		bid.current_cost = body.current_cost
+		bid.current_bidder = body.current_bidder
+
+		await bid.save()
+	}
 
 	// body should contain ---> cost
 	// get consumer id from token
@@ -112,7 +131,6 @@ app.put('/api/bids/:id', (request, response, next) => {
 		current_cost: body.current_cost,
 		current_bidder: body.current_bidder
 	}
-	console.log('body', body)
 
 	Bids.findByIdAndUpdate(request.params.id, bid, {
 			new: true
