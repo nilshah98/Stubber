@@ -1,74 +1,82 @@
-import React from "react";
+import React, { useState } from 'react'
 
 import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link,
-  Redirect,
-} from "react-router-dom";
+	BrowserRouter as Router,
+	Switch,
+	Route,
+	Link,
+	Redirect,
+} from "react-router-dom"
 
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "react-i18next"
 
-import FDashboard from "./components/FDashboard";
-import CDashboard from "./components/CDashboard";
-import Footer from "./components/Footer";
+import FDashboard from "./components/FDashboard"
+import CDashboard from "./components/CDashboard"
+import Footer from "./components/Footer"
+
+import {
+	Container,
+	Menu,
+	Segment,
+	Button,
+} from 'semantic-ui-react'
 
 const App = () => {
-  const { t, i18n } = useTranslation();
-  const changeLanguage = (code) => {
-    i18n.changeLanguage(code);
-  };
+	const { t, i18n } = useTranslation()
+	const changeLanguage = code => {
+		i18n.changeLanguage(code)
+	}
 
-  const padding = {
-    padding: 5,
-  };
+	const [toEnglish, setToEnglish] = useState(true)
 
-  const imgStyle = {
-    backgroundRepeat: "no-repeat",
-    backgroundSize: "cover",
-    backgroundImage:
-      "url(" +
-      "https://images.unsplash.com/photo-1554973653-c9071bd14011?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=961&q=80" +
-      ")",
-  };
+	const translate = () => {
+		toEnglish === true ? changeLanguage('hi') : changeLanguage('en')
+		setToEnglish(!toEnglish)
+	}
 
-  return (
-    <div className="App" style={imgStyle}>
-      <Router>
-        <div>
-          <Link style={padding} to="/">
-            home
-          </Link>
-          <Link style={padding} to="/farmer">
-            Farmer
-          </Link>
-          <Link style={padding} to="/consumer">
-            Consumer
-          </Link>
-        </div>
+	return (
+		<div className="App">
+			<Router>
+				<Segment
+					inverted
+					textAlign='center'
+					vertical
+				>
+					<Menu size='large' inverted>
+						<Container textAlign='center'>
+							<Menu.Item as='h2' inverted>
+								Stubber
+							</Menu.Item>
+							<Menu.Item as='a'>
+								<Link to="/farmer">Farmer</Link>
+							</Menu.Item>
+							<Menu.Item as='a'>
+								<Link to="/consumer">Consumer</Link>
+							</Menu.Item>
+							<Menu.Item position='right'>
+								<Button as='a' onClick={() => translate()}>
+									{toEnglish === true ? 'हि' : 'EN'}
+								</Button>
+							</Menu.Item>
+						</Container>
+					</Menu>
+				</Segment>
+				<Switch>
+					<Route path="/farmer">
+						<FDashboard />
+					</Route>
+					<Route path="/consumer">
+						<CDashboard />
+					</Route>
+					<Route path="/">
+						<Redirect to="/farmer" />
+					</Route>
+				</Switch>
+			</Router>
 
-        <Switch>
-          <Route path="/farmer">
-            <FDashboard />
-          </Route>
-          <Route path="/consumer">
-            <CDashboard />
-          </Route>
-          <Route path="/">
-            <Redirect to="/farmer" />
-          </Route>
-        </Switch>
-      </Router>
-      <h3> {t("welcome")} </h3>
+			<Footer />
+		</div>
+	)
+}
 
-      <button type="button" onClick={() => changeLanguage("hi")}>
-        {t("translation:hi")}
-      </button>
-
-      <Footer />
-    </div>
-  );
-};
-
-export default App;
+export default App
