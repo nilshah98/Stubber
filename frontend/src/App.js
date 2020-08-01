@@ -13,6 +13,7 @@ import { useTranslation } from "react-i18next"
 import FDashboard from "./components/FDashboard"
 import CDashboard from "./components/CDashboard"
 import Footer from "./components/Footer"
+import ADashboard from "./components/ADashboard"
 
 import {
 	Container,
@@ -36,11 +37,11 @@ const App = () => {
 
 	const imgStyle = {
 		backgroundSize: 'cover',
-		backgroundImage:'url('+'https://images.unsplash.com/photo-1554973653-c9071bd14011?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=961&q=80'+')'
+		backgroundImage: 'url(' + 'https://images.unsplash.com/photo-1554973653-c9071bd14011?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=961&q=80' + ')'
 	}
 
 	return (
-		<div className="App" style={imgStyle}>
+		<div className="App">
 			<Router>
 				<Segment
 					inverted
@@ -72,6 +73,9 @@ const App = () => {
 					</Route>
 					<Route path="/consumer">
 						<CDashboard />
+					</Route>
+					<Route path="/admin">
+						<ADashboard />
 					</Route>
 					<Route path="/">
 						<Redirect to="/farmer" />
