@@ -3,10 +3,9 @@ import React from 'react'
 import { Table } from 'semantic-ui-react'
 
 const tableData = [
-  { name: 'John', age: 15, gender: 'Male' },
-  { name: 'Amber', age: 40, gender: 'Female' },
-  { name: 'Leslie', age: 25, gender: 'Other' },
-  { name: 'Ben', age: 70, gender: 'Male' },
+  { crop: 'John', quantity: 15, endTime: Date.now() },
+  { crop: 'Amber', quantity: 40, endTime: Date.now() },
+  { crop: 'Leslie', quantity: 25, endTime: Date.now() },
 ]
 
 function exampleReducer(state, action) {
@@ -44,31 +43,32 @@ function TableExampleSortable() {
       <Table.Header>
         <Table.Row>
           <Table.HeaderCell
-            sorted={column === 'name' ? direction : null}
-            onClick={() => dispatch({ type: 'CHANGE_SORT', column: 'name' })}
+            sorted={column === 'crop' ? direction : null}
+            onClick={() => dispatch({ type: 'CHANGE_SORT', column: 'crop' })}
           >
-            Name
+            Crop
           </Table.HeaderCell>
           <Table.HeaderCell
-            sorted={column === 'age' ? direction : null}
-            onClick={() => dispatch({ type: 'CHANGE_SORT', column: 'age' })}
+            sorted={column === 'quantity' ? direction : null}
+            onClick={() => dispatch({ type: 'CHANGE_SORT', column: 'quantity' })}
           >
-            Age
+            Quantity
           </Table.HeaderCell>
           <Table.HeaderCell
-            sorted={column === 'gender' ? direction : null}
-            onClick={() => dispatch({ type: 'CHANGE_SORT', column: 'gender' })}
+            sorted={column === 'endTime' ? direction : null}
+            onClick={() => dispatch({ type: 'CHANGE_SORT', column: 'endTime' })}
           >
-            Gender
+            End Time
           </Table.HeaderCell>
+          
         </Table.Row>
       </Table.Header>
       <Table.Body>
-        {data.map(({ age, gender, name }) => (
-          <Table.Row key={name}>
-            <Table.Cell>{name}</Table.Cell>
-            <Table.Cell>{age}</Table.Cell>
-            <Table.Cell>{gender}</Table.Cell>
+        {data.map(({ crop, quantity, endTime }) => (
+          <Table.Row key={crop}>
+            <Table.Cell>{crop}</Table.Cell>
+            <Table.Cell>{quantity}</Table.Cell>
+            <Table.Cell>{endTime}</Table.Cell>
           </Table.Row>
         ))}
       </Table.Body>
