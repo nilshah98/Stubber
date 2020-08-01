@@ -17,7 +17,7 @@ const Footer = () => {
   		bottom: 0,
   		width: "100%",
 		height: "35px",
-		padding: '5em 0em'
+		padding: '5em 0em',
 	}
 
 	const { t } = useTranslation()
