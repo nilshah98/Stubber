@@ -389,7 +389,7 @@ app.post("/api/startHarvesting", async (req, res) => {
 		clusterDist.push(dist);
 	});
 
-	const minDistance = Math.min(clusterDist);
+	const minDistance = Math.min(...clusterDist);
 
 	if (clusters.length === 0 || minDistance > 10) {
 		// If distance is greater than 10 form new cluster
@@ -400,17 +400,20 @@ app.post("/api/startHarvesting", async (req, res) => {
 			farmer: [farmer._id],
 		}).save();
 
+		farmer.cluster_id = newCluster._id;
+
+		await farmer.save();
+
 		console.log(newCluster);
 
 		sendNotifFromUserId(newCluster.farmer, "You are now harvesting");
 	} else {
 		// get the cluster add farmer and save
 		console.log(
+			minDistance,
 			clusters,
-			clusterDist.indexOf(minDistance),
-			clusters[clusterDist.indexOf(minDistance)],
 			clusterDist,
-			minDistance
+			clusterDist.indexOf(minDistance)
 		);
 		const nearestCluster = clusters[clusterDist.indexOf(minDistance)];
 		const clusterLat = nearestCluster.medianLat;
@@ -431,11 +434,43 @@ app.post("/api/startHarvesting", async (req, res) => {
 		nearestCluster.currentCollectionWeight += parseInt(quantity);
 		await nearestCluster.save();
 
-		const message = `A farmer has started harvesting near you, a truch will be assigned soon!`;
+		farmer.cluster_id = nearestCluster._id;
+
+		await farmer.save();
+
+		const message = `A farmer has started harvesting near you, a truck will be assigned soon!`;
 		sendNotifFromUserId(nearestCluster.farmer, message);
 	}
 
 	return res.status(201).end();
+});
+
+app.get("/api/schedule/", async (req, res) => {
+	const farmerphoneNum = req.query.farmerId;
+
+	const cluster = (
+		await User.findOne({ phone: farmerphoneNum }).populate("cluster_id")
+	).cluster_id;
+
+	if (cluster === null) {
+		return res.status(404).json({
+			error: `Farmer '${farmerId}' is not in a cluster`,
+		});
+	}
+
+	const truck = await Truck.findById(cluster.truck).populate("schedule");
+
+	if (truck === null) {
+		return res.status(200).json({
+			status: "CLUSTERED",
+		});
+	}
+
+	const schedule = truck.schedule;
+
+	res.status(200).json({
+		status: schedule.events[0],
+	});
 });
 
 app.listen(process.env.PORT, () =>
@@ -446,3 +481,4 @@ app.listen(process.env.PORT, () =>
 // db.users.insert({email:"dhruvil.s@somaiya.edu",phone:9969326535,name: "Dhruvil",username: "dhruvil", latitude: 20,longitude: 20,usertype: "farmer"})
 // dummy user:- id: 5f254df55198121e4b3ae83f
 // db.users.insert({email:"parshva.barbhaya@somaiya.edu",phone:9322334353,name: "Parshva",username: "parshva", latitude: 20,longitude: 20,usertype: "farmer"})
+// db.users.insert({email:"chirag.shetty@somaiya.edu",phone:7045185177,name: "Chirag",username: "nabda", latitude: 20,longitude: 21,usertype: "farmer"})
