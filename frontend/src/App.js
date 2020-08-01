@@ -1,15 +1,18 @@
 import React, { useState } from 'react'
 
 import {
-	BrowserRouter as Router,
-	Switch, Route, Link, Redirect
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  Redirect,
 } from "react-router-dom"
 
-import { useTranslation } from 'react-i18next'
+import { useTranslation } from "react-i18next"
 
-import FDashboard from './components/FDashboard'
-import CDashboard from './components/CDashboard'
-import Footer from './components/Footer'
+import FDashboard from "./components/FDashboard"
+import CDashboard from "./components/CDashboard"
+import Footer from "./components/Footer"
 
 import {
 	Container,
