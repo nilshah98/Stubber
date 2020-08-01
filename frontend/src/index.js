@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom'
 import App from './App'
 
 import './i18n'
+import 'semantic-ui-css/semantic.min.css'
 
 const styleLink = document.createElement("link");
 styleLink.rel = "stylesheet";
