@@ -9,7 +9,7 @@ import { useTranslation } from 'react-i18next'
 
 import FDashboard from './components/FDashboard'
 import CDashboard from './components/CDashboard'
-import { Container } from 'semantic-ui-react'
+import Footer from './components/Footer'
 
 const App = () => {
 	const { t, i18n } = useTranslation()
@@ -55,6 +55,8 @@ const App = () => {
 			<button type="button" onClick={() => changeLanguage('hi')}>
 				{t('translation:hi')}
 			</button>
+
+			<Footer />
 		</div>
 	)
 }
