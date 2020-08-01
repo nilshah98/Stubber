@@ -1,20 +1,26 @@
-const mongoose=require('mongoose');
+const mongoose = require("mongoose");
 const uniqueValidator = require("mongoose-unique-validator");
+const schedule = require("./schedule");
 
 const Truck = new mongoose.Schema({
-    number_plate: String,
-    latitude: Number,
-    longitude: Number,
-    capacity_rem: Number,
-    end_date: Date,
-    farmers: [String]
-}).plugin(uniqueValidator)
-    .set("toJSON", {
-        transform: (doc, returnedDocument) => {
-            returnedDocument.id = returnedDocument._id.toString();
-            delete returnedDocument._id;
-            delete returnedDocument.__v;
-        }
-    });
+	numberPlate: String,
+	capacity: Number,
+	driverContact: {
+		type: String,
+		unique: true,
+	},
+	schedule: {
+		type: mongoose.Types.ObjectId,
+		ref: "Schedule",
+	},
+})
+	.plugin(uniqueValidator)
+	.set("toJSON", {
+		transform: (doc, returnedDocument) => {
+			returnedDocument.id = returnedDocument._id.toString();
+			delete returnedDocument._id;
+			delete returnedDocument.__v;
+		},
+	});
 
-module.exports=mongoose.model("Truck",Truck);
+module.exports = mongoose.model("Truck", Truck);
