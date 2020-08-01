@@ -66,7 +66,7 @@ const FDashboard = () => {
   };
 
   return (
-    <>
+    <Container>
       <Card.Group centered>
         <Card>
           <Card.Content>
@@ -100,7 +100,7 @@ const FDashboard = () => {
         </Card>
       </Card.Group>
       <ClusterDetails />
-    </>
+    </Container>
   );
 };
 
