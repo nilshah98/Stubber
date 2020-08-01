@@ -15,7 +15,10 @@ const User = new mongoose.Schema({
 	postal_address: String,
 	area: String,
 	crop: String,
-	cluster_id: Number,
+	cluster_id: {
+		type: mongoose.Types.ObjectId,
+		ref: "Cluster",
+	},
 	usertype: String,
 	bank_ifsc: {
 		type: String,
