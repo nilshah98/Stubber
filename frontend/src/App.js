@@ -10,9 +10,11 @@ import {
 
 import { useTranslation } from "react-i18next";
 
+import SignUp from "./components/SignUp";
 import FDashboard from "./components/FDashboard";
 import CDashboard from "./components/CDashboard";
 import Footer from "./components/Footer";
+import ADashboard from "./components/ADashboard";
 import TableExampleSortable from "./components/Bidding";
 
 import { Container, Menu, Segment, Button } from "semantic-ui-react";
@@ -31,7 +33,6 @@ const App = () => {
   };
 
   const imgStyle = {
-    height: "100vh",
     backgroundSize: "cover",
     backgroundImage:
       "url(" +
@@ -40,7 +41,7 @@ const App = () => {
   };
 
   return (
-    <div className="App" style={imgStyle}>
+    <div className="App" style={{ height: "100vh" }}>
       <Router>
         <Segment inverted textAlign="center" vertical>
           <Menu size="large" inverted>
@@ -53,6 +54,9 @@ const App = () => {
               </Menu.Item>
               <Menu.Item as="p">
                 <Link to="/consumer">{t("Consumer")}</Link>
+              </Menu.Item>
+              <Menu.Item as="p">
+                <Link to="/signup">{t("Signup")}</Link>
               </Menu.Item>
               <Menu.Item position="right">
                 <Button as="a" onClick={() => translate()}>
@@ -69,6 +73,12 @@ const App = () => {
           </Route>
           <Route path="/consumer">
             <CDashboard />
+          </Route>
+          <Route path="/admin">
+            <ADashboard />
+          </Route>
+          <Route path="/signup">
+            <SignUp />
           </Route>
           <Route path="/">
             <Redirect to="/farmer" />
