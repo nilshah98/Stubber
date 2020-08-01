@@ -49,14 +49,14 @@ const App = () => {
 				>
 					<Menu size='large' inverted>
 						<Container textAlign='center'>
-							<Menu.Item as='h2' inverted>
+							<Menu.Item as='h2' inverted="true">
 								Stubber
 							</Menu.Item>
-							<Menu.Item as='a'>
-								<Link to="/farmer">Farmer</Link>
+							<Menu.Item as='p'>
+								<Link to="/farmer">{t('Farmer')}</Link>
 							</Menu.Item>
-							<Menu.Item as='a'>
-								<Link to="/consumer">Consumer</Link>
+							<Menu.Item as='p'>
+								<Link to="/consumer">{t('Consumer')}</Link>
 							</Menu.Item>
 							<Menu.Item position='right'>
 								<Button as='a' onClick={() => translate()}>
