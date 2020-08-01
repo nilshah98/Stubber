@@ -32,7 +32,9 @@ const App = () => {
 
 				<Switch>
 					<Route path="/farmer">
-						<FDashboard />
+						<Container>
+							<FDashboard />
+						</Container>
 					</Route>
 					<Route path="/consumer">
 						<CDashboard />
