@@ -13,6 +13,7 @@ import { useTranslation } from "react-i18next"
 import FDashboard from "./components/FDashboard"
 import CDashboard from "./components/CDashboard"
 import Footer from "./components/Footer"
+import TableExampleSortable from "./components/Bidding"
 
 import {
 	Container,
@@ -68,7 +69,8 @@ const App = () => {
 				</Segment>
 				<Switch>
 					<Route path="/farmer">
-						<FDashboard />
+						{/* <FDashboard /> */}
+						<TableExampleSortable/>
 					</Route>
 					<Route path="/consumer">
 						<CDashboard />
