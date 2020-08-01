@@ -22,8 +22,7 @@ const User = new mongoose.Schema({
         type: String,
     },
     bank_accno: {
-        type: String,
-        unique: true
+        type: String
     },
     bank_name: String,
     razorpayLinkedAccount: String

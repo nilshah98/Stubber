@@ -10,9 +10,12 @@ import {
 
 import { useTranslation } from "react-i18next"
 
+import SignUp from './components/SignUp'
 import FDashboard from "./components/FDashboard"
 import CDashboard from "./components/CDashboard"
 import Footer from "./components/Footer"
+import ADashboard from "./components/ADashboard"
+import TableExampleSortable from "./components/Bidding"
 
 import {
 	Container,
@@ -36,11 +39,11 @@ const App = () => {
 
 	const imgStyle = {
 		backgroundSize: 'cover',
-		backgroundImage:'url('+'https://images.unsplash.com/photo-1554973653-c9071bd14011?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=961&q=80'+')'
+		backgroundImage: 'url(' + 'https://images.unsplash.com/photo-1554973653-c9071bd14011?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=961&q=80' + ')'
 	}
 
 	return (
-		<div className="App" style={imgStyle}>
+		<div className="App">
 			<Router>
 				<Segment
 					inverted
@@ -58,6 +61,9 @@ const App = () => {
 							<Menu.Item as='p'>
 								<Link to="/consumer">{t('Consumer')}</Link>
 							</Menu.Item>
+							<Menu.Item as='p'>
+								<Link to="/signup">{t('Signup')}</Link>
+							</Menu.Item>
 							<Menu.Item position='right'>
 								<Button as='a' onClick={() => translate()}>
 									{toEnglish === true ? 'हि' : 'EN'}
@@ -68,10 +74,17 @@ const App = () => {
 				</Segment>
 				<Switch>
 					<Route path="/farmer">
-						<FDashboard />
+						{/* <FDashboard /> */}
+						<TableExampleSortable />
 					</Route>
 					<Route path="/consumer">
 						<CDashboard />
+					</Route>
+					<Route path="/admin">
+						<ADashboard />
+					</Route>
+					<Route path="/signup">
+						<SignUp />
 					</Route>
 					<Route path="/">
 						<Redirect to="/farmer" />
