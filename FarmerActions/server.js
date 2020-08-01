@@ -446,7 +446,7 @@ app.post("/api/startHarvesting", async (req, res) => {
 });
 
 app.get("/api/clusters/", async (req, res) => {
-	const clusters = await Cluster.find({});
+	const clusters = await Cluster.find({ truck: null });
 	return clusters.map((cluster) => cluster.toJSON());
 });
 
