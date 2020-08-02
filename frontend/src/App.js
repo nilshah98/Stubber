@@ -40,22 +40,28 @@ const App = () => {
       ")",
   };
 
+  const rootLayout = {
+    height: "100vh",
+    display: "flex",
+    flexDirection: "column",
+  };
+
   return (
-    <div className="App" style={{ height: "100vh" }}>
+    <div className="App" style={rootLayout}>
       <Router>
         <Segment inverted textAlign="center" vertical>
           <Menu size="large" inverted>
             <Container textAlign="center">
-              <Menu.Item as="h2" inverted="true">
+              <Menu.Item as="li" inverted="true">
                 Stubber
               </Menu.Item>
-              <Menu.Item as="p">
+              <Menu.Item as="li">
                 <Link to="/farmer">{t("Farmer")}</Link>
               </Menu.Item>
-              <Menu.Item as="p">
+              <Menu.Item as="li">
                 <Link to="/consumer">{t("Consumer")}</Link>
               </Menu.Item>
-              <Menu.Item as="p">
+              <Menu.Item as="li">
                 <Link to="/signup">{t("Signup")}</Link>
               </Menu.Item>
               <Menu.Item position="right">
@@ -66,24 +72,26 @@ const App = () => {
             </Container>
           </Menu>
         </Segment>
-        <Switch>
-          <Route path="/farmer">
-            {/* <FDashboard /> */}
-            <TableExampleSortable />
-          </Route>
-          <Route path="/consumer">
-            <CDashboard />
-          </Route>
-          <Route path="/admin">
-            <ADashboard />
-          </Route>
-          <Route path="/signup">
-            <SignUp />
-          </Route>
-          <Route path="/">
-            <Redirect to="/farmer" />
-          </Route>
-        </Switch>
+        <div style={{ flexGrow: "1" }}>
+          <Switch>
+            <Route path="/farmer">
+              {/* <FDashboard /> */}
+              <TableExampleSortable />
+            </Route>
+            <Route path="/consumer">
+              <CDashboard />
+            </Route>
+            <Route path="/admin">
+              <ADashboard />
+            </Route>
+            <Route path="/signup">
+              <SignUp />
+            </Route>
+            <Route path="/">
+              <Redirect to="/farmer" />
+            </Route>
+          </Switch>
+        </div>
       </Router>
 
       <Footer />
