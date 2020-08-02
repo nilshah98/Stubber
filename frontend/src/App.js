@@ -16,6 +16,7 @@ import CDashboard from "./components/CDashboard";
 import Footer from "./components/Footer";
 import ADashboard from "./components/ADashboard";
 import TableExampleSortable from "./components/Bidding";
+import StartAuction from "./components/StartAuction";
 
 import { Container, Menu, Segment, Button } from "semantic-ui-react";
 
@@ -107,7 +108,9 @@ const App = () => {
             <Route path="/bidding">
               <TableExampleSortable />
             </Route>
-            <Route path="/schedule">{/* <TableExampleSortable /> */}</Route>
+            <Route path="/schedule">
+              <StartAuction />
+            </Route>
             <Route path="/">
               <Redirect to="/farmer" />
             </Route>
