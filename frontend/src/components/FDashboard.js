@@ -64,7 +64,15 @@ const FDashboard = () => {
 
   return (
     <Container>
-      <Card.Group inverted centered>
+      <Card.Group
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "space-evenly",
+        }}
+        inverted
+        centered
+      >
         <Card style={{ backgroundColor: "#222" }}>
           <Image src="https://upload.wikimedia.org/wikipedia/commons/b/b0/Agriculture_in_Volgograd_Oblast_002.JPG" />
           <Card.Content style={{ color: "#ddd" }}>
@@ -152,7 +160,7 @@ const FDashboard = () => {
             </Card.Description>
           </Card.Content>
           <Card.Content extra>
-            <Button inverted secondary size="massive">
+            <Button inverted color="brown" size="massive">
               <Icon name="history" />
               Show History
             </Button>
