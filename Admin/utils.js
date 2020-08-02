@@ -15,4 +15,4 @@ const sendSms = () => {
   console.log("send sms to everyone")
 }
 
-module.exports = calculateShare,sendSms
+module.exports = calculateShare,sendSms,get_weight
