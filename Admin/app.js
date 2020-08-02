@@ -13,7 +13,7 @@ app.use(express.urlencoded({
 	extended: true
 }));
 app.use(express.json());
-app.use("/stubble", stubble);
+app.use("/api/stubble", stubble);
 
 cron.schedule("* * * * *", function () {
 	console.log("---------------------");
@@ -84,16 +84,12 @@ app.post('/api/bids/addBid', (request, response, next) => {
 		})
 	}
 
-	if (!body.min_cost) {
-		return response.status(400).json({
-			error: 'min_cost missing'
-		})
-	}
+	const min_cost = body.x + body.y + body.z
 
 	const bid = new Bids({
 		stubble_id: body.stubble_id,
 		end_time: body.end_time,
-		current_cost: body.min_cost
+		current_cost: min_cost
 	})
 
 	bid.save()

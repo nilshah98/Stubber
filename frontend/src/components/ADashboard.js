@@ -88,7 +88,7 @@ const DashboardTableRow = ({ cluster, index }) => {
 									Nope
 								</Button>
 								<Button
-									content="Schedule the Truck"
+									content="Schedule Truck"
 									labelPosition="right"
 									icon="checkmark"
 									onClick={handleSubmit}
@@ -124,22 +124,22 @@ const DashboardTable = () => {
 			{clusters.length === 0 ? (
 				<h1>No clusters to take delivery from</h1>
 			) : (
-				<Table basic="very" celled collapsing>
-					<Table.Header>
-						<Table.Row>
-							<Table.HeaderCell>Collection#</Table.HeaderCell>
-							<Table.HeaderCell>Weight</Table.HeaderCell>
-							<Table.HeaderCell />
-						</Table.Row>
-					</Table.Header>
+					<Table basic="very" celled collapsing>
+						<Table.Header>
+							<Table.Row>
+								<Table.HeaderCell>Collection#</Table.HeaderCell>
+								<Table.HeaderCell>Weight</Table.HeaderCell>
+								<Table.HeaderCell />
+							</Table.Row>
+						</Table.Header>
 
-					<Table.Body>
-						{clusters.map((cluster, index) => (
-							<DashboardTableRow cluster={cluster} index={index} />
-						))}
-					</Table.Body>
-				</Table>
-			)}
+						<Table.Body>
+							{clusters.map((cluster, index) => (
+								<DashboardTableRow cluster={cluster} index={index} />
+							))}
+						</Table.Body>
+					</Table>
+				)}
 		</center>
 	);
 };

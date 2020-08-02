@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Card,
   Container,
@@ -8,7 +8,11 @@ import {
   Button,
   Step,
   Divider,
+  Form,
+  Modal
 } from "semantic-ui-react";
+
+import farmerService from '../services/farmer'
 
 const ClusterDetails = () => (
   <div style={{ display: "flex", justifyContent: "center" }}>
@@ -46,6 +50,18 @@ const FDashboard = () => {
       ")",
   };
 
+  const [open, setOpen] = useState(false)
+  const [quantity, setQuantity] = useState(0)
+  const [phone, setPhone] = useState(0)
+
+  const handleSubmit = (event) => {
+    event.preventDefault()
+    console.log(phone, quantity)
+    farmerService.startHarvesting(phone, quantity)
+    setPhone(0)
+    setQuantity(0)
+  }
+
   return (
     <Container>
       <Card.Group centered>
@@ -58,10 +74,55 @@ const FDashboard = () => {
             </Card.Description>
           </Card.Content>
           <Card.Content extra>
-            <Button color="brown" icon="cut" size="massive">
-              <Icon name="cut" />
-              Start Harvest
-            </Button>
+            <Modal
+              onClose={() => setOpen(false)}
+              onOpen={() => setOpen(true)}
+              open={open}
+              trigger={<Button color="brown" icon="cut" size="massive">
+                <Icon name="cut" />
+                Start Harvest
+                </Button>
+              }
+            >
+              <Modal.Header>Add Details</Modal.Header>
+              <Modal.Content>
+                <Form>
+                  <Form.Field>
+                    <label htmlFor="phone no">Phone Number</label>
+                    <input
+                      placeholder="Mobile"
+                      type="number"
+                      name="phoneno"
+                      onChange={({ target }) => setPhone(target.value)}
+                      required
+                    />
+                  </Form.Field>
+                  <Form.Field>
+                    <label htmlFor="quantity">Quantity</label>
+                    <input
+                      placeholder="Quantity"
+                      type="number"
+                      name="quantity"
+                      onChange={({ target }) => setQuantity(target.value)}
+                      required
+                    />
+                  </Form.Field>
+
+                  <Modal.Actions>
+                    <Button color="black" onClick={() => setOpen(false)}>
+                      Nope
+                      </Button>
+                    <Button
+                      content="Done"
+                      labelPosition="right"
+                      icon="checkmark"
+                      onClick={handleSubmit}
+                      positive
+                    />
+                  </Modal.Actions>
+                </Form>
+              </Modal.Content>
+            </Modal>
           </Card.Content>
         </Card>
         <Card>
@@ -79,9 +140,9 @@ const FDashboard = () => {
             </Button>
           </Card.Content>
         </Card>
-      </Card.Group>
+      </Card.Group >
       <ClusterDetails />
-    </Container>
+    </Container >
   );
 };
 
