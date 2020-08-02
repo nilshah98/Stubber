@@ -8,6 +8,8 @@ import {
   Segment,
 } from "semantic-ui-react";
 
+import { useTranslation } from "react-i18next";
+
 import signupService from "../services/signup";
 
 const SignupForm = () => {
@@ -21,6 +23,8 @@ const SignupForm = () => {
   const [area, setArea] = useState(0);
   const [crop, setCrop] = useState("");
   const [razorpay, setRazorpay] = useState("");
+
+  const { t } = useTranslation();
 
   const successLocation = (pos) => {
     const crd = pos.coords;
@@ -53,7 +57,6 @@ const SignupForm = () => {
 
   const handleSignup = (event) => {
     event.preventDefault();
-    window.alert("Submit form?");
     const farmerDeets = {
       name,
       email,
@@ -67,19 +70,20 @@ const SignupForm = () => {
       razorpay,
     };
     signupService.postFarmer(farmerDeets);
+    window.alert("Details submitted");
   };
 
   return (
     <Grid textAlign="center" style={{ height: "100%" }} verticalAlign="middle">
       <Grid.Column width={4}>
         <Header as="h2" color="black" textAlign="center">
-          Sign-up to your account
+          {t("Sign-up to your account")}
         </Header>
         <Form size="large" onSubmit={handleSignup}>
           <Segment stacked inverted>
             <Form.Input
               fluid
-              placeholder="Name"
+              placeholder={t("Name", "Name")}
               type="text"
               required
               onChange={({ target }) => setName(target.value)}
@@ -88,7 +92,7 @@ const SignupForm = () => {
               fluid
               icon="user"
               iconPosition="left"
-              placeholder="E-mail address"
+              placeholder={t("E-mail address", "E-mail")}
               type="email"
               required
               onChange={({ target }) => setEmail(target.value)}
@@ -97,7 +101,7 @@ const SignupForm = () => {
               fluid
               icon="lock"
               iconPosition="left"
-              placeholder="Password"
+              placeholder={t("Password", "password")}
               type="password"
               required
               onChange={({ target }) => setPassword(target.value)}
@@ -106,39 +110,39 @@ const SignupForm = () => {
               fluid
               icon="phone"
               iconPosition="left"
-              placeholder="Phone number"
+              placeholder={t("Phone number", "mobile")}
               type="number"
               required
               onChange={({ target }) => setPhone(target.value)}
             />
             <Form.Input
               fluid
-              placeholder="Area"
+              placeholder={t("Area", "area")}
               type="number"
               required
               onChange={({ target }) => setArea(target.value)}
             />
             <Form.Input
               fluid
-              placeholder="Crop"
+              placeholder={t("Crop", "crop")}
               type="text"
               required
               onChange={({ target }) => setCrop(target.value)}
             />
             <Form.Input
               fluid
-              placeholder="Razorpay Network ID"
+              placeholder={t("Razorpay Network ID","Razorpay Network ID")}
               type="text"
               required
               onChange={({ target }) => setRazorpay(target.value)}
             />
-            <Form.Group fluid>
+            {/* <Form.Group fluid>
               Latitude: <Form.Field label={lat} disabled />
               Longitude: <Form.Field label={lon} disabled />
-            </Form.Group>
+            </Form.Group> */}
 
             <Button positive fluid size="large" type="submit">
-              Sign Up
+              {t("Signup")}
             </Button>
           </Segment>
         </Form>
