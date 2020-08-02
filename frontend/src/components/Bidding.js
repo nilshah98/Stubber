@@ -195,7 +195,14 @@ function TableExampleSortable() {
               <Label style={{ backgroundColor: "#555" }}>.00</Label>
             </Input>
           </Modal.Content>
-          <Modal.Actions style={{ backgroundColor: "#222" }}>
+          <Modal.Actions
+            style={{
+              backgroundColor: "#222",
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "center",
+            }}
+          >
             <Button
               inverted
               color="red"
