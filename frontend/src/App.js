@@ -36,7 +36,7 @@ const App = () => {
     backgroundSize: "cover",
     backgroundImage:
       "url(" +
-      "https://images.unsplash.com/photo-1554973653-c9071bd14011?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=961&q=80" +
+      "https://images.unsplash.com/photo-1554973653-c9071bd14011?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=961&q=80%27+%27)%27" +
       ")",
   };
 
@@ -55,6 +55,15 @@ const App = () => {
               <Menu.Item as="p">
                 <Link to="/consumer">{t("Consumer")}</Link>
               </Menu.Item>
+			  <Menu.Item as="p">
+                <Link to="/admin">{t("Admin", "Admin")}</Link>
+              </Menu.Item>
+			  <Menu.Item as="p">
+                <Link to="/bidding">{t("Bidding", "Bidding")}</Link>
+              </Menu.Item>
+			  <Menu.Item as="p">
+                <Link to="/schedule">{t("Schedule", "Schedule")}</Link>
+              </Menu.Item>
               <Menu.Item as="p">
                 <Link to="/signup">{t("Signup")}</Link>
               </Menu.Item>
@@ -68,8 +77,8 @@ const App = () => {
         </Segment>
         <Switch>
           <Route path="/farmer">
-            {/* <FDashboard /> */}
-            <TableExampleSortable />
+            <FDashboard />
+            {/* <TableExampleSortable /> */}
           </Route>
           <Route path="/consumer">
             <CDashboard />
@@ -79,6 +88,12 @@ const App = () => {
           </Route>
           <Route path="/signup">
             <SignUp />
+          </Route>
+		  <Route path="/bidding">
+		  	<TableExampleSortable />
+          </Route>
+		  <Route path="/schedule">
+		  	{/* <TableExampleSortable /> */}
           </Route>
           <Route path="/">
             <Redirect to="/farmer" />
