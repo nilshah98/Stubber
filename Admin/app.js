@@ -1,12 +1,15 @@
 const express = require("express");
 const app = express();
 const cors = require("cors");
-const Bids = require("./models/bids");
-const User = require("./models/user");
+
 const mongoose = require("mongoose");
 const cron = require("node-cron");
 const axios = require("axios");
 const stubble = require("./stubble");
+
+const Bids = require("./models/bids")
+const User = require("./models/user")
+const Stubble = require("./models/stubble")
 
 app.use(cors());
 app.use(
@@ -67,43 +70,56 @@ app.delete("/api/bids/:id", (request, response) => {
 		.catch((error) => next(error));
 });
 
-app.post("/api/bids/addBid", (request, response, next) => {
-	console.log("Posssttteeedd");
-	body = request.body;
-	const endTime = body.end_time.split(':')
-	// console.log(endTime)
-	body.x = parseInt(body.x)
-	body.y = parseInt(body.y)
-	body.z = parseInt(body.z)
-	body.end_time = new Date(new Date().setHours(endTime[0], endTime[1]))
-	console.log(body)
+app.post("/api/bids/addBid", async (request, response, next) => {
+	try {
+		console.log("Posssttteeedd");
+		body = request.body;
+		const endTime = body.end_time.split(':')
+		// console.log(endTime)
+		body.x = parseInt(body.x)
+		body.y = parseInt(body.y)
+		body.z = parseInt(body.z)
+		body.end_time = new Date(new Date().setHours(endTime[0], endTime[1]))
+		console.log(body)
 
-	if (!body.stubble_id) {
-		return response.status(400).json({
-			error: "stubble id missing",
+		if (!body.stubble_id) {
+			return response.status(400).json({
+				error: "stubble id missing",
+			});
+		}
+		if (!body.end_time) {
+			return response.status(400).json({
+				error: "end time missing",
+			});
+		}
+
+		const newStubble = await Stubble.findById(body.stubble_id)
+		newStubble.bidFlag = true
+
+		const stubble = await Stubble.findByIdAndUpdate(body.stubble_id, newStubble)
+
+		const min_cost = body.x + body.y + body.z;
+
+		const bid = new Bids({
+			stubble_id: body.stubble_id,
+			end_time: body.end_time,
+			current_cost: min_cost,
 		});
+
+		await bid.save()
+		response.sendStatus(201).end()
+
+		// bid
+		// 	.save()
+		// 	.then((result) => result.toJSON())
+		// 	.then((result) => {
+		// 		response.json(result);
+		// 	})
+		// 	.catch((error) => next(error));
 	}
-	if (!body.end_time) {
-		return response.status(400).json({
-			error: "end time missing",
-		});
+	catch(error) {
+		next(error)
 	}
-
-	const min_cost = body.x + body.y + body.z;
-
-	const bid = new Bids({
-		stubble_id: body.stubble_id,
-		end_time: body.end_time,
-		current_cost: min_cost,
-	});
-
-	bid
-		.save()
-		.then((result) => result.toJSON())
-		.then((result) => {
-			response.json(result);
-		})
-		.catch((error) => next(error));
 });
 
 app.put("/api/bids/:id", async (request, response, next) => {
