@@ -1,38 +1,7 @@
 import _ from "lodash";
 import { get, post } from "axios";
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { Table, Button, Modal, Input, Label, Grid } from "semantic-ui-react";
-
-const tableData = [
-  {
-    bidId: Math.random(),
-    crop: "Wheat",
-    quantity: 15,
-    currentBid: 9254,
-    endTime: Date.now(),
-  },
-  {
-    bidId: Math.random(),
-    crop: "Wheat",
-    quantity: 35,
-    currentBid: 1257,
-    endTime: Date.now(),
-  },
-  {
-    bidId: Math.random(),
-    crop: "Bajra",
-    quantity: 40,
-    currentBid: 4751,
-    endTime: Date.now(),
-  },
-  {
-    bidId: Math.random(),
-    crop: "Rice",
-    quantity: 25,
-    currentBid: 2571,
-    endTime: Date.now(),
-  },
-];
 
 function tableReducer(state, action) {
   switch (action.type) {
@@ -66,15 +35,13 @@ function tableReducer(state, action) {
     case "CLOSE_MODAL":
       return { ...state, currBidId: undefined, open: false };
     case "CHANGE_BID":
-      return { ...state, currBid: action.payload };
+      return { ...state, inputBid: action.payload };
     default:
       throw new Error();
   }
 }
 
 function TableExampleSortable() {
-  // const [bidsState, setbidsState] = useState([]);
-
   const baseUrl = "http://localhost:8081";
 
   const [state, dispatch] = React.useReducer(tableReducer, {
@@ -84,7 +51,7 @@ function TableExampleSortable() {
     open: false,
     dimmer: undefined,
     currBidId: undefined,
-    currBid: 0,
+    inputBid: 0,
     bids: [],
   });
 
@@ -107,7 +74,6 @@ function TableExampleSortable() {
               day: "numeric",
               hour: "numeric",
               minute: "numeric",
-              second: "numeric",
             }),
             currBid: bid.current_cost,
           };
@@ -120,7 +86,7 @@ function TableExampleSortable() {
   }, []);
 
   const {
-    currBid,
+    inputBid,
     currBidId,
     size,
     column,
@@ -249,8 +215,19 @@ function TableExampleSortable() {
               onClick={() => {
                 // instead of console.log axios request
                 console.log(
-                  `Bid registerd f1or ${currBidId} of amount ${currBid}`
+                  `Bid registerd for ${currBidId} of amount ${inputBid}`
                 );
+                post(`${baseUrl}/api/bids/${currBidId}`, {
+                  current_bidder: "5f26511d6be2c01f8c048eae",
+                  current_cost: inputBid,
+                }).then((res) => {
+                  if (res.status == 201) {
+                    alert("Successfully lodged bid");
+                    window.location.reload(); // Lazy work, need to write another reducer
+                  } else {
+                    alert(res);
+                  }
+                });
                 dispatch({ type: "CLOSE_MODAL" });
               }}
             >
