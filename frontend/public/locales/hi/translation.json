@@ -6,5 +6,13 @@
     "Consumer": "उपभोक्ता",
     "Signup": "साइन अप",
     "Admin": "व्यवस्थापक",
-    "Bidding": "बोली"
+    "Bidding": "बोली",
+    "Name": "नाम",
+    "E-mail address": "ईमेल",
+    "Password": "कुंजिका",
+    "Phone number": "मोबाइल",
+    "Area": "क्षेत्र",
+    "Crop": "फसल",
+    "Sign-up to your account": "साइन अप करें",
+    "Schedule": "अनुसूची"
 }
