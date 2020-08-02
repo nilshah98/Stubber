@@ -4,6 +4,7 @@ const utils = require("./utils");
 
 router.post("/add", async (req, res) => {
 	const { stubbleType, number, weight } = req.body;
+	utils.send_sms(number,`Your ${stubbleType} of ${weight}KG has been collected`)
 	const stubble = await Stubble.findOne({ stubbleType });
 	if (stubble) {
 		stubble.farmers.push({ number, weight });
