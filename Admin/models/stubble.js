@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const stubbleSchema = new mongoose.Schema({
     stubbleType: String,
-    famers : [{
+    farmers : [{
         number : String,
         weight : String
     }]
