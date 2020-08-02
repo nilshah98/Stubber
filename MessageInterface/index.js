@@ -58,7 +58,7 @@ const check_schedule = (number, request) => {
 	axios
 		.get(`http://localhost:8080/api/schedule?farmerphoneNum=${number}`)
 		.then((result) => {
-			send_reply(number, result.data);
+			send_reply(number, `Your current status is ${result.data.status}`);
 			console.log("hervesting started");
 		})
 		.catch((error) => {
