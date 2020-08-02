@@ -1,8 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { get, post } from "axios";
-import { Form, Modal, Table, Button } from "semantic-ui-react";
+import {
+	Form,
+	Modal,
+	Table,
+	Button,
+	Divider,
+	Container,
+	Input,
+	Label,
+} from "semantic-ui-react";
 
-const DashboardTableRow = ({ cluster, index }) => {
+const ClusterTableRow = ({ cluster, index }) => {
 	const { currentCollectionWeight, id } = cluster;
 
 	const [open, setOpen] = useState(false);
@@ -103,7 +112,7 @@ const DashboardTableRow = ({ cluster, index }) => {
 	);
 };
 
-const DashboardTable = () => {
+const ClusterTable = () => {
 	const [clusters, setClusters] = useState([]);
 
 	useEffect(() => {
@@ -115,40 +124,105 @@ const DashboardTable = () => {
 			.catch((err) => console.error("@@", err));
 	}, [setClusters]);
 
-	// const [open, setOpen] = useState(false);
-	// const [state, setState] = useState({});
-	// const handleChange = (name, value) => setState({ [name]: value })
-
 	return (
 		<center>
 			{clusters.length === 0 ? (
 				<h1>No clusters to take delivery from</h1>
 			) : (
-					<Table basic="very" celled collapsing>
-						<Table.Header>
-							<Table.Row>
-								<Table.HeaderCell>Collection#</Table.HeaderCell>
-								<Table.HeaderCell>Weight</Table.HeaderCell>
-								<Table.HeaderCell />
-							</Table.Row>
-						</Table.Header>
+				<Table basic="very" celled collapsing>
+					<Table.Header>
+						<Table.Row>
+							<Table.HeaderCell>Collection#</Table.HeaderCell>
+							<Table.HeaderCell>Weight</Table.HeaderCell>
+							<Table.HeaderCell />
+						</Table.Row>
+					</Table.Header>
 
-						<Table.Body>
-							{clusters.map((cluster, index) => (
-								<DashboardTableRow cluster={cluster} index={index} />
-							))}
-						</Table.Body>
-					</Table>
-				)}
+					<Table.Body>
+						{clusters.map((cluster, index) => (
+							<ClusterTableRow cluster={cluster} index={index} />
+						))}
+					</Table.Body>
+				</Table>
+			)}
+		</center>
+	);
+};
+
+const StubbleCollectionRegistry = () => {
+	const [state, setState] = useState({});
+	const handleChange = (name, value) => setState({ ...state, [name]: value });
+
+	const handleSubmit = (event) => {
+		event.preventDefault();
+		console.log(state);
+		post("http://localhost:8081/api/stubble/add", state).then((res) => {
+			prompt("Done!");
+			window.location.reload();
+		});
+	};
+
+	return (
+		<center>
+			<Form>
+				<h1>Stubble Collection Registry</h1>
+				{/* stubbleType, number, weight */}
+				<Form.Field>
+					<Input
+						label="Crop Type of Stubble"
+						type="text"
+						name="stubbleType"
+						placeholder="Wheat, Rice, ...."
+						value={state["stubbleType"]}
+						onChange={({ target }) => handleChange("stubbleType", target.value)}
+					/>
+				</Form.Field>
+
+				<Form.Field>
+					<Input
+						label="Farmer Phone Number"
+						type="number"
+						name="number"
+						placeholder="9999999999"
+						value={state["number"]}
+						onChange={({ target }) => handleChange("number", target.value)}
+					/>
+				</Form.Field>
+
+				<Form.Field>
+					<Input
+						labelPosition="right"
+						type="number"
+						placeholder="Amount"
+						value={state["weight"]}
+						onChange={({ target }) => handleChange("weight", target.value)}
+					>
+						<Label>Weight of Stubble Collected</Label>
+						<input />
+						<Label>Kg</Label>
+					</Input>
+				</Form.Field>
+
+				<Button
+					content="Submit"
+					secondary
+					type="submit"
+					icon="world"
+					labelPosition="right"
+					onClick={handleSubmit}
+				/>
+			</Form>
 		</center>
 	);
 };
 
 const ADashboard = () => {
 	return (
-		<div>
-			<DashboardTable />
-		</div>
+		<Container>
+			<ClusterTable />
+			<Divider />
+			<StubbleCollectionRegistry />
+		</Container>
 	);
 };
 
