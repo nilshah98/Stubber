@@ -77,7 +77,7 @@ loginRouter.post('/signup', async (request, response, next) => {
           bank_accno: body.bank_accno,
           bank_name: body.bank_name,
           razorpayLinkedAccount: "not yet",
-          phone: body.phone,
+          phone: parseInt(body.phone),
           email: body.email
         })
 
