@@ -1,7 +1,7 @@
 const calculateShare = (total_cost, convinience_charge, stubble) => {
 	gross_cost = total_cost - convinience_charge;
 	total_stubble = stubble.reduce((accum, farmer) => {
-		return accum + farmer.weight;
+		return accum + parseInt(farmer.weight);
 	}, 0);
 	final_share = {};
 	stubble.forEach((farmer) => {

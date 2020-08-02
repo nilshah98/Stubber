@@ -6,13 +6,15 @@ import { Form, Modal, Table, Button } from "semantic-ui-react";
 const DashboardTableRow = ({ stubble, index }) => {
 	const { totalWeight, stubbleType, stubbleID } = stubble;
 
+	const baseUrl = 'http://localhost:8081'
+
 	const [open, setOpen] = useState(false);
 	const [state, setState] = useState({
-        stubbleId: stubbleID,
+        stubble_id: stubbleID,
 		x: "300",
 		y: "100",
         z: "200",
-        endTime: "00:00"
+        end_time: "00:00"
     });
     
 	const handleChange = (name, value) => setState({ ...state, [name]: value });
@@ -22,7 +24,7 @@ const DashboardTableRow = ({ stubble, index }) => {
         
         //Use post to add a new bid
 
-		post("/api/bids/addBid", state).then(() => {
+		post(`${baseUrl}/api/bids/addBid`, state).then(() => {
 			setOpen(false);
 			window.location.reload();
 		});
@@ -77,7 +79,7 @@ const DashboardTableRow = ({ stubble, index }) => {
 								placeholder="00:00"
 								type="time"
 								name="endTime"
-								value={state["endTime"]}
+								value={state["end_time"]}
 								onChange={({ target }) =>
 									handleChange("endTime", target.value)
 								}
@@ -105,11 +107,11 @@ const DashboardTableRow = ({ stubble, index }) => {
 
 const DashboardTable=()=>{
     const [stubbles, setStubbles] = useState([]);
-
+	const baseUrl = 'http://localhost:8081'
     //Use the stubble get request
 
 	useEffect(() => {
-		get("/api/stubbles/getStubbles")
+		get(`${baseUrl}/api/stubble/getStubbles`)
 			.then((res) => {
 				console.log(res);
 				setStubbles(res.data);

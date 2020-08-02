@@ -17,30 +17,30 @@ app.use(
 app.use(express.json());
 app.use("/api/stubble", stubble);
 
-cron.schedule("* * * * *", function () {
-	console.log("---------------------");
-	console.log("Running Cron Job");
+// cron.schedule("* * * * *", function () {
+// 	console.log("---------------------");
+// 	console.log("Running Cron Job");
 
-	let t = new Date();
-	let curr_time = t.toISOString();
+// 	let t = new Date();
+// 	let curr_time = t.toISOString();
 
-	Bids.deleteMany({
-		end_time: {
-			$lt: curr_time,
-		},
-	}).then((res) => {
-		const paymentDetails = `Congratulations your bid has been selected. Pay the amount `;
-		// {
-		//     "rtgs/neft": {
-		//         "ifsc": "RAZR0000001",
-		//         "account_number": "1112220041365613",
-		//         "name": "Acme group",
-		//     }
-		// };
-		// axios.post(`${process.env.NOTIF_URI}/api/notif/bulk`, paymentDetails);
-		console.log("Deleted");
-	});
-});
+// 	Bids.deleteMany({
+// 		end_time: {
+// 			$lt: curr_time,
+// 		},
+// 	}).then((res) => {
+// 		const paymentDetails = `Congratulations your bid has been selected. Pay the amount `;
+// 		// {
+// 		//     "rtgs/neft": {
+// 		//         "ifsc": "RAZR0000001",
+// 		//         "account_number": "1112220041365613",
+// 		//         "name": "Acme group",
+// 		//     }
+// 		// };
+// 		// axios.post(`${process.env.NOTIF_URI}/api/notif/bulk`, paymentDetails);
+// 		console.log("Deleted");
+// 	});
+// });
 
 app.get("/api/bids", (request, response) => {
 	Bids.find({}).then((result) => {
@@ -70,6 +70,13 @@ app.delete("/api/bids/:id", (request, response) => {
 app.post("/api/bids/addBid", (request, response, next) => {
 	console.log("Posssttteeedd");
 	body = request.body;
+	const endTime = body.end_time.split(':')
+	// console.log(endTime)
+	body.x = parseInt(body.x)
+	body.y = parseInt(body.y)
+	body.z = parseInt(body.z)
+	body.end_time = new Date(new Date().setHours(endTime[0], endTime[1]))
+	console.log(body)
 
 	if (!body.stubble_id) {
 		return response.status(400).json({

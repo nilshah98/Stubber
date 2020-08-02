@@ -33,16 +33,20 @@ router.post("/calculate", async (req, res) => {
 
 router.get("/getStubbles", async (req, res) => {
 	const stubbles = await Stubble.find();
-	allStubbles = [];
+	let allStubbles = [];
 	stubbles.forEach((stubble) => {
 		const totalWeight = stubble.farmers.reduce((accum, farmer) => {
-			return accum + farmer.weight;
+			return accum + parseInt(farmer.weight);
 		}, 0);
-		allStubbles.push[
-			{ stubbleType: stubble.stubbleType, totalWeight, stubbleID: stubble._id }
-		];
+		console.log(totalWeight)
+		allStubbles.push(
+			{ stubbleType: stubble.stubbleType,
+			totalWeight, 
+			stubbleID: stubble._id }
+			)
 	});
-	res.status().json(allStubbles);
+	console.log(allStubbles)
+	res.status(200).json(allStubbles);
 });
 
 module.exports = router;

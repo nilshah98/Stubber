@@ -35,7 +35,7 @@ const ClusterTableRow = ({ cluster, index }) => {
 
   return (
     <Table.Row>
-      <Table.Cell>{index + 1}</Table.Cell>
+      <Table.Cell >{index + 1}</Table.Cell>
       <Table.Cell>{currentCollectionWeight} Kg</Table.Cell>
       <Table.Cell>
         {/* datePickup = date,
@@ -130,7 +130,7 @@ const ClusterTable = () => {
       {clusters.length === 0 ? (
         <h1>No clusters to take delivery from</h1>
       ) : (
-        <Table basic="very" celled collapsing>
+        <Table basic="very" celled collapsing inverted>
           <Table.Header>
             <Table.Row>
               <Table.HeaderCell>Collection#</Table.HeaderCell>
