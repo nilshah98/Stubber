@@ -476,7 +476,7 @@ app.get("/api/schedule/", async (req, res) => {
 	const schedule = truck.schedule;
 
 	res.status(200).json({
-		status: schedule.events[0],
+		status: schedule.events[0].status,
 	});
 });
 
