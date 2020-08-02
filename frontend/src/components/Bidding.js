@@ -3,10 +3,34 @@ import React from "react";
 import { Table, Button, Modal, Input, Label, Grid } from "semantic-ui-react";
 
 const tableData = [
-  { bidId: Math.random(), crop: "Wheat", quantity: 15, endTime: Date.now() },
-  { bidId: Math.random(), crop: "Wheat", quantity: 35, endTime: Date.now() },
-  { bidId: Math.random(), crop: "Bajra", quantity: 40, endTime: Date.now() },
-  { bidId: Math.random(), crop: "Rice", quantity: 25, endTime: Date.now() },
+  {
+    bidId: Math.random(),
+    crop: "Wheat",
+    quantity: 15,
+    currentBid: 9254,
+    endTime: Date.now(),
+  },
+  {
+    bidId: Math.random(),
+    crop: "Wheat",
+    quantity: 35,
+    currentBid: 1257,
+    endTime: Date.now(),
+  },
+  {
+    bidId: Math.random(),
+    crop: "Bajra",
+    quantity: 40,
+    currentBid: 4751,
+    endTime: Date.now(),
+  },
+  {
+    bidId: Math.random(),
+    crop: "Rice",
+    quantity: 25,
+    currentBid: 2571,
+    endTime: Date.now(),
+  },
 ];
 
 function tableReducer(state, action) {
@@ -101,11 +125,19 @@ function TableExampleSortable() {
               >
                 End Time
               </Table.HeaderCell>
+              <Table.HeaderCell
+                sorted={column === "currentBid" ? direction : null}
+                onClick={() =>
+                  dispatch({ type: "CHANGE_SORT", column: "currentBid" })
+                }
+              >
+                Current Bid
+              </Table.HeaderCell>
               <Table.HeaderCell>Place Bid</Table.HeaderCell>
             </Table.Row>
           </Table.Header>
           <Table.Body>
-            {data.map(({ bidId, crop, quantity, endTime }) => (
+            {data.map(({ bidId, crop, quantity, endTime, currentBid }) => (
               <Table.Row key={bidId}>
                 <Table.Cell>{crop}</Table.Cell>
                 <Table.Cell>{quantity}</Table.Cell>
@@ -119,6 +151,7 @@ function TableExampleSortable() {
                     second: "numeric",
                   })}
                 </Table.Cell>
+                <Table.Cell>₹{currentBid}</Table.Cell>
                 <Table.Cell>
                   <Button
                     inverted
