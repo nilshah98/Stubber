@@ -32,7 +32,7 @@ router.post("/calculate", async (req, res) => {
 });
 
 router.get("/getStubbles", async (req, res) => {
-	const stubbles = await Stubble.find();
+	const stubbles = await Stubble.find({bidFlag: false});
 	let allStubbles = [];
 	stubbles.forEach((stubble) => {
 		const totalWeight = stubble.farmers.reduce((accum, farmer) => {
