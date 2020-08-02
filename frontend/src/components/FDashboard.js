@@ -70,7 +70,7 @@ const FDashboard = () => {
           <Card.Content>
             <Card.Header>What does Start Harvesting mean?</Card.Header>
             <Card.Description>
-              Steve wants to add you to the group <strong>best friends</strong>
+              The farmer is going to pluck out the grown crops
             </Card.Description>
           </Card.Content>
           <Card.Content extra>
@@ -130,7 +130,7 @@ const FDashboard = () => {
           <Card.Content>
             <Card.Header>What does Show your History mean?</Card.Header>
             <Card.Description>
-              Molly wants to add you to the group <strong>musicians</strong>
+              The farmer's previous stubble collected over a period of time
             </Card.Description>
           </Card.Content>
           <Card.Content extra>
