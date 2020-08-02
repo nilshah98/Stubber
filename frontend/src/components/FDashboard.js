@@ -9,10 +9,10 @@ import {
   Step,
   Divider,
   Form,
-  Modal
+  Modal,
 } from "semantic-ui-react";
 
-import farmerService from '../services/farmer'
+import farmerService from "../services/farmer";
 
 const ClusterDetails = () => (
   <div style={{ display: "flex", justifyContent: "center" }}>
@@ -50,45 +50,54 @@ const FDashboard = () => {
       ")",
   };
 
-  const [open, setOpen] = useState(false)
-  const [quantity, setQuantity] = useState(0)
-  const [phone, setPhone] = useState(0)
+  const [open, setOpen] = useState(false);
+  const [quantity, setQuantity] = useState(0);
+  const [phone, setPhone] = useState(0);
 
   const handleSubmit = (event) => {
-    event.preventDefault()
-    console.log(phone, quantity)
-    farmerService.startHarvesting(phone, quantity)
-    setPhone(0)
-    setQuantity(0)
-  }
+    event.preventDefault();
+    console.log(phone, quantity);
+    farmerService.startHarvesting(phone, quantity);
+    setPhone(0);
+    setQuantity(0);
+  };
 
   return (
     <Container>
-      <Card.Group centered>
-        <Card>
+      <Card.Group inverted centered>
+        <Card style={{ backgroundColor: "#222" }}>
           <Image src="https://upload.wikimedia.org/wikipedia/commons/b/b0/Agriculture_in_Volgograd_Oblast_002.JPG" />
-          <Card.Content>
-            <Card.Header>What does Start Harvesting mean?</Card.Header>
-            <Card.Description>
+          <Card.Content style={{ color: "#ddd" }}>
+            <Card.Header style={{ color: "#ddd" }}>
+              What does Start Harvesting mean?
+            </Card.Header>
+            <Card.Description style={{ color: "#ddd" }}>
               The farmer is going to pluck out the grown crops
             </Card.Description>
           </Card.Content>
           <Card.Content extra>
             <Modal
+              style={{ borderRadius: "10px" }}
               onClose={() => setOpen(false)}
               onOpen={() => setOpen(true)}
               open={open}
-              trigger={<Button color="brown" icon="cut" size="massive">
-                <Icon name="cut" />
-                Start Harvest
+              size="mini"
+              trigger={
+                <Button inverted color="brown" icon="cut" size="massive">
+                  <Icon name="cut" />
+                  Start Harvest
                 </Button>
               }
             >
-              <Modal.Header>Add Details</Modal.Header>
-              <Modal.Content>
+              <Modal.Header style={{ color: "white", backgroundColor: "#222" }}>
+                Add Details
+              </Modal.Header>
+              <Modal.Content style={{ backgroundColor: "#222" }}>
                 <Form>
                   <Form.Field>
-                    <label htmlFor="phone no">Phone Number</label>
+                    <label style={{ color: "#ddd" }} htmlFor="phone no">
+                      Phone Number
+                    </label>
                     <input
                       placeholder="Mobile"
                       type="number"
@@ -98,7 +107,9 @@ const FDashboard = () => {
                     />
                   </Form.Field>
                   <Form.Field>
-                    <label htmlFor="quantity">Quantity</label>
+                    <label style={{ color: "#ddd" }} htmlFor="quantity">
+                      Quantity
+                    </label>
                     <input
                       placeholder="Quantity"
                       type="number"
@@ -108,16 +119,21 @@ const FDashboard = () => {
                     />
                   </Form.Field>
 
-                  <Modal.Actions>
-                    <Button color="black" onClick={() => setOpen(false)}>
+                  <Modal.Actions
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <Button inverted color="red" onClick={() => setOpen(false)}>
                       Nope
-                      </Button>
+                    </Button>
                     <Button
+                      inverted
                       content="Done"
-                      labelPosition="right"
-                      icon="checkmark"
                       onClick={handleSubmit}
-                      positive
+                      color="green"
                     />
                   </Modal.Actions>
                 </Form>
@@ -125,24 +141,26 @@ const FDashboard = () => {
             </Modal>
           </Card.Content>
         </Card>
-        <Card>
+        <Card style={{ backgroundColor: "#222" }}>
           <Image src="https://cdn.ablebits.com/_img-blog/line-graph/line-graph-excel.png" />
           <Card.Content>
-            <Card.Header>What does Show your History mean?</Card.Header>
-            <Card.Description>
+            <Card.Header style={{ color: "#ddd" }}>
+              What does Show your History mean?
+            </Card.Header>
+            <Card.Description style={{ color: "#ddd" }}>
               The farmer's previous stubble collected over a period of time
             </Card.Description>
           </Card.Content>
           <Card.Content extra>
-            <Button secondary size="massive">
+            <Button inverted secondary size="massive">
               <Icon name="history" />
               Show History
             </Button>
           </Card.Content>
         </Card>
-      </Card.Group >
-      <ClusterDetails />
-    </Container >
+      </Card.Group>
+      {/* <ClusterDetails /> */}
+    </Container>
   );
 };
 
