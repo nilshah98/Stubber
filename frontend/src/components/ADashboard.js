@@ -170,6 +170,7 @@ const StubbleCollectionRegistry = () => {
         {/* stubbleType, number, weight */}
         <Form.Field>
           <Input
+            fluid
             label="Crop Type of Stubble"
             type="text"
             name="stubbleType"
@@ -182,6 +183,7 @@ const StubbleCollectionRegistry = () => {
         <Form.Field>
           <Input
             label="Farmer Phone Number"
+            fluid
             type="number"
             name="number"
             placeholder="9999999999"
@@ -193,6 +195,7 @@ const StubbleCollectionRegistry = () => {
         <Form.Field>
           <Input
             labelPosition="right"
+            fluid
             type="number"
             placeholder="Amount"
             value={state["weight"]}
