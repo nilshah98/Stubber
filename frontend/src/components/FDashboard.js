@@ -62,12 +62,12 @@ const FDashboard = () => {
     backgroundSize: "cover",
     backgroundImage:
       "url(" +
-      "https://www.commondreams.org/sites/default/files/styles/cd_large/public/views-article/farms.jpeg?itok=cTmtRuzF" +
+      "https://images.unsplash.com/photo-1554973653-c9071bd14011?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=961&q=80" +
       ")",
   };
 
   return (
-    <Container style={imgStyle}>
+    <Container>
       <Card.Group centered>
         <Card>
           <Image src="https://upload.wikimedia.org/wikipedia/commons/b/b0/Agriculture_in_Volgograd_Oblast_002.JPG" />
