@@ -6,5 +6,13 @@
 	"Consumer": "Consumer",
 	"Signup": "Sign Up",
 	"Admin": "Admin",
-	"Bidding": "Bidding"
+	"Bidding": "Bidding",
+	"Name": "Name",
+    "E-mail address": "E-mail address",
+    "Password": "Password",
+    "Phone number": "Mobile",
+    "Area": "Area",
+	"Crop": "Crop",
+	"Sign-up to your account": "Sign-up to your account",
+	"Schedule": "Schedule"
 }
