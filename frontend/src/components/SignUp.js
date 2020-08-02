@@ -76,11 +76,11 @@ const SignupForm = () => {
   return (
     <Grid textAlign="center" style={{ height: "100%" }} verticalAlign="middle">
       <Grid.Column width={4}>
-        <Header as="h2" color="black" textAlign="center">
-          {t("Sign-up to your account")}
-        </Header>
         <Form size="large" onSubmit={handleSignup}>
-          <Segment stacked inverted>
+          <Segment padded stacked inverted>
+            <Header as="h2" color="black" textAlign="center">
+              {t("Sign-up to your account")}
+            </Header>
             <Form.Input
               fluid
               placeholder={t("Name", "Name")}
@@ -131,7 +131,7 @@ const SignupForm = () => {
             />
             <Form.Input
               fluid
-              placeholder={t("Razorpay Network ID","Razorpay Network ID")}
+              placeholder={t("Razorpay Network ID", "Razorpay Network ID")}
               type="text"
               required
               onChange={({ target }) => setRazorpay(target.value)}
@@ -141,7 +141,7 @@ const SignupForm = () => {
               Longitude: <Form.Field label={lon} disabled />
             </Form.Group> */}
 
-            <Button positive fluid size="large" type="submit">
+            <Button inverted color="green" fluid size="large" type="submit">
               {t("Signup")}
             </Button>
           </Segment>
