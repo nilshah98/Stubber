@@ -3,6 +3,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const axios = require("axios");
+const cors = require("cors");
 // const cron = require("node-cron");
 // const { agnes } = require("ml-hclust");
 const User = require("./models/user");
@@ -16,6 +17,7 @@ const Cluster = require("./models/cluster");
 const app = express();
 // const port = 5000
 
+app.use(cors());
 app.use(bodyParser.json()); // support json encoded bodies
 app.use(
 	bodyParser.urlencoded({
