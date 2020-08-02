@@ -69,8 +69,8 @@ const App = () => {
 				</Segment>
 				<Switch>
 					<Route path="/farmer">
-						{/* <FDashboard /> */}
-						<TableExampleSortable/>
+						<FDashboard />
+						{/* <TableExampleSortable/> */}
 					</Route>
 					<Route path="/consumer">
 						<CDashboard />
