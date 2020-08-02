@@ -33,6 +33,10 @@ const App = () => {
   };
 
   const imgStyle = {
+    height: "100%",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
     backgroundSize: "cover",
     backgroundImage:
       "url(" +
@@ -81,7 +85,9 @@ const App = () => {
             </Container>
           </Menu>
         </Segment>
-        <div style={{ flexGrow: "1" }}>
+        <div
+          style={{ flexGrow: "1", display: "flex", flexDirection: "column" }}
+        >
           <Switch>
             <Route path="/farmer">
               <div style={imgStyle}>
