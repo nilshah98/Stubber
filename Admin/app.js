@@ -117,7 +117,7 @@ app.post("/api/bids/addBid", async (request, response, next) => {
 		// 	})
 		// 	.catch((error) => next(error));
 	}
-	catch(error) {
+	catch (error) {
 		next(error)
 	}
 });
