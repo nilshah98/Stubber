@@ -126,45 +126,34 @@ app.post("/api/bids/addBid", async (request, response, next) => {
   }
 });
 
-app.put("/api/bids/:id", async (request, response, next) => {
+app.post("/api/bids/:id", async (request, response, next) => {
   const body = request.body;
 
-  console.log("body", body);
+  console.log("Received request as ->", body);
 
-  const bid = await Bids.findbyId(request.params.id);
+  body.current_cost = parseInt(body.current_cost);
+
+  const bid = await Bids.findById(request.params.id);
 
   const user = await User.findById(body.current_bidder); //Doubt
 
-  if (user.usertype != "consumer") {
-    return res.status(404).end();
+  if (!user.usertype) {
+    return response
+      .status(401)
+      .json({ error: "You are not a registered customer" })
+      .end();
+  } else if (bid.current_cost >= body.current_cost) {
+    return response
+      .status(401)
+      .json({ error: "Your bid must be higher than the previous one." })
+      .end();
   } else {
-    if (bid.current_cost <= body.current_cost) {
-      return res
-        .status(401)
-        .json({ error: "Your bid must be higher than the previous one." });
-    }
-
     bid.current_cost = body.current_cost;
     bid.current_bidder = body.current_bidder;
 
     await bid.save();
+    return response.status(201).end();
   }
-
-  // body should contain ---> cost
-  // get consumer id from token
-
-  const bid1 = {
-    current_cost: body.current_cost,
-    current_bidder: body.current_bidder,
-  };
-
-  Bids.findByIdAndUpdate(request.params.id, bid1, {
-    new: true,
-  })
-    .then((updatedContact) => {
-      response.json(updatedContact.toJSON());
-    })
-    .catch((error) => next(error));
 });
 
 module.exports = app;
