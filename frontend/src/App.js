@@ -68,7 +68,9 @@ const App = () => {
         </Segment>
         <Switch>
           <Route path="/farmer">
-            <FDashboard />
+            <div style={imgStyle}>
+              <FDashboard />
+            </div>
             {/* <TableExampleSortable /> */}
           </Route>
           <Route path="/consumer">
