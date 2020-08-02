@@ -1,5 +1,6 @@
 import _ from "lodash";
-import React from "react";
+import { get, post } from "axios";
+import React, { useState, useEffect } from "react";
 import { Table, Button, Modal, Input, Label, Grid } from "semantic-ui-react";
 
 const tableData = [
@@ -35,11 +36,16 @@ const tableData = [
 
 function tableReducer(state, action) {
   switch (action.type) {
+    case "DATA_LOAD":
+      return {
+        ...state,
+        bids: action.bids,
+      };
     case "CHANGE_SORT":
       if (state.column === action.column) {
         return {
           ...state,
-          data: state.data.reverse(),
+          bids: state.bids.reverse(),
           direction:
             state.direction === "ascending" ? "descending" : "ascending",
         };
@@ -47,7 +53,7 @@ function tableReducer(state, action) {
       return {
         ...state,
         column: action.column,
-        data: _.sortBy(state.data, [action.column]),
+        bids: _.sortBy(state.bids, [action.column]),
         direction: "ascending",
       };
     case "OPEN_MODAL":
@@ -67,25 +73,61 @@ function tableReducer(state, action) {
 }
 
 function TableExampleSortable() {
+  // const [bidsState, setbidsState] = useState([]);
+
+  const baseUrl = "http://localhost:8081";
+
   const [state, dispatch] = React.useReducer(tableReducer, {
     size: "mini",
     column: null,
-    data: tableData,
     direction: null,
     open: false,
     dimmer: undefined,
     currBidId: undefined,
     currBid: 0,
+    bids: [],
   });
+
+  useEffect(() => {
+    get(`${baseUrl}/api/bids`)
+      .then((res) => {
+        console.log(res.data);
+        let newState = [];
+
+        res.data.forEach((bid) => {
+          let currBid = {
+            bidId: bid.id,
+            crop: bid.stubble_id.stubbleType,
+            quantity: bid.stubble_id.farmers.reduce((accum, farmer) => {
+              return accum + parseInt(farmer.weight);
+            }, 0),
+            endTime: new Date(bid.end_time).toLocaleDateString("en-US", {
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+              hour: "numeric",
+              minute: "numeric",
+              second: "numeric",
+            }),
+            currBid: bid.current_cost,
+          };
+
+          newState.push(currBid);
+        });
+        dispatch({ type: "DATA_LOAD", bids: newState });
+      })
+      .catch((err) => console.error("@@", err));
+  }, []);
+
   const {
     currBid,
     currBidId,
     size,
     column,
-    data,
     direction,
     open,
     dimmer,
+    bids,
   } = state;
 
   return (
@@ -137,21 +179,12 @@ function TableExampleSortable() {
             </Table.Row>
           </Table.Header>
           <Table.Body>
-            {data.map(({ bidId, crop, quantity, endTime, currentBid }) => (
+            {bids.map(({ bidId, crop, quantity, endTime, currBid }) => (
               <Table.Row key={bidId}>
                 <Table.Cell>{crop}</Table.Cell>
                 <Table.Cell>{quantity}</Table.Cell>
-                <Table.Cell>
-                  {new Date(endTime + 99999999).toLocaleDateString("en-US", {
-                    year: "numeric",
-                    month: "long",
-                    day: "numeric",
-                    hour: "numeric",
-                    minute: "numeric",
-                    second: "numeric",
-                  })}
-                </Table.Cell>
-                <Table.Cell>₹{currentBid}</Table.Cell>
+                <Table.Cell>{endTime}</Table.Cell>
+                <Table.Cell>₹{currBid}</Table.Cell>
                 <Table.Cell>
                   <Button
                     inverted
