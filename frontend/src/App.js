@@ -36,7 +36,7 @@ const App = () => {
     backgroundSize: "cover",
     backgroundImage:
       "url(" +
-      "https://images.unsplash.com/photo-1554973653-c9071bd14011?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=961&q=80%27+%27)%27" +
+      "https://images.unsplash.com/photo-1554973653-c9071bd14011?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=961&q=80" +
       ")",
   };
 
