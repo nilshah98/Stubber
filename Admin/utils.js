@@ -12,4 +12,4 @@ const calculateShare = (total_cost, convinience_charge, stubble) => {
   return final_share;
 };
 
-module.exports = { calculateShare, sendSms };
+module.exports = { calculateShare };
