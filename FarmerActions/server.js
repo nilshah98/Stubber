@@ -83,9 +83,9 @@ const sendNotifFromUserId = async (idArray, message) => {
 	});
 };
 
-app.get("/api/", (req, res) => res.send("Hello World!"));
+app.get("/api/farmer/", (req, res) => res.send("Hello World!"));
 
-app.post("/api/scheduleTruck", async (req, res) => {
+app.post("/api/farmer/scheduleTruck", async (req, res) => {
 	const {
 		datePickup,
 		driverContact,
@@ -114,7 +114,7 @@ app.post("/api/scheduleTruck", async (req, res) => {
 
 	cluster.truck = truck._id;
 	cluster.farmerAndEvents.forEach((fne) => {
-		fne.events = [{ status: "ASSIGNED" }];
+		fne.events = [{ status: "ASSIGNED" }, ...fne.events];
 	});
 
 	await cluster.save();
@@ -132,7 +132,7 @@ app.post("/api/scheduleTruck", async (req, res) => {
 	res.status(201).end();
 });
 
-app.post("/api/update-status/:phoneNumber", async (req, res) => {
+app.post("/api/farmer/update-status/:phoneNumber", async (req, res) => {
 	const { status } = req.body;
 	const farmerphoneNum = req.params.phoneNumber;
 
@@ -151,9 +151,9 @@ app.post("/api/update-status/:phoneNumber", async (req, res) => {
 	for (let fne of cluster.farmerAndEvents) {
 		if (farmer._id.toString() === fne.farmer.toString()) {
 			if (status === "COLLECTED") {
-				// axios.post(`${process.env.NOTIF_URI}/api/notif/${farmer._id}`, {
-				// 	message: `Hello '${farmer.name}' your stubble is collected from you.`,
-				// });
+				axios.post(`${process.env.NOTIF_URI}/api/notif/${farmer._id}`, {
+					message: `Hello '${farmer.name}' your stubble is collected from you.`,
+				});
 				fne.events = [{ status: "COLLECTED" }, ...fne.events];
 				const newCluster = cluster;
 				newCluster.farmerAndEvents = cluster.farmerAndEvents.map((fne1) =>
@@ -197,7 +197,7 @@ B. Send notifcation =>
 2. Get the mobile number of the farmer and send notif
 */
 
-app.post("/api/startHarvesting", async (req, res) => {
+app.post("/api/farmer/startHarvesting", async (req, res) => {
 	const { farmerphoneNum, quantity } = req.body;
 
 	// find farmer from phone number
@@ -265,11 +265,11 @@ app.post("/api/startHarvesting", async (req, res) => {
 
 		// recalculate median of cluster
 		const newClusterMedianLat =
-			(clusterLat * nearestCluster.farmer.length + farmerLat) /
-			(nearestCluster.farmer.length + 1);
+			(clusterLat * nearestCluster.farmerAndEvents.length + farmerLat) /
+			(nearestCluster.farmerAndEvents.length + 1);
 		const newClusterMedianLong =
-			(clusterLong * nearestCluster.farmer.length + farmerLong) /
-			(nearestCluster.farmer.length + 1);
+			(clusterLong * nearestCluster.farmerAndEvents.length + farmerLong) /
+			(nearestCluster.farmerAndEvents.length + 1);
 
 		// update nearest cluster
 		nearestCluster.farmerAndEvents.push({
@@ -295,12 +295,12 @@ app.post("/api/startHarvesting", async (req, res) => {
 	return res.status(201).end();
 });
 
-app.get("/api/clusters/", async (req, res) => {
+app.get("/api/farmer/clusters/", async (req, res) => {
 	const clusters = await Cluster.find({ truck: null });
 	res.json(clusters.map((cluster) => cluster.toJSON()));
 });
 
-app.get("/api/schedule/", async (req, res) => {
+app.get("/api/farmer/schedule/", async (req, res) => {
 	const farmerphoneNum = parseInt(req.query.farmerphoneNum);
 
 	const farmer = await User.findOne({ phone: farmerphoneNum }).populate(

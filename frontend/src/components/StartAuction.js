@@ -6,23 +6,23 @@ import { Form, Modal, Table, Button } from "semantic-ui-react";
 const DashboardTableRow = ({ stubble, index }) => {
 	const { totalWeight, stubbleType, stubbleID } = stubble;
 
-	const baseUrl = 'http://localhost:8081'
+	const baseUrl = "http://localhost:8081";
 
 	const [open, setOpen] = useState(false);
 	const [state, setState] = useState({
-        stubble_id: stubbleID,
+		stubble_id: stubbleID,
 		x: "300",
 		y: "100",
-        z: "200",
-        end_time: "00:00"
-    });
-    
+		z: "200",
+		end_time: "00:00",
+	});
+
 	const handleChange = (name, value) => setState({ ...state, [name]: value });
 
 	const handleSubmit = (event) => {
-        event.preventDefault();
-        
-        //Use post to add a new bid
+		event.preventDefault();
+
+		//Use post to add a new bid
 
 		post(`${baseUrl}/api/bids/addBid`, state).then(() => {
 			setOpen(false);
@@ -32,14 +32,14 @@ const DashboardTableRow = ({ stubble, index }) => {
 
 	return (
 		<Table.Row>
-			<Table.Cell>{index + 1}</Table.Cell>
+			<Table.Cell>{stubbleType}</Table.Cell>
 			<Table.Cell>{totalWeight} Kg</Table.Cell>
 			<Table.Cell>
 				<Modal
 					onClose={() => setOpen(false)}
 					onOpen={() => setOpen(true)}
 					open={open}
-					trigger={<Button>Start Auction for {stubbleType}</Button>}
+					trigger={<Button>Start Auction</Button>}
 				>
 					<Modal.Header>Add Truck and Pickup Details</Modal.Header>
 					<Modal.Content>
@@ -50,9 +50,7 @@ const DashboardTableRow = ({ stubble, index }) => {
 								type="text"
 								name="x"
 								value={state["x"]}
-								onChange={({ target }) =>
-									handleChange("x", target.value)
-								}
+								onChange={({ target }) => handleChange("x", target.value)}
 							/>
 							<label htmlFor="y">Transportation Cost</label>
 							<input
@@ -60,9 +58,7 @@ const DashboardTableRow = ({ stubble, index }) => {
 								type="text"
 								name="y"
 								value={state["y"]}
-								onChange={({ target }) =>
-									handleChange("y", target.value)
-								}
+								onChange={({ target }) => handleChange("y", target.value)}
 							/>
 							<label htmlFor="z">Convenience Charges</label>
 							<input
@@ -70,18 +66,16 @@ const DashboardTableRow = ({ stubble, index }) => {
 								type="text"
 								name="z"
 								value={state["z"]}
-								onChange={({ target }) =>
-									handleChange("z", target.value)
-								}
+								onChange={({ target }) => handleChange("z", target.value)}
 							/>
-                            <label htmlFor="endTime">End time of the Auction</label>
+							<label htmlFor="endTime">End time of the Auction</label>
 							<input
 								placeholder="00:00"
 								type="time"
-								name="endTime"
+								name="end_time"
 								value={state["end_time"]}
 								onChange={({ target }) =>
-									handleChange("endTime", target.value)
+									handleChange("end_time", target.value)
 								}
 							/>
 							<Modal.Actions>
@@ -104,11 +98,10 @@ const DashboardTableRow = ({ stubble, index }) => {
 	);
 };
 
-
-const DashboardTable=()=>{
-    const [stubbles, setStubbles] = useState([]);
-	const baseUrl = 'http://localhost:8081'
-    //Use the stubble get request
+const DashboardTable = () => {
+	const [stubbles, setStubbles] = useState([]);
+	const baseUrl = "http://localhost:8081";
+	//Use the stubble get request
 
 	useEffect(() => {
 		get(`${baseUrl}/api/stubble/getStubbles`)
@@ -117,9 +110,9 @@ const DashboardTable=()=>{
 				setStubbles(res.data);
 			})
 			.catch((err) => console.error("Unable to get stubble (Frontend)", err));
-    }, [setStubbles]);
-    
-    return (
+	}, [setStubbles]);
+
+	return (
 		<center>
 			{stubbles.length === 0 ? (
 				<h1>No Stubbles to bid on</h1>
@@ -142,14 +135,14 @@ const DashboardTable=()=>{
 			)}
 		</center>
 	);
-}
+};
 
 const StartAuction = () => {
-  return (
-    <div>
-      <DashboardTable />
-    </div>
-  );
+	return (
+		<div>
+			<DashboardTable />
+		</div>
+	);
 };
 
 export default StartAuction;

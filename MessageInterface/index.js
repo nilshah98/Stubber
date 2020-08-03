@@ -13,7 +13,7 @@ const headers = {
 	"Cache-Control": "no-cache",
 };
 
-app.post("/sms", (req, res) => {
+app.post("/api/message-interface/sms", (req, res) => {
 	console.log("sender: ", req.body.sender);
 	console.log("content: ", req.body.content);
 	handle_request(req.body.sender, req.body.content);
@@ -22,11 +22,11 @@ app.post("/sms", (req, res) => {
 const handle_request = (sender, content) => {
 	request = parse_content(content);
 	number = parse_sender(sender);
-	if (request[0] == "start harvesting") {
+	if (request[0].toLowerCase() == "start harvesting") {
 		start_harvest(number, request);
-	} else if (request[0] == "check schedule") {
+	} else if (request[0].toLowerCase() == "check schedule") {
 		check_schedule(number, request);
-	} else if (request[0] == "help") {
+	} else if (request[0].toLowerCase() == "help") {
 		send_reply(
 			number,
 			"\nYou can try accessing \n1)start harvesting \n<amount of stubble>\n2)check schedule"
@@ -40,7 +40,7 @@ const handle_request = (sender, content) => {
 const start_harvest = (number, request) => {
 	console.log("start harvesting");
 	axios
-		.post("http://localhost:8080/api/startHarvesting", {
+		.post("http://localhost:8080/api/farmer/startHarvesting", {
 			farmerphoneNum: number,
 			quantity: request[1],
 		})
@@ -56,7 +56,7 @@ const start_harvest = (number, request) => {
 const check_schedule = (number, request) => {
 	console.log("checking schedule");
 	axios
-		.get(`http://localhost:8080/api/schedule?farmerphoneNum=${number}`)
+		.get(`http://localhost:8080/api/farmer/schedule?farmerphoneNum=${number}`)
 		.then((result) => {
 			send_reply(number, `Your current status is "${result.data.status}"`);
 			console.log("hervesting started");
