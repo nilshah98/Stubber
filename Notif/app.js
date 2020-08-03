@@ -69,9 +69,7 @@ app.post("/api/notif/:id", (req, res) => {
 		if (err) {
 			console.log(err);
 		} else {
-			email = user.email;
-			name = user.name;
-			phone = user.phone;
+			let { email, phone } = user;
 			const payload = `sender_id=FSTSMS&message=${message}&language=english&route=p&numbers=${phone}`;
 			sendMail(email, "Important Notice", message, (err, info) => {
 				axios
