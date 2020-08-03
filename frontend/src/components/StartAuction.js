@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { get, post } from "axios";
 
-import { Form, Modal, Table, Button } from "semantic-ui-react";
+import { Form, Modal, Table, Button, Grid } from "semantic-ui-react";
 
 const DashboardTableRow = ({ stubble, index }) => {
 	const { totalWeight, stubbleType, stubbleID } = stubble;
@@ -36,53 +36,85 @@ const DashboardTableRow = ({ stubble, index }) => {
 			<Table.Cell>{totalWeight} Kg</Table.Cell>
 			<Table.Cell>
 				<Modal
+					style={{ borderRadius: "10px" }}
 					onClose={() => setOpen(false)}
 					onOpen={() => setOpen(true)}
 					open={open}
-					trigger={<Button>Start Auction</Button>}
+					trigger={
+						<Button inverted color="brown">
+							Start Auction
+						</Button>
+					}
 				>
-					<Modal.Header>Add Truck and Pickup Details</Modal.Header>
-					<Modal.Content>
+					<Modal.Header style={{ color: "white", backgroundColor: "#222" }}>
+						Add Truck and Pickup Details
+					</Modal.Header>
+					<Modal.Content style={{ backgroundColor: "#222" }}>
 						<Form>
-							<label htmlFor="x">Amount paid to the Farmer</label>
-							<input
-								placeholder="300 Rs"
-								type="text"
-								name="x"
-								value={state["x"]}
-								onChange={({ target }) => handleChange("x", target.value)}
-							/>
-							<label htmlFor="y">Transportation Cost</label>
-							<input
-								placeholder="100 Rs"
-								type="text"
-								name="y"
-								value={state["y"]}
-								onChange={({ target }) => handleChange("y", target.value)}
-							/>
-							<label htmlFor="z">Convenience Charges</label>
-							<input
-								placeholder="200"
-								type="text"
-								name="z"
-								value={state["z"]}
-								onChange={({ target }) => handleChange("z", target.value)}
-							/>
-							<label htmlFor="endTime">End time of the Auction</label>
-							<input
-								placeholder="00:00"
-								type="time"
-								name="end_time"
-								value={state["end_time"]}
-								onChange={({ target }) =>
-									handleChange("end_time", target.value)
-								}
-							/>
-							<Modal.Actions>
-								<Button color="black" onClick={() => setOpen(false)}>
+							<Form.Field>
+								<label style={{ color: "white" }} htmlFor="x">
+									Amount paid to the Farmer
+								</label>
+								<input
+									placeholder="300 Rs"
+									type="text"
+									name="x"
+									value={state["x"]}
+									onChange={({ target }) => handleChange("x", target.value)}
+								/>
+							</Form.Field>
+							<Form.Field>
+								<label style={{ color: "white" }} htmlFor="y">
+									Transportation Cost
+								</label>
+								<input
+									placeholder="100 Rs"
+									type="text"
+									name="y"
+									value={state["y"]}
+									onChange={({ target }) => handleChange("y", target.value)}
+								/>
+							</Form.Field>
+							<Form.Field>
+								<label style={{ color: "white" }} htmlFor="z">
+									Convenience Charges
+								</label>
+								<input
+									placeholder="200"
+									type="text"
+									name="z"
+									value={state["z"]}
+									onChange={({ target }) => handleChange("z", target.value)}
+								/>
+							</Form.Field>
+							<Form.Field>
+								<label style={{ color: "white" }} htmlFor="endTime">
+									End time of the Auction
+								</label>
+								<input
+									placeholder="00:00"
+									type="time"
+									name="end_time"
+									value={state["end_time"]}
+									onChange={({ target }) =>
+										handleChange("end_time", target.value)
+									}
+								/>
+							</Form.Field>
+							<Modal.Actions
+								style={{
+									backgroundColor: "#222",
+									display: "flex",
+									flexDirection: "row",
+									justifyContent: "center",
+								}}
+							>
+								<Button inverted color="red" onClick={() => setOpen(false)}>
 									Nope
 								</Button>
 								<Button
+									inverted
+									color="green"
 									content="Create a Bid"
 									labelPosition="right"
 									icon="checkmark"
@@ -117,21 +149,36 @@ const DashboardTable = () => {
 			{stubbles.length === 0 ? (
 				<h1>No Stubbles to bid on</h1>
 			) : (
-				<Table basic="very" celled collapsing>
-					<Table.Header>
-						<Table.Row>
-							<Table.HeaderCell>Stubble Type</Table.HeaderCell>
-							<Table.HeaderCell>Stubble Weight</Table.HeaderCell>
-							<Table.HeaderCell />
-						</Table.Row>
-					</Table.Header>
+				<Grid
+					style={{ height: "100%" }}
+					textAlign="center"
+					verticalAlign="middle"
+				>
+					<Grid.Column width={8}>
+						<Table
+							sortable
+							celled
+							inverted
+							selectable
+							textAlign="center"
+							verticalAlign="middle"
+						>
+							<Table.Header>
+								<Table.Row>
+									<Table.HeaderCell>Stubble Type</Table.HeaderCell>
+									<Table.HeaderCell>Stubble Weight</Table.HeaderCell>
+									<Table.HeaderCell>Action</Table.HeaderCell>
+								</Table.Row>
+							</Table.Header>
 
-					<Table.Body>
-						{stubbles.map((stubble, index) => (
-							<DashboardTableRow stubble={stubble} index={index} />
-						))}
-					</Table.Body>
-				</Table>
+							<Table.Body>
+								{stubbles.map((stubble, index) => (
+									<DashboardTableRow stubble={stubble} index={index} />
+								))}
+							</Table.Body>
+						</Table>
+					</Grid.Column>
+				</Grid>
 			)}
 		</center>
 	);
