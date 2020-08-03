@@ -1,0 +1,103 @@
+version: "3"
+services:
+  web:
+    container_name: web
+    build: "./frontend/material-dashboard-react-master"
+    ports:
+      - "3000:3000"
+
+  payments:
+    container_name: payments
+    build: "./payments/"
+    ports:
+      - "3001:3000"
+    environment:
+      - MONGODB_URI=mongodb://mongo/stubber
+      - PORT=3000
+      - RZP_KEY=rzp_test_u8apdT9UnssHkf
+      - RZP_SECRET=Y4fVm5rsrA6Dlt6vfQ2IlTcf
+      - NOTIF_URI=http://notif:3000
+    links:
+      - mongo
+
+  auth:
+    container_name: auth
+    build: "./Auth"
+    ports:
+      - "3002:3000"
+    environment:
+      - PORT=3000
+      - MONGODB_URI=mongodb://mongo/stubber
+      - JWT_SECRET='NEVER TELL THIS SECRET TO ANYONE!!'
+      - SALT_ROUNDS=10
+      - NOTIF_URI=http://notif:3000
+    links:
+      - mongo
+
+  notif:
+    container_name: notif
+    build: "./Notif"
+    ports:
+      - "3003:3000"
+    environment:
+      - PORT=3000
+      - MONGODB_URI=mongodb://mongo/stubber
+    links:
+      - mongo
+
+  farmer:
+    container_name: farmer
+    build: "./FarmerActions"
+    ports:
+      - "3004:3000"
+    environment:
+      - PORT=3000
+      - NOTIF_URI=http://notif:3000
+      - MONGODB_URI=mongodb://mongo/stubber
+    links:
+      - mongo
+
+  admin:
+    container_name: admin
+    build: "./Admin"
+    ports:
+      - "3005:3000"
+    environment:
+      - PORT=3000
+      - NOTIF_URI=http://notif:3000
+      - MONGODB_URI=mongodb://mongo/stubber
+    links:
+      - mongo
+
+  consumer:
+    container_name: consumer
+    build: "./ConsumerActions"
+    ports:
+      - "3006:3000"
+    environment:
+      - PORT=3000
+      - NOTIF_URI=http://notif:3000
+      - MONGODB_URI=mongodb://mongo/stubber
+    links:
+      - mongo
+
+  mongo:
+    container_name: mongo
+    image: mongo:4.2.0
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./db/backup:/data/db
+
+  nginx:
+    container_name: proxy
+    image: nginx:1.17.8-alpine
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - web
+      - mongo
+      - auth
+      - payments
