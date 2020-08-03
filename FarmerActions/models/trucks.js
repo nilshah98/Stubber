@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 const uniqueValidator = require("mongoose-unique-validator");
-const schedule = require("./schedule");
 
 const Truck = new mongoose.Schema({
 	numberPlate: String,
@@ -9,10 +8,7 @@ const Truck = new mongoose.Schema({
 		type: String,
 		unique: true,
 	},
-	schedule: {
-		type: mongoose.Types.ObjectId,
-		ref: "Schedule",
-	},
+	datePickup: Date,
 })
 	.plugin(uniqueValidator)
 	.set("toJSON", {

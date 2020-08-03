@@ -5,10 +5,17 @@ const ClusterSchema = new Schema({
 	medianLat: Number,
 	medianLong: Number,
 	currentCollectionWeight: Number,
-	farmer: [
+	farmerAndEvents: [
 		{
-			type: Types.ObjectId,
-			ref: "User",
+			farmer: {
+				type: Types.ObjectId,
+				ref: "User",
+			},
+			events: [
+				{
+					status: "String",
+				},
+			],
 		},
 	],
 	truck: {

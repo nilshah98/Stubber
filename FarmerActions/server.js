@@ -4,10 +4,7 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const axios = require("axios");
 const cors = require("cors");
-// const cron = require("node-cron");
-// const { agnes } = require("ml-hclust");
 const User = require("./models/user");
-// const scheduling = require("./scheduling");
 
 // Importing all models
 const Schedule = require("./models/schedule");
@@ -15,7 +12,6 @@ const Truck = require("./models/trucks");
 const Cluster = require("./models/cluster");
 
 const app = express();
-// const port = 5000
 
 app.use(cors());
 app.use(bodyParser.json()); // support json encoded bodies
@@ -87,189 +83,7 @@ const sendNotifFromUserId = async (idArray, message) => {
 	});
 };
 
-// cron.schedule("* * * * *", function () {
-// 	console.log("---------------------");
-// 	console.log("Running Cron Job");
-
-// 	var t = new Date();
-// 	var curr_time = t.toISOString();
-// 	// Bids.find({}).then(results=>{
-// 	//     var query = {};
-// 	//results.filter(result => {result.end_time < curr_time}).map(
-// 	//    Bids.deleteMany()
-// 	//)
-// 	//     Bids.deleteMany()
-// 	// })
-
-// 	Truck.deleteMany({ end_time: { $lt: curr_time } }).then((res) => {
-// 		console.log("Deleted");
-// 	});
-// });
-
 app.get("/api/", (req, res) => res.send("Hello World!"));
-
-// app.post("/api/getnear", async (req, res) => {
-// 	try {
-// 		const lat = req.body.latitude;
-// 		const lng = req.body.longitude;
-// 		const dst = req.body.distance;
-// 		console.log("LAT:" + lat);
-
-// 		// axios.get('http://localhost:3000/farmers')
-// 		// .then((response) => {
-// 		//     let answer = []
-// 		//     response.data.forEach((farmer) => {
-// 		//         if(getDistance(farmer.latitude, farmer.longitude, lat, lng) <= dst){
-// 		//             answer.push(farmer)
-// 		//         }
-// 		//     })
-// 		//     res.send({data: answer})
-// 		// })
-// 		// .catch((err) => console.log(err))
-// 		console.log("Before");
-
-// 		User.find({
-// 			usertype: "farmer",
-// 		}).then((currUsers) => {
-// 			//console.log("Users:",currUsers)
-// 			let farmers = [];
-// 			currUsers.forEach((element) => {
-// 				let dist = getDistance(lat, lng, element.latitude, element.longitude);
-// 				console.log(dist);
-// 				if (dist <= dst) {
-// 					farmers.push(element);
-// 				}
-// 				//console.log(element);
-// 			});
-// 			console.log("After");
-// 			console.log(farmers);
-// 			let phonenos = "";
-// 			let emails = "";
-// 			let message = "The nearby farmer has started harvesting!!!";
-// 			for (let i = 0; i < farmers.length - 1; i++) {
-// 				phonenos += farmers[i].phone + ",";
-// 			}
-// 			phoneno += farmers[farmers.length - 1].phone;
-// 			console.log(phoneno);
-// 			for (let i = 0; i < farmers.length - 1; i++) {
-// 				emails += farmers[i].email + ";";
-// 			}
-// 			emails += farmers[farmers.length - 1].email;
-// 			console.log(emails);
-
-// 			axios.post(`${process.env.NOTIF_URI}/api/notif/bulk`, {
-// 				emails,
-// 				phonenos,
-// 				message,
-// 			});
-// 			// send mail, msg
-// 			// phoneno - phone nos string, emails - emails string, message - message
-// 		});
-// 	} catch (exception) {
-// 		console.error(exception);
-// 	}
-// });
-
-// app.get("/api/getschedule/:id", async (req, res) => {
-// 	var user_id = req.params.id;
-// 	Schedule.findOne({
-// 		farmer_id: user_id,
-// 	})
-// 		.then((result) => {
-// 			res.json(result.toJSON());
-// 		})
-// 		.catch((err) => {
-// 			console.log(err);
-// 		});
-// });
-
-// //Adding Schedules
-
-// const updateSchedule = (desc, newEvent, schedule_id) => {
-// 	let t = new Date();
-// 	let curr_date = t.toISOString();
-// 	if (desc == "") {
-// 		findByIdAndDelete(schedule_id)
-// 			.then((result) => {
-// 				response.status(204).end();
-// 			})
-// 			.catch((error) => next(error));
-// 	} else {
-// 		event = {
-// 			description: desc,
-// 			event_date: curr_date, //WONT WORK
-// 		};
-
-// 		newEvent.push(event);
-// 	}
-// 	const schedule = {
-// 		events: newEvent,
-// 	};
-
-// 	Schedule.findByIdAndUpdate(schedule_id, schedule, { new: true }).then(
-// 		(schedule) => {
-// 			return schedule.toJSON();
-// 		}
-// 	);
-// };
-
-// app.post("/api/addschedule/:id", async (req, res) => {
-// 	var user_id = req.params.id;
-// 	let events = null;
-// 	let schedule_id = null;
-// 	let t = new Date();
-// 	let curr_date = t.toISOString();
-
-// 	Schedule.findOne({ farmer_id: user_id })
-// 		.then((result) => {
-// 			if (result === undefined) {
-// 				const schedule = new Schedule({
-// 					farmer_id: user_id,
-// 					events: [
-// 						{
-// 							description: "Pick Up Requested",
-// 							event_date: curr_date,
-// 						},
-// 					],
-// 				});
-// 			} else {
-// 				events = result.events;
-// 				schedule_id = result._id;
-// 				switch (result.events.length) {
-// 					case 1:
-// 						updateSchedule("Pick Up Scheduled", events, schedule_id);
-// 						break;
-// 					case 2:
-// 						updateSchedule("Stubble Collected", events, schedule_id);
-// 						break;
-// 					case 3:
-// 						updateSchedule("Bidding Completed", events, schedule_id);
-// 						break;
-// 					case 4:
-// 						updateSchedule("Delivered", events, schedule_id);
-// 						break;
-// 					case 5:
-// 						events = null;
-// 						updateSchedule("", events, schedule_id);
-// 				}
-// 			}
-// 		})
-// 		.catch((err) => {
-// 			console.log(err);
-// 		});
-// });
-
-// app.use("/api/schedule", scheduling);
-// app.get('/getcluster', (_req,res) => {
-//     axios.get('http://localhost:3000/farmers')
-//         .then((response) => {
-//             const locs = response.data.map((item) => [item.latitude, item.longitude])
-//             const clusters = agnes(locs).cut(100)
-//             const indices = clusters.map((c) => c.indices())
-//             res.send({data: indices})
-//         })
-//         .catch((err) => console.log(err))
-// })
 
 app.post("/api/scheduleTruck", async (req, res) => {
 	const {
@@ -282,15 +96,11 @@ app.post("/api/scheduleTruck", async (req, res) => {
 
 	let truck = await Truck.findOne({ driverContact: driverContact });
 	if (truck === null) {
-		let schedule = await new Schedule({
-			datePickup: new Date(datePickup),
-			events: [{ status: "ASSIGNED" }],
-		}).save();
 		truck = await new Truck({
 			numberPlate,
 			capacity: parseInt(capacity),
 			driverContact,
-			schedule: schedule._id,
+			datePickup: new Date(datePickup),
 		}).save();
 	}
 
@@ -303,6 +113,9 @@ app.post("/api/scheduleTruck", async (req, res) => {
 	}
 
 	cluster.truck = truck._id;
+	cluster.farmerAndEvents.forEach((fne) => {
+		fne.events = [{ status: "ASSIGNED" }];
+	});
 
 	await cluster.save();
 
@@ -311,41 +124,65 @@ app.post("/api/scheduleTruck", async (req, res) => {
 		datePickup
 	).toDateString()}`;
 
-	sendNotifFromUserId(cluster.farmer, message);
+	sendNotifFromUserId(
+		cluster.farmerAndEvents.map((fne) => fne.farmer),
+		message
+	);
 
 	res.status(201).end();
 });
 
-app.post("/api/update-status/:id", async (req, res) => {
+app.post("/api/update-status/:phoneNumber", async (req, res) => {
 	const { status } = req.body;
-	const scheduleId = req.params.id;
+	const farmerphoneNum = req.params.phoneNumber;
 
-	const schedule = await Schedule.findOne(scheduleId);
+	const farmer = await User.findOne({ phone: farmerphoneNum }).populate(
+		"cluster_id"
+	);
 
-	const truck = await Truck.findOne({ schedule: scheduleId });
+	const cluster = farmer.cluster_id;
 
-	const cluster = await Cluster.findOne({ truck: truck._id });
-
-	if (status === "DISPATCHED") {
-		sendNotifFromUserId(
-			cluster.farmer,
-			`Truck has left to collect the stubble from you. Truck Number Plate is ${truck.numberPlate} and contact information is ${truck.driverContact}.`
-		);
-	} else if (status === "COLLECTED") {
-		await sendNotifFromUserId(
-			cluster.farmer,
-			"Your stubble has been received. You will soon receive your reward"
-		);
-
-		await Promise.all([
-			schedule.deleteOne(),
-			truck.deleteOne(),
-			cluster.deleteOne(),
-		]);
-		return res.status(201).end();
+	if (cluster === null) {
+		return res.status(404).json({
+			error: `Farmer is not harvesting.`,
+		});
 	}
+
+	for (let fne of cluster.farmerAndEvents) {
+		if (farmer._id.toString() === fne.farmer.toString()) {
+			if (status === "COLLECTED") {
+				// axios.post(`${process.env.NOTIF_URI}/api/notif/${farmer._id}`, {
+				// 	message: `Hello '${farmer.name}' your stubble is collected from you.`,
+				// });
+				fne.events = [{ status: "COLLECTED" }, ...fne.events];
+				const newCluster = cluster;
+				newCluster.farmerAndEvents = cluster.farmerAndEvents.map((fne1) =>
+					fne1.farmer.toString() === fne.farmer.toString() ? fne : fne1
+				);
+				await newCluster.save();
+				return res.status(201).end();
+			} else if (status === "STORED") {
+				await axios.post(`${process.env.NOTIF_URI}/api/notif/${farmer._id}`, {
+					message: `Hello '${farmer.name}' your stubble has reached to us. Thank You`,
+				});
+				fne.events = [{ status: "STORED" }, ...fne.events];
+				const newCluster = cluster;
+				newCluster.farmerAndEvents = cluster.farmerAndEvents.map((fne1) =>
+					fne1.farmer.toString() === fne.farmer.toString() ? fne : fne1
+				);
+				await newCluster.save();
+				await Cluster.deleteOne(newCluster);
+				return res.status(201).end();
+			} else {
+				return res.status(404).json({
+					error: `Invalid status '${status}'`,
+				});
+			}
+		}
+	}
+
 	res.status(404).json({
-		error: `Invalid status '${status}'`,
+		error: `Cannot find farmer in cluster`,
 	});
 });
 
@@ -399,7 +236,9 @@ app.post("/api/startHarvesting", async (req, res) => {
 			medianLat: farmerLat,
 			medianLong: farmerLong,
 			currentCollectionWeight: parseInt(quantity),
-			farmer: [farmer._id],
+			farmerAndEvents: [
+				{ farmer: farmer._id, events: [{ status: "CLUSTERED" }] },
+			],
 		}).save();
 
 		farmer.cluster_id = newCluster._id;
@@ -408,7 +247,10 @@ app.post("/api/startHarvesting", async (req, res) => {
 
 		console.log(newCluster);
 
-		sendNotifFromUserId(newCluster.farmer, "You are now harvesting");
+		sendNotifFromUserId(
+			newCluster.farmerAndEvents.map((fne) => fne.farmer),
+			"You are now harvesting"
+		);
 	} else {
 		// get the cluster add farmer and save
 		console.log(
@@ -430,7 +272,10 @@ app.post("/api/startHarvesting", async (req, res) => {
 			(nearestCluster.farmer.length + 1);
 
 		// update nearest cluster
-		nearestCluster.farmer.push(farmer._id);
+		nearestCluster.farmerAndEvents.push({
+			farmer: farmer._id,
+			events: [{ status: "CLUSTERED" }],
+		});
 		nearestCluster.medianLat = newClusterMedianLat;
 		nearestCluster.medianLong = newClusterMedianLong;
 		nearestCluster.currentCollectionWeight += parseInt(quantity);
@@ -441,7 +286,10 @@ app.post("/api/startHarvesting", async (req, res) => {
 		await farmer.save();
 
 		const message = `A farmer has started harvesting near you, a truck will be assigned soon!`;
-		sendNotifFromUserId(nearestCluster.farmer, message);
+		sendNotifFromUserId(
+			nearestCluster.farmerAndEvents.map((fne) => fne.farmer),
+			message
+		);
 	}
 
 	return res.status(201).end();
@@ -455,28 +303,28 @@ app.get("/api/clusters/", async (req, res) => {
 app.get("/api/schedule/", async (req, res) => {
 	const farmerphoneNum = parseInt(req.query.farmerphoneNum);
 
-	const cluster = (
-		await User.findOne({ phone: farmerphoneNum }).populate("cluster_id")
-	).cluster_id;
+	const farmer = await User.findOne({ phone: farmerphoneNum }).populate(
+		"cluster_id"
+	);
+
+	const cluster = farmer.cluster_id;
 
 	if (cluster === null) {
 		return res.status(404).json({
-			error: `Farmer '${farmerId}' is not in a cluster`,
+			error: `Farmer '${farmerphoneNum}' is not in a cluster`,
 		});
 	}
 
-	const truck = await Truck.findById(cluster.truck).populate("schedule");
-
-	if (truck === null) {
-		return res.status(200).json({
-			status: "CLUSTERED",
-		});
+	for (let fne of cluster.farmerAndEvents) {
+		if (farmer._id.toString() === fne.farmer.toString()) {
+			return res.status(200).json({
+				status: fne.events[0].status,
+			});
+		}
 	}
 
-	const schedule = truck.schedule;
-
-	res.status(200).json({
-		status: schedule.events[0].status,
+	res.status(404).json({
+		status: "Error",
 	});
 });
 
