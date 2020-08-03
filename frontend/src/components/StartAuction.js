@@ -36,6 +36,7 @@ const DashboardTableRow = ({ stubble, index }) => {
       <Table.Cell>{totalWeight} Kg</Table.Cell>
       <Table.Cell>
         <Modal
+          style={{ borderRadius: "10px" }}
           onClose={() => setOpen(false)}
           onOpen={() => setOpen(true)}
           open={open}
@@ -45,10 +46,11 @@ const DashboardTableRow = ({ stubble, index }) => {
             </Button>
           }
         >
-          <Modal.Header>Add Truck and Pickup Details</Modal.Header>
-          <Modal.Content>
+          <Modal.Header style={{ color: "white", backgroundColor: "#222" }} >Add Truck and Pickup Details</Modal.Header>
+          <Modal.Content style={{ backgroundColor: "#222" }}>
             <Form>
-              <label htmlFor="x">Amount paid to the Farmer</label>
+              <Form.Field>
+              <label style={{ color: "white"}} htmlFor="x">Amount paid to the Farmer</label>
               <input
                 placeholder="300 Rs"
                 type="text"
@@ -56,7 +58,9 @@ const DashboardTableRow = ({ stubble, index }) => {
                 value={state["x"]}
                 onChange={({ target }) => handleChange("x", target.value)}
               />
-              <label htmlFor="y">Transportation Cost</label>
+              </Form.Field>
+              <Form.Field>
+              <label style={{ color: "white"}} htmlFor="y">Transportation Cost</label>
               <input
                 placeholder="100 Rs"
                 type="text"
@@ -64,7 +68,9 @@ const DashboardTableRow = ({ stubble, index }) => {
                 value={state["y"]}
                 onChange={({ target }) => handleChange("y", target.value)}
               />
-              <label htmlFor="z">Convenience Charges</label>
+              </Form.Field>
+              <Form.Field>
+              <label style={{ color: "white"}} htmlFor="z">Convenience Charges</label>
               <input
                 placeholder="200"
                 type="text"
@@ -72,7 +78,9 @@ const DashboardTableRow = ({ stubble, index }) => {
                 value={state["z"]}
                 onChange={({ target }) => handleChange("z", target.value)}
               />
-              <label htmlFor="endTime">End time of the Auction</label>
+              </Form.Field>
+              <Form.Field>
+              <label style={{ color: "white"}} htmlFor="endTime">End time of the Auction</label>
               <input
                 placeholder="00:00"
                 type="time"
@@ -82,11 +90,20 @@ const DashboardTableRow = ({ stubble, index }) => {
                   handleChange("end_time", target.value)
                 }
               />
-              <Modal.Actions>
-                <Button color="black" onClick={() => setOpen(false)}>
+              </Form.Field>
+              <Modal.Actions style={{
+							backgroundColor: "#222",
+							display: "flex",
+							flexDirection: "row",
+							justifyContent: "center",
+						}}>
+                <Button inverted
+							color="red" onClick={() => setOpen(false)}>
                   Nope
                 </Button>
                 <Button
+                inverted
+                color="green"
                   content="Create a Bid"
                   labelPosition="right"
                   icon="checkmark"
