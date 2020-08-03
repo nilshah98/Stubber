@@ -77,6 +77,17 @@ app.post("/api/bids/addBid", async (request, response, next) => {
 		);
 
 		const min_cost = body.x + body.y + body.z;
+		
+		const phonenos = stubble.farmers.reduce((accum,val) => {
+			accum+","+val.number
+		},'')
+
+		const email = ''
+		// axios.post("/api/notifs/bulk",{
+		// 	phonenos,
+		// 	email,
+		// 	message: `Hi stubber, your stubble has been put up for Auction, here are the details,\ncost to farmer:${body.x}\ntransport and infra cost:${body.y}\nconvinience charge:${body.z}\nminimum bid price:${min_cost}`
+		// })
 
 		const bid = new Bids({
 			stubble_id: body.stubble_id,

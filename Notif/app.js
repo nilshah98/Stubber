@@ -27,6 +27,9 @@ app.use(express.json());
 app.post("/api/notif/bulk", (req, res) => {
 	console.log(req.body);
 	const { emails, phonenos, message } = req.body;
+	// if(emails=='') {
+	// 	emails = 'shiragchetty98@gmail.com'
+	// }
 	const headers = {
 		authorization:
 			"q6fAdIhu1L8EzCoRs2ywjKFB34cMTZntlmVJY5D9PxXUvSQNkiSl3GdnCsjZDocfuW0VN5aiKq64J97E",
