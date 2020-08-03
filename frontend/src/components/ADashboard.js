@@ -6,7 +6,6 @@ import {
 	Table,
 	Button,
 	Divider,
-	Container,
 	Input,
 	Label,
 	Grid,
@@ -27,7 +26,7 @@ const ClusterTableRow = ({ cluster, index }) => {
 
 	const handleSubmit = (event) => {
 		event.preventDefault();
-		post("/api/scheduleTruck", state).then(() => {
+		post("/api/farmer/scheduleTruck", state).then(() => {
 			setOpen(false);
 			window.location.reload();
 		});
@@ -117,7 +116,7 @@ const ClusterTable = () => {
 	const [clusters, setClusters] = useState([]);
 
 	useEffect(() => {
-		get("/api/clusters/")
+		get("/api/farmer/clusters/")
 			.then((res) => {
 				console.log(res);
 				setClusters(res.data);
@@ -160,7 +159,9 @@ const StubbleCollectionRegistry = () => {
 		post("http://localhost:8081/api/stubble/add", state).then((res) => {
 			alert("Done!");
 			post(
-				`http://localhost:8080/api/update-status/${parseInt(state["number"])}`,
+				`http://localhost:8080/api/farmer/update-status/${parseInt(
+					state["number"]
+				)}`,
 				{ status: "COLLECTED" }
 			);
 			window.location.reload();
