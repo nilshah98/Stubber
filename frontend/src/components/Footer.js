@@ -60,9 +60,9 @@ const Footer = () => {
             </Grid.Column>
             <Grid.Column width={7}>
               <Header as="h4" inverted>
-                Smart India Hackathon 2020
+                {t("Smart India Hackathon 2020")}
               </Header>
-              <p>AWS problem statement AN316</p>
+              <p>{t("AWS problem statement AN316")}</p>
             </Grid.Column>
           </Grid.Row>
         </Grid>
