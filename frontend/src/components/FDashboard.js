@@ -14,6 +14,8 @@ import {
 
 import farmerService from "../services/farmer";
 
+import { useTranslation } from "react-i18next";
+
 const ClusterDetails = () => (
   <div style={{ display: "flex", justifyContent: "center" }}>
     <Step.Group>
@@ -42,6 +44,7 @@ const ClusterDetails = () => (
 );
 
 const FDashboard = () => {
+  const { t } = useTranslation();
   const imgStyle = {
     backgroundSize: "cover",
     backgroundImage:
@@ -93,18 +96,18 @@ const FDashboard = () => {
               trigger={
                 <Button inverted color="brown" icon="cut" size="massive">
                   <Icon name="cut" />
-                  Start Harvest
+                  {t("Start Harvest")}
                 </Button>
               }
             >
               <Modal.Header style={{ color: "white", backgroundColor: "#222" }}>
-                Add Details
+                {t("Add Details")}
               </Modal.Header>
               <Modal.Content style={{ backgroundColor: "#222" }}>
                 <Form>
                   <Form.Field>
                     <label style={{ color: "#ddd" }} htmlFor="phone no">
-                      Phone Number
+                      {t("Phone Number")}
                     </label>
                     <input
                       placeholder="Mobile"
@@ -116,7 +119,7 @@ const FDashboard = () => {
                   </Form.Field>
                   <Form.Field>
                     <label style={{ color: "#ddd" }} htmlFor="quantity">
-                      Quantity
+                      {t("Quantity")}
                     </label>
                     <input
                       placeholder="Quantity"
@@ -135,11 +138,11 @@ const FDashboard = () => {
                     }}
                   >
                     <Button inverted color="red" onClick={() => setOpen(false)}>
-                      Nope
+                      {t("Nope")}
                     </Button>
                     <Button
                       inverted
-                      content="Done"
+                      content={t("Done")}
                       onClick={handleSubmit}
                       color="green"
                     />
@@ -162,7 +165,7 @@ const FDashboard = () => {
           <Card.Content extra>
             <Button inverted color="brown" size="massive">
               <Icon name="history" />
-              Show History
+              {t("Show History")}
             </Button>
           </Card.Content>
         </Card>
