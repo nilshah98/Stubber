@@ -83,7 +83,7 @@ app.post("/api/bids/addBid", async (request, response, next) => {
 		}, "");
 
 		const emails = "";
-		axios.post(`${process.env.NOTIF_URL}/api/notifs/bulk`, {
+		axios.post(`/api/notifs/bulk`, {
 			phonenos,
 			emails,
 			message: `Hi stubber, your stubble has been put up for Auction, here are the details,\ncost to farmer:${body.x}\ntransport and infra cost:${body.y}\nconvinience charge:${body.z}\nminimum bid price:${min_cost}`,

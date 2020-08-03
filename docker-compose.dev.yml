@@ -2,13 +2,16 @@ version: "3"
 services:
   web:
     container_name: web
-    build: "./frontend/material-dashboard-react-master"
+    build:
+      context: ./frontend
     ports:
       - "3000:3000"
+    volumes:
+      - ./frontend/:/usr/src/app/
 
   payments:
     container_name: payments
-    build: "./payments/"
+    build: ./payments
     ports:
       - "3001:3000"
     environment:
@@ -22,7 +25,7 @@ services:
 
   auth:
     container_name: auth
-    build: "./Auth"
+    build: ./Auth
     ports:
       - "3002:3000"
     environment:
@@ -69,17 +72,11 @@ services:
     links:
       - mongo
 
-  consumer:
-    container_name: consumer
-    build: "./ConsumerActions"
+  sms:
+    container_name: sms
+    build: ./MessageInterface
     ports:
       - "3006:3000"
-    environment:
-      - PORT=3000
-      - NOTIF_URI=http://notif:3000
-      - MONGODB_URI=mongodb://mongo/stubber
-    links:
-      - mongo
 
   mongo:
     container_name: mongo
@@ -101,3 +98,5 @@ services:
       - mongo
       - auth
       - payments
+      - sms
+      - farmer

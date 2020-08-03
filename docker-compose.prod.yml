@@ -2,7 +2,9 @@ version: "3"
 services:
   web:
     container_name: web
-    build: "./frontend/material-dashboard-react-master"
+    build:
+      context: ./frontend
+      dockerfile: prod.Dockerfile
     ports:
       - "3000:3000"
 

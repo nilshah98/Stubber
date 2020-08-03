@@ -42,7 +42,7 @@ function tableReducer(state, action) {
 }
 
 function TableExampleSortable() {
-	const baseUrl = "http://localhost:8081";
+	const baseUrl = "";
 
 	const [state, dispatch] = React.useReducer(tableReducer, {
 		size: "mini",

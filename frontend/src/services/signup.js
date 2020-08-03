@@ -1,5 +1,5 @@
 import axios from "axios";
-const baseUrl = "http://localhost:3002/api/auth-control/signup";
+const baseUrl = "/api/auth-control/signup";
 
 const postFarmer = (farmerDeets) => {
 	const request = axios.post(baseUrl, farmerDeets);

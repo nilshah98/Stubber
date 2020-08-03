@@ -6,7 +6,7 @@ import { Form, Modal, Table, Button } from "semantic-ui-react";
 const DashboardTableRow = ({ stubble, index }) => {
 	const { totalWeight, stubbleType, stubbleID } = stubble;
 
-	const baseUrl = "http://localhost:8081";
+	const baseUrl = "";
 
 	const [open, setOpen] = useState(false);
 	const [state, setState] = useState({
@@ -100,7 +100,7 @@ const DashboardTableRow = ({ stubble, index }) => {
 
 const DashboardTable = () => {
 	const [stubbles, setStubbles] = useState([]);
-	const baseUrl = "http://localhost:8081";
+	const baseUrl = "";
 	//Use the stubble get request
 
 	useEffect(() => {
