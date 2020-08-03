@@ -45,6 +45,19 @@ const App = () => {
       ")",
   };
 
+  const imgStyle2 = {
+    height: "100%",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    backgroundSize: "cover",
+    backgroundImage:
+      "url(" +
+      "https://images.unsplash.com/photo-1509956563346-93a1179cea68?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80" +
+      ")",
+  };
+
+
   const rootLayout = {
     height: "100vh",
     display: "flex",
@@ -69,9 +82,9 @@ const App = () => {
               <Menu.Item as="li">
                 <Link to="/admin">{t("Admin", "Admin")}</Link>
               </Menu.Item>
-              <Menu.Item as="li">
+              {/* <Menu.Item as="li">
                 <Link to="/bidding">{t("Bidding", "Bidding")}</Link>
-              </Menu.Item>
+              </Menu.Item> */}
               <Menu.Item as="li">
                 <Link to="/schedule">{t("Schedule", "Schedule")}</Link>
               </Menu.Item>
@@ -97,7 +110,9 @@ const App = () => {
               {/* <TableExampleSortable /> */}
             </Route>
             <Route path="/consumer">
+			<div style={imgStyle2}>
               <CDashboard />
+			  </div>
             </Route>
             <Route path="/admin">
               <ADashboard />
