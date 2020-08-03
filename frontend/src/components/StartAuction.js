@@ -134,8 +134,8 @@ const DashboardTable = () => {
   }, [setStubbles]);
 
   return (
-    <center>
-      {stubbles.length === 0 ? (
+      <center>
+    {stubbles.length === 0 ? (
         <h1>No Stubbles to bid on</h1>
       ) : (
         <Grid
@@ -143,7 +143,7 @@ const DashboardTable = () => {
           textAlign="center"
           verticalAlign="middle"
         >
-          <Grid.Column width={8}>
+          <Grid.Column width={8} >
             <Table
               sortable
               celled
@@ -169,7 +169,7 @@ const DashboardTable = () => {
           </Grid.Column>
         </Grid>
       )}
-    </center>
+      </center>
   );
 };
 
