@@ -1,5 +1,5 @@
 import axios from "axios";
-const baseUrl = "http://localhost:8080/api/farmer/startHarvesting";
+const baseUrl = "/api/farmer/startHarvesting";
 
 const startHarvesting = (phone, quantity) => {
 	const farmerDeets = {

@@ -76,7 +76,7 @@ const sendNotifFromUserId = async (idArray, message) => {
 
 	console.log(emails, phonenos);
 
-	await axios.post(`${process.env.NOTIF_URI}/api/notif/bulk`, {
+	await axios.post(`/api/notif/bulk`, {
 		emails,
 		phonenos,
 		message,
@@ -151,7 +151,7 @@ app.post("/api/farmer/update-status/:phoneNumber", async (req, res) => {
 	for (let fne of cluster.farmerAndEvents) {
 		if (farmer._id.toString() === fne.farmer.toString()) {
 			if (status === "COLLECTED") {
-				axios.post(`${process.env.NOTIF_URI}/api/notif/${farmer._id}`, {
+				axios.post(`/api/notif/${farmer._id}`, {
 					message: `Hello '${farmer.name}' your stubble is collected from you.`,
 				});
 				fne.events = [{ status: "COLLECTED" }, ...fne.events];
@@ -162,7 +162,7 @@ app.post("/api/farmer/update-status/:phoneNumber", async (req, res) => {
 				await newCluster.save();
 				return res.status(201).end();
 			} else if (status === "STORED") {
-				await axios.post(`${process.env.NOTIF_URI}/api/notif/${farmer._id}`, {
+				await axios.post(`/api/notif/${farmer._id}`, {
 					message: `Hello '${farmer.name}' your stubble has reached to us. Thank You`,
 				});
 				fne.events = [{ status: "STORED" }, ...fne.events];

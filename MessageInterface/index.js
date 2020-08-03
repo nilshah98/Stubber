@@ -40,7 +40,7 @@ const handle_request = (sender, content) => {
 const start_harvest = (number, request) => {
 	console.log("start harvesting");
 	axios
-		.post("http://localhost:8080/api/farmer/startHarvesting", {
+		.post("/api/farmer/startHarvesting", {
 			farmerphoneNum: number,
 			quantity: request[1],
 		})
@@ -56,7 +56,7 @@ const start_harvest = (number, request) => {
 const check_schedule = (number, request) => {
 	console.log("checking schedule");
 	axios
-		.get(`http://localhost:8080/api/farmer/schedule?farmerphoneNum=${number}`)
+		.get(`/api/farmer/schedule?farmerphoneNum=${number}`)
 		.then((result) => {
 			send_reply(number, `Your current status is "${result.data.status}"`);
 			console.log("hervesting started");

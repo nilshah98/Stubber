@@ -156,14 +156,11 @@ const StubbleCollectionRegistry = () => {
 	const handleSubmit = (event) => {
 		event.preventDefault();
 		console.log(state);
-		post("http://localhost:8081/api/stubble/add", state).then((res) => {
+		post("/api/stubble/add", state).then((res) => {
 			alert("Done!");
-			post(
-				`http://localhost:8080/api/farmer/update-status/${parseInt(
-					state["number"]
-				)}`,
-				{ status: "COLLECTED" }
-			);
+			post(`/api/farmer/update-status/${parseInt(state["number"])}`, {
+				status: "COLLECTED",
+			});
 			window.location.reload();
 		});
 	};
