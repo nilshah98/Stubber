@@ -4,7 +4,6 @@ const utils = require("./utils");
 
 router.post("/add", async (req, res) => {
 	const { stubbleType, number, weight } = req.body;
-	utils.send_sms(number,`Your ${stubbleType} of ${weight}KG has been collected`)
 	const stubble = await Stubble.findOne({ stubbleType });
 	if (stubble) {
 		stubble.farmers.push({ number, weight });
@@ -33,20 +32,20 @@ router.post("/calculate", async (req, res) => {
 });
 
 router.get("/getStubbles", async (req, res) => {
-	const stubbles = await Stubble.find({bidFlag: false});
+	const stubbles = await Stubble.find({ bidFlag: false });
 	let allStubbles = [];
 	stubbles.forEach((stubble) => {
 		const totalWeight = stubble.farmers.reduce((accum, farmer) => {
 			return accum + parseInt(farmer.weight);
 		}, 0);
-		console.log(totalWeight)
-		allStubbles.push(
-			{ stubbleType: stubble.stubbleType,
-			totalWeight, 
-			stubbleID: stubble._id }
-			)
+		console.log(totalWeight);
+		allStubbles.push({
+			stubbleType: stubble.stubbleType,
+			totalWeight,
+			stubbleID: stubble._id,
+		});
 	});
-	console.log(allStubbles)
+	console.log(allStubbles);
 	res.status(200).json(allStubbles);
 });
 
