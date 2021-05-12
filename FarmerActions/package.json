@@ -24,7 +24,7 @@
     "mongoose": "^5.8.10",
     "mongoose-unique-validator": "^2.0.3",
     "node-cron": "^2.0.3",
-    "nodemailer": "^6.4.2",
+    "nodemailer": "^6.4.16",
     "nodemon": "^2.0.2"
   },
   "devDependencies": {
